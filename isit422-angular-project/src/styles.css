@@ -1,57 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
-* {
-    font-family: "Calibri", sans-serif;
-}
+ul {
+      position: sticky;
 
-body {
-    margin: 0px;
-}
-
-nav {
-    padding: 8px;
-}
-nav h1 {
-    margin: 0px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
     color: white;
-}
-nav a {
-    color: white;
-}
-nav a:hover {
-    text-shadow: 0 0 3px white;
-}
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+  li a:hover {
+    background-color: #111;
+  }
 
-.container {
-    padding: 8px;
-}
-
-
-/* 
-    --=|| Login Pages ||=--
-*/
-.login-pages-body {
-    background-color: rgb(255, 155, 137);
-}
-.login-pages-nav {
-    background-color: rgb(161, 60, 43);
-}
-
-/* 
-    --=|| Student Pages ||=--
-*/
-.student-pages-body {
-    background-color: rgb(137, 221, 255);
-}
-.student-pages-nav {
-    background-color: rgb(43, 127, 161);
-}
-
-/* 
-    --=|| Teacher Pages Pages ||=--
-*/
-.teacher-pages-body {
-    background-color: rgb(137, 255, 157);
-}
-.teacher-pages-nav {
-    background-color: rgb(70, 161, 43);
-}
+  .right {float: right;}
