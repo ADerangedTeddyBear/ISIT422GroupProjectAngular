@@ -68,6 +68,14 @@ ul {
     background-color: #f1f1f1;
   }
 
+  footer {
+    display: block;
+    background-color: #333;
+    color: #f1f1f1;
+    padding: 10px 10px;
+    text-align: center;
+  }
+
   @media screen and (max-width: 600px) {
     ul {
       list-style-type: none;
