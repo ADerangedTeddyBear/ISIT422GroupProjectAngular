@@ -39,14 +39,14 @@ ul {
   }
 
   input[type=text] {
-    width: 100%;
+    width: 20%;
     padding: 5px 5px;
     margin: 8px 0;
     box-sizing: border-box;
   }
 
   input[type=password] {
-    width: 100%;
+    width: 20%;
     padding: 5px 5px;
     margin: 8px 0;
     box-sizing: border-box;
@@ -93,7 +93,22 @@ ul {
     li a:hover {
       background-color: #111;
     }
+
     .right {float: none;}
+
+    input[type=text] {
+      width: 100%;
+      padding: 5px 5px;
+      margin: 8px 0;
+      box-sizing: border-box;
+    }
+  
+    input[type=password] {
+      width: 100%;
+      padding: 5px 5px;
+      margin: 8px 0;
+      box-sizing: border-box;
+    }
   }
 
   
