@@ -19,6 +19,10 @@ import { TeacherProjectViewComponent } from './teacher-pages/teacher-project-vie
 import { NewProjectPageComponent } from './teacher-pages/new-project-page/new-project-page.component';
 import { EditProjectPageComponent } from './teacher-pages/edit-project-page/edit-project-page.component';
 import { StylingTestbenchComponent } from './styling-testbench/styling-testbench.component';
+import { ListContainerComponent } from './list-components/list-container/list-container.component';
+import { ListItemComponent } from './list-components/list-item/list-item.component';
+import { CourseListContainerComponent } from './list-components/course-list-container/course-list-container.component';
+import { CourseListItemComponent } from './list-components/course-list-item/course-list-item.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +42,11 @@ import { StylingTestbenchComponent } from './styling-testbench/styling-testbench
     TeacherProjectViewComponent,
     NewProjectPageComponent,
     EditProjectPageComponent,
-    StylingTestbenchComponent
+    StylingTestbenchComponent,
+    ListContainerComponent,
+    ListItemComponent,
+    CourseListContainerComponent,
+    CourseListItemComponent
   ],
   imports: [
     BrowserModule,
