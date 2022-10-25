@@ -60,6 +60,14 @@ ul {
     background-color: lightblue;
   }
 
+  select {
+    padding: 7px 7px;
+    margin-left: 1%;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+  }
+
   @media screen and (max-width: 600px) {
     ul {
       list-style-type: none;
@@ -87,3 +95,5 @@ ul {
     }
     .right {float: none;}
   }
+
+  
