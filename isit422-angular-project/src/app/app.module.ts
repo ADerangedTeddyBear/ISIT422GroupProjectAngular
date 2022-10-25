@@ -18,6 +18,7 @@ import { TeacherListViewComponent } from './teacher-pages/teacher-list-view/teac
 import { TeacherProjectViewComponent } from './teacher-pages/teacher-project-view/teacher-project-view.component';
 import { NewProjectPageComponent } from './teacher-pages/new-project-page/new-project-page.component';
 import { EditProjectPageComponent } from './teacher-pages/edit-project-page/edit-project-page.component';
+import { StylingTestbenchComponent } from './styling-testbench/styling-testbench.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { EditProjectPageComponent } from './teacher-pages/edit-project-page/edit
     TeacherListViewComponent,
     TeacherProjectViewComponent,
     NewProjectPageComponent,
-    EditProjectPageComponent
+    EditProjectPageComponent,
+    StylingTestbenchComponent
   ],
   imports: [
     BrowserModule,

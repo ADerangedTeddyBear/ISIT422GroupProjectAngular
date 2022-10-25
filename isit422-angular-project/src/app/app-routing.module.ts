@@ -18,12 +18,17 @@ import { NewListPageComponent } from './teacher-pages/new-list-page/new-list-pag
 import { TeacherListViewComponent } from './teacher-pages/teacher-list-view/teacher-list-view.component';
 import { TeacherProjectViewComponent } from './teacher-pages/teacher-project-view/teacher-project-view.component';
 import { NewProjectPageComponent } from './teacher-pages/new-project-page/new-project-page.component';
+import { StylingTestbenchComponent } from './styling-testbench/styling-testbench.component';
 
 const routes: Routes = [
   { 
     path: '', 
     redirectTo: '/login-pages/sign-in', 
     pathMatch: 'full' 
+  },
+  {
+    path: 'testbench',
+    component: StylingTestbenchComponent
   },
   { 
     path: 'login-pages', 
