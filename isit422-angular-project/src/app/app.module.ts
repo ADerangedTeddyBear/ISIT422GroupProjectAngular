@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HttpXhrBackend } from '@angular/common/http';
+//import { MockXHRBackend } from './mock-xhr-backend'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +25,7 @@ import { ListContainerComponent } from './list-components/list-container/list-co
 import { ListItemComponent } from './list-components/list-item/list-item.component';
 import { CourseListContainerComponent } from './list-components/course-list-container/course-list-container.component';
 import { CourseListItemComponent } from './list-components/course-list-item/course-list-item.component';
+import { DatabaseComponent } from './database/database.component';
 
 @NgModule({
   declarations: [
@@ -46,13 +49,18 @@ import { CourseListItemComponent } from './list-components/course-list-item/cour
     ListContainerComponent,
     ListItemComponent,
     CourseListContainerComponent,
-    CourseListItemComponent
+    CourseListItemComponent,
+    DatabaseComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
+
   ],
-  providers: [],
+  providers: [
+  //  { provide: HttpXhrBackend, useClass:MockXHRBackend }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
