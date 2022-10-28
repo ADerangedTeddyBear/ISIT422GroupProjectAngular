@@ -20,7 +20,7 @@ app.use(function(req, res, next){
     next();
 })
 
-app.post('/api/message', (req, res) => {
+app.post('/api/insert', (req, res) => {
     var obj = req.body;
     console.log(obj);
     var dbo = client.db("TestDB");
@@ -33,6 +33,27 @@ app.post('/api/message', (req, res) => {
         }
     })
 })
+
+app.get('/api/display', (req, res) => {
+    var obj = req.body;
+    console.log(obj);
+    var dbo = client.db("TestDB");
+    dbo.collection("testC").find({}).toArray(function(err, res2) {
+        if (err) throw err;
+        console.log(res2);
+        res.send(res2);
+    /* This works
+    dbo.collection("testC").findOne({}, function(err, res2) {
+        if (err) throw err;
+        console.log(res2);
+        res.send(res2);
+        */
+
+        
+    })
+
+})
+
 
 function makeConnection() {
     const uri = "mongodb+srv://eric:thirteen@isit422-groupproject-20.sdxooup.mongodb.net/testDB";

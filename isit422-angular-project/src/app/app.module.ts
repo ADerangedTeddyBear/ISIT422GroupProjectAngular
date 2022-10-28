@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HttpXhrBackend } from '@angular/common/http';
 //import { MockXHRBackend } from './mock-xhr-backend'
+//import { $ } from 'jquery'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
