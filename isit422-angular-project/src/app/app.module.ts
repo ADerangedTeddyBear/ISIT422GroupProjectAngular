@@ -1,12 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-<<<<<<< HEAD
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-=======
 import { HttpClientModule, HttpXhrBackend } from '@angular/common/http';
 //import { MockXHRBackend } from './mock-xhr-backend'
-//import { $ } from 'jquery'
->>>>>>> origin/database-http
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -63,7 +59,6 @@ import { DatabaseComponent } from './database/database.component';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
