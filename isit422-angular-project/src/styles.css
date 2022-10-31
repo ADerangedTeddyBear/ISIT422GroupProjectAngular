@@ -1,3 +1,12 @@
+.vertNavItem {
+  display: block;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
