@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HttpXhrBackend } from '@angular/common/http';
-//import { MockXHRBackend } from './mock-xhr-backend'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -55,12 +54,10 @@ import { DatabaseComponent } from './database/database.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
-
+    ReactiveFormsModule,
+    FormsModule
   ],
-  providers: [
-  //  { provide: HttpXhrBackend, useClass:MockXHRBackend }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

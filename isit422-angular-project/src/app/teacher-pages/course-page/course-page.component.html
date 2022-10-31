@@ -1,25 +1,20 @@
 <h2>Course Page</h2>
 <a href="/teacher-pages/teacher-landing">Back</a>
 
-<form>
+<form [formGroup]="courseForm" (ngSubmit)="submitForm('course form')">
     <div class="form-group">
         <label for="coursename">Course Name: </label>
-        <input type="text" id="coursename" name="coursename" />
+        <input type="text" id="coursename" name="coursename" formControlName="coursename" />
     </div>
-    <fieldset>
+    <fieldset formArrayName="students">
         <legend>Select Students for Course</legend>
-        <div class="form-group">
-            <input type="checkbox" name="students" id="student-1" value="Student 1">
-            <label for="student-1">Student 1</label>
+        <div *ngFor="let student of studentsArray; index as i">
+            <div class="form-group">
+                <input type="checkbox" name="students" id="student-{{i}}" value="Student {{i}}" formControlName="{{i}}">
+                <label for="student-{{i}}">{{studentsArray[i]}}</label>
+            </div>
         </div>
-        <div class="form-group">
-            <input type="checkbox" name="students" id="student-2" value="Student 2">
-            <label for="student-2">Student 2</label>
-        </div>
-        <div class="form-group">
-            <input type="checkbox" name="students" id="student-3" value="Student 3">
-            <label for="student-3">Student 3</label>
-        </div>
+        
     </fieldset>
-    <input type="submit" value="Submit" class="button" />
+    <input type="submit" value="Submit" class="button" /> 
 </form>
