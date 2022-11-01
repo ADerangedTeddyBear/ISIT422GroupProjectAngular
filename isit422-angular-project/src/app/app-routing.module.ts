@@ -19,6 +19,7 @@ import { TeacherListViewComponent } from './teacher-pages/teacher-list-view/teac
 import { TeacherProjectViewComponent } from './teacher-pages/teacher-project-view/teacher-project-view.component';
 import { NewProjectPageComponent } from './teacher-pages/new-project-page/new-project-page.component';
 import { StylingTestbenchComponent } from './styling-testbench/styling-testbench.component';
+import { DatabaseComponent } from './database/database.component';
 import { NewCoursePageComponent } from './teacher-pages/new-course-page/new-course-page.component';
 
 const routes: Routes = [
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path: 'testbench',
     component: StylingTestbenchComponent
+  },
+  {
+    path: 'database',
+    component: DatabaseComponent
   },
   { 
     path: 'login-pages', 

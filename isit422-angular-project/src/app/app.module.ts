@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HttpXhrBackend } from '@angular/common/http';
+//import { MockXHRBackend } from './mock-xhr-backend'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +26,7 @@ import { ListContainerComponent } from './list-components/list-container/list-co
 import { ListItemComponent } from './list-components/list-item/list-item.component';
 import { CourseListContainerComponent } from './list-components/course-list-container/course-list-container.component';
 import { CourseListItemComponent } from './list-components/course-list-item/course-list-item.component';
+import { DatabaseComponent } from './database/database.component';
 import { NewCoursePageComponent } from './teacher-pages/new-course-page/new-course-page.component';
 
 @NgModule({
@@ -48,13 +52,15 @@ import { NewCoursePageComponent } from './teacher-pages/new-course-page/new-cour
     ListItemComponent,
     CourseListContainerComponent,
     CourseListItemComponent,
-    NewCoursePageComponent
+    NewCoursePageComponent,
+    DatabaseComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
