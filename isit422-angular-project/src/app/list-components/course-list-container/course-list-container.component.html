@@ -1,11 +1,22 @@
 <div>
 
-<h3>Course List</h3>
+<h3>Project List Grouped by Course</h3>
+<ul *ngFor = "let course of courses">  
+  <li>
+    <span><b>Course Name: {{course.name}}</b></span><br/>
+    <span>Proj A</span><br/>
+    <span>Proj B</span><br/>
+    <span>Proj C</span><br/>
+    <br/>
+    <br/>
+  </li>
+</ul>
+<a href="/teacher-pages/new-course-page">Add a new course</a>
 
-  <b>All Courses: {{courses[0].name}}</b>
   <br/>
 
-  <button class="button">Add New Course</button>
 </div>
 
+<br/>
+<br/>
 

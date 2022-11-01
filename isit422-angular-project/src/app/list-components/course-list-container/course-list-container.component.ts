@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { COURSE } from '../list-component-interfaces/mock-course-list';
+import { COURSES } from '../list-component-interfaces/mock-course-list';
 
 @Component({
   selector: 'app-course-list-container',
@@ -8,7 +8,7 @@ import { COURSE } from '../list-component-interfaces/mock-course-list';
 })
 export class CourseListContainerComponent implements OnInit {
 
-  courses = COURSE;
+  courses = COURSES;
 
   constructor() { }
 

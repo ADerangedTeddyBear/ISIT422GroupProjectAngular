@@ -23,6 +23,7 @@ import { ListContainerComponent } from './list-components/list-container/list-co
 import { ListItemComponent } from './list-components/list-item/list-item.component';
 import { CourseListContainerComponent } from './list-components/course-list-container/course-list-container.component';
 import { CourseListItemComponent } from './list-components/course-list-item/course-list-item.component';
+import { NewCoursePageComponent } from './teacher-pages/new-course-page/new-course-page.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CourseListItemComponent } from './list-components/course-list-item/cour
     ListContainerComponent,
     ListItemComponent,
     CourseListContainerComponent,
-    CourseListItemComponent
+    CourseListItemComponent,
+    NewCoursePageComponent
   ],
   imports: [
     BrowserModule,

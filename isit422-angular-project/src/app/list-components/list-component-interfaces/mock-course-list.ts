@@ -1,6 +1,10 @@
 import { Course } from "./course"
 
-export const COURSE: Course[] = [
-  { name: "List of all Courses here"}
-]
+export const COURSES: Course[] = [
+  { name: 'PROG300'},
+  { name: 'PROG400'},
+  { name: 'PROG340'},
+  { name: 'PROG420'}
+
+];
 
