@@ -34,7 +34,7 @@ app.post('/api/insert', (req, res) => {
     })
 })
 
-app.get('/api/display', (req, res) => {
+app.get('/api/display2', (req, res) => {
     var obj = req.body;
     console.log(obj);
     var dbo = client.db("TestDB");
@@ -42,18 +42,40 @@ app.get('/api/display', (req, res) => {
         if (err) throw err;
         console.log(res2);
         res.send(res2);
-    /* This works
+    })
+})
+
+app.get('/api/display', (req, res) => {
+    var obj = req.body;
+    console.log(obj);
+    var dbo = client.db("TestDB");
+    dbo.collection("testcoll2").find({}).toArray(function(err, res2) {
+        if (err) throw err;
+        console.log(res2);
+        res.send(res2);
+    })
+})
+
+
+app.get('/api/collections', (req, res) => {
+    var obj = req.body;
+    console.log(obj);
+    var dbo = client.db("TestDB");
+    dbo.listCollections().toArray(function(err, res2) {
+        if (err) throw err;
+        console.log(res2);
+        res.send(res2);
+    })
+})
+
+app.get('api/display1/:id', (req, res) => {
     dbo.collection("testC").findOne({}, function(err, res2) {
         if (err) throw err;
         console.log(res2);
         res.send(res2);
-        */
 
-        
     })
-
 })
-
 
 function makeConnection() {
     const uri = "mongodb+srv://eric:thirteen@isit422-groupproject-20.sdxooup.mongodb.net/testDB";

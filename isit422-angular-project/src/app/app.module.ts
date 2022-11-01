@@ -54,12 +54,14 @@ import { NewCoursePageComponent } from './teacher-pages/new-course-page/new-cour
     CourseListItemComponent,
     NewCoursePageComponent,
     DatabaseComponent,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   bootstrap: [AppComponent]
 })

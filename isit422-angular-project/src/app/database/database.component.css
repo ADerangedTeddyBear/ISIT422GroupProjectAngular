@@ -3,8 +3,8 @@
 .dbGrid{
 	display:grid;
 	grid-template-columns:25% 25% 25% 25%;	
-	grid-row-gap: 5%;
-	margin: 2% 12% 15%;
+	grid-row-gap: 2%;
+	margin: 2% 8% 5%;
     width:300%;
 }
 
@@ -16,8 +16,8 @@ div > ul > li{
 	background-color:#ffffff;
 	border:solid #000000 2px;
 	text-align: center;
-    margin:2% 7% 2% 5%;
-    padding:2%;
+    margin:2% 2% 2% 6%;
+    padding:1%;
 }
 
 
