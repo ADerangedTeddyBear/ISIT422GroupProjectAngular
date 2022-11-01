@@ -27,6 +27,7 @@ import { ListItemComponent } from './list-components/list-item/list-item.compone
 import { CourseListContainerComponent } from './list-components/course-list-container/course-list-container.component';
 import { CourseListItemComponent } from './list-components/course-list-item/course-list-item.component';
 import { DatabaseComponent } from './database/database.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -52,11 +53,13 @@ import { DatabaseComponent } from './database/database.component';
     CourseListContainerComponent,
     CourseListItemComponent,
     DatabaseComponent,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
 
   ],
   providers: [
