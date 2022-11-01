@@ -1,14 +1,14 @@
-<p>new-project-page works!</p>
+<h3>New Project</h3>
 <a href="/teacher-pages/edit-project-page">Edit Project</a><br />
 <a href="/teacher-pages/teacher-list-view">Back</a>
 
 <form [formGroup]="newProjectForm" (ngSubmit)="submitForm('new project form')">
     <div class="form-group">
-        <label for="projectname">Project Name: </label>
+        <label for="projectname">Project Name: </label> <br>
         <input type="text" id="projectname" name="projectname" formControlName="projectname"/>
     </div>
     <div class="form-group">
-        <label for="description">Project Description: </label>
+        <label for="description">Project Description: </label><br>
         <textarea id="description" name="description" rows="4" cols="50" formControlName="description"></textarea>
     </div>
     <input type="submit" value="Submit" class="button" />
