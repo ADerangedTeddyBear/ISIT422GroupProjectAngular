@@ -1,7 +1,7 @@
 <h2>Sign In</h2>
 
 
-<form style="margin-left: 5px">
+<form style="margin-left: 5px" [formGroup]="loginForm" (ngSubmit)="submitForm('login form')">
     <div class="form-group">
         <label for="username">Username: </label>
         <input type="text" id="username" name="username" formControlName="username"/>
