@@ -1,28 +1,20 @@
 /*body > app-root > div > app-database > div > ul > li:nth-child(2)*/
-
 .dbGrid{
 	display:grid;
 	grid-template-columns:25% 25% 25% 25%;	
 	grid-row-gap: 2%;
-	margin: 2% 8% 5%;
+	margin: 2% 8% 5% 12%;
     width:300%;
 }
 
-/*I think I am inheriting the style properties from app-root which is constraining my div width to only being like the width of a phone.
- Not a big deal, but that is why I set the width of dbGrid to 300%. If I'm right about that, then the styles from app-root will impact 
- nested components. fyi for me or whoever, but that's why.. I think*/
 
 div > ul > li{
 	background-color:#ffffff;
 	border:solid #000000 2px;
 	text-align: center;
-    margin:2% 2% 2% 6%;
+    margin:2% 2% 2% 2%;
     padding:1%;
 }
-
-
-
-
 
 table {
 	border-collapse: collapse;
@@ -31,13 +23,6 @@ table {
 	min-width: 80%;
 	margin-bottom:100px;
 }
-
-th, td {
-	padding: 5px 10px;
-	text-align: center;
-	white-space: nowrap;
-}
-
 
 /*@media only screen and (max-width:600px) {
 	body {
