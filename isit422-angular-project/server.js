@@ -80,7 +80,7 @@ app.post('/api/insert', (req, res) => {
 app.get('/api/courses', (req, res) => {
     var obj = req.body;
     console.log(obj);
-    var dbo = client.db("ISIT422-db");
+    var dbo = client.db("db");
     dbo.collection("courses").find({}).toArray(function(err, res2) {
         if (err) throw err;
         console.log(res2);
@@ -91,8 +91,8 @@ app.get('/api/courses', (req, res) => {
 app.get('/api/display', (req, res) => {
     var obj = req.body;
     console.log(obj);
-    var dbo = client.db("TestDB");
-    dbo.collection("testcoll2").find({}).toArray(function(err, res2) {
+    var dbo = client.db("db");
+    dbo.collection("students").find({}).toArray(function(err, res2) {
         if (err) throw err;
         console.log(res2);
         res.send(res2);
@@ -103,7 +103,7 @@ app.get('/api/display', (req, res) => {
 app.get('/api/collections', (req, res) => {
     var obj = req.body;
     console.log(obj);
-    var dbo = client.db("ISIT422-db");
+    var dbo = client.db("db");
     dbo.listCollections().toArray(function(err, res2) {
         if (err) throw err;
         console.log(res2);
