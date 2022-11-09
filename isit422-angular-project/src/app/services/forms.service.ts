@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { __values } from 'tslib';
+import * as $ from 'jquery';
 
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class FormsService {
 
   static findAndModify(query_in:string) {
@@ -47,6 +50,7 @@ export class FormsService {
           var o = JSON.parse(xhr.responseText);        
           for(var p in o) {
             var current = o[p];
+            //add each object to 
             responseArr.push(current);
             var tbl = document.getElementsByClassName('displayTbl')[0];
             var row = document.createElement('tr');
@@ -59,8 +63,11 @@ export class FormsService {
             }
             row.removeAttribute('class');
             n += 1;
+            //as it goes through each object and puts data in the td elements, when finished, remove it from array
+            //so the next item is processed.
             JSON.stringify(responseArr.reverse().pop());
           }
+          this.doTableElems();
     }
     xhr.open("GET", mongo_out, true);
     xhr.send(/*JSON.stringify({test:"test1"})*/null);
@@ -79,16 +86,37 @@ export class FormsService {
     let divElem = document.getElementsByClassName('dbGrid')[0];
     divElem.after(tbl);
     tbl.setAttribute('class', 'displayTbl');
-    tbl.style.position = 'absolute';
-    tbl.style.left = '10%';
-    tbl.style.top = '45%';
-    tbl.style.backgroundColor = '#00afdd';
-    tbl.style.border = "solid 7px #000000";
+    $('.displayTbl').css({'position':'absolute','left':'10%','top':'45%','backgroundColor': 'yellow', 'border':'solid 7px #000000'});
+    //tbl.style.position = 'absolute';
+    //tbl.style.left = '10%';
+    //tbl.style.top = '45%';
+    //tbl.style.backgroundColor = '#00afdd';
+    //tbl.style.border = "solid 7px #000000";
   }
 
   static rebuildTable() {
     document.getElementsByTagName('table')[0].remove();
     this.buildTable();
+  }
+
+  static doTableElems() {
+    $('.selectedItem').remove();
+    $('td').on('click', function () {
+      $('.dbGrid').append('<ul class = "selectedItem"></ul>');
+      $('.selectedItem').css('width', '60%');      
+      $(this).parent().children().each(function() {
+        $('.selectedItem').append(`<li>${$(this).html()}</li>`);                
+        //console.log($(this).html())
+      })
+      $('table').remove();
+      $('.selectedItem').css({
+        'position':'absolute', 'top':'20%', 'left':'12%', 'backgroundColor':'orange',
+        'display':'grid', 'gridTemplateColumns':'28% 8% 8% 8% 8% 8% 8%'
+      })
+      //$(this).parent().children().addClass('selected');
+      //$('.selected').css({'backgroundColor':'orange'})
+      //$(this).css('backgroundColor', 'blue')
+    })
   }
 
   constructor() { }

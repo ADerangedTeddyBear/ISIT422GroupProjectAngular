@@ -1,6 +1,9 @@
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { FormsService } from 'src/app/services/forms.service';
-
+//import * as $ from 'jquery';
+//import {ViewChild, ElementRef, AfterViewInit} from '@angular/core';
+//import {bootstrap}    from '@angular/platform-browser-dynamic';
+//declare var $:JQueryStatic;
 
 @Component({
   selector: 'db-database',
@@ -23,9 +26,9 @@ export class DatabaseComponent /*implements OnInit*/ {
     return path[n];
   }
 
-  dropdown() {
+  /*dropdown() {
     document.getElementsByClassName('dropdn')[0].classList.toggle("show");
-  }
+  }*/
 
   checkClassExists(idx:number) {
     let classExists = document.getElementsByClassName('clicked')[0];
@@ -74,8 +77,9 @@ export class DatabaseComponent /*implements OnInit*/ {
 
   ngOnInit(): void {
     //FormsService.getCollections();
-    window.onclick = function(e) {      
+    window.onclick = function(e) {
       //console.log(e.target);
+      //$('body').css('backgroundColor', 'blue');
     }
   }
 }
