@@ -85,6 +85,16 @@ ul {
     text-align: center;
   }
 
+  .listItemStyling {
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .listItemStyling header{
+    background-color: #333;
+    color: #f1f1f1;
+  }
+
   @media screen and (max-width: 600px) {
     ul {
       list-style-type: none;

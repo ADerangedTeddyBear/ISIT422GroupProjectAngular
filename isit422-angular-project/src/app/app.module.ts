@@ -28,6 +28,7 @@ import { CourseListContainerComponent } from './list-components/course-list-cont
 import { CourseListItemComponent } from './list-components/course-list-item/course-list-item.component';
 import { DatabaseComponent } from './database/database.component';
 import { NewCoursePageComponent } from './teacher-pages/new-course-page/new-course-page.component';
+import { ProjectListItemComponent } from './project-list-item/project-list-item.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { NewCoursePageComponent } from './teacher-pages/new-course-page/new-cour
     CourseListItemComponent,
     NewCoursePageComponent,
     DatabaseComponent,
+    ProjectListItemComponent,
     
   ],
   imports: [
