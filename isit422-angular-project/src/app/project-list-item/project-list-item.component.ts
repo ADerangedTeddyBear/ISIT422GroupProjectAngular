@@ -10,7 +10,9 @@ export class ProjectListItemComponent implements OnInit {
   projectName: string = "Project 1"
   projectDescription: string = "this is a random description"
   studentsAssigned: string = "[Students assigned go here]"
+
   constructor() { }
+  
   ngOnInit(): void {
   }
 
