@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from 'src/app/services/form.service';
 import { FormBuilder } from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-new-project-page',
@@ -9,16 +10,19 @@ import { FormBuilder } from '@angular/forms';
 })
 export class NewProjectPageComponent implements OnInit {
 
+  parentListID = '';
+
   constructor(
     private FormService: FormService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.parentListID = history.state.listID;
   }
 
   newProjectForm = this.formBuilder.group({
-    projectname: '',
-    description: ''
+    projectname: ['', Validators.required],
+    description: ['', Validators.required]
   });
 
   submitForm(in_formName: string) {

@@ -1,18 +1,16 @@
-/*
 import { TestBed } from '@angular/core/testing';
 
-import { FormsService } from './forms.service';
+import { ListService } from './list.service';
 
-describe('FormsService', () => {
-  let service: FormsService;
+describe('ListService', () => {
+  let service: ListService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FormsService);
+    service = TestBed.inject(ListService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 });
-*/

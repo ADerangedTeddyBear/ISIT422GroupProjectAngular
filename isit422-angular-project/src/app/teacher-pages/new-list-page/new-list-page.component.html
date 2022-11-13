@@ -1,5 +1,4 @@
-<h2>New List</h2>
-<a href="/teacher-pages/teacher-list-view">Teacher List View</a><br />
+<h2 *ngIf="teacher">New List For {{teacher.name}}</h2>
 <a href="/teacher-pages/teacher-landing">Back</a>
 
 <form [formGroup]="newListForm" (ngSubmit)="submitForm('new list form')">
@@ -9,10 +8,12 @@
     </div>
     <fieldset formArrayName="course">
         <legend>What course is this list for?</legend>
-        <div *ngFor="let course of courseArray; index as j;">
-            <div class="form-group">
-                <input type="radio" name="{{j}}" id="{{courseArray[j]}}" value="{{courseArray[j]}}" formControlName="{{j}}">
-                <label for="course-{{j}}">{{courseArray[j]}}</label>
+        <div *ngIf="courseArray">
+            <div *ngFor="let course of courseArray; index as j;">
+                <div class="form-group">
+                    <input type="radio" name="{{j}}" id="{{courseArray[j].id}}" value="{{courseArray[j].id}}" formControlName="{{j}}">
+                    <label for="{{courseArray[j].id}}">{{courseArray[j].name}}</label>
+                </div>
             </div>
         </div>
         

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from 'src/app/services/form.service';
 import { FormBuilder } from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-sign-in',
@@ -17,8 +18,8 @@ export class SignInComponent implements OnInit {
   }
 
   loginForm = this.formBuilder.group({
-    username: '',
-    password: ''
+    username: ['', Validators.required],
+    password: ['', Validators.required]
   });
 
   submitForm(in_formName: string) {

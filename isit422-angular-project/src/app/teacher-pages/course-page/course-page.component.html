@@ -10,11 +10,11 @@
         <legend>Select Students for Course</legend>
         <div *ngFor="let student of studentsArray; index as i">
             <div class="form-group">
-                <input type="checkbox" name="students" id="student-{{i}}" value="Student {{i}}" formControlName="{{i}}">
-                <label for="student-{{i}}">{{studentsArray[i]}}</label>
+                <input type="checkbox" name="students" id="student-{{i}}" value="{{studentsArray[i].id}}" formControlName="{{i}}">
+                <label for="student-{{i}}">{{studentsArray[i].name}}</label>
             </div>
         </div>
         
     </fieldset>
-    <input type="submit" value="Submit" class="button" /> 
+    <input type="submit" value="Submit" class="button" [disabled]="!courseForm.valid"/> 
 </form>

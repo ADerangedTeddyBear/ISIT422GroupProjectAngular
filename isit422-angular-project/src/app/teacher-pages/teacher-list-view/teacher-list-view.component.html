@@ -1,6 +1,7 @@
-<h2>Teacher List</h2>
-<a href="/teacher-pages/new-project-page">New Project Page</a><br />
-<a href="/teacher-pages/edit-project-page">Edit Project Page</a><br />
+<h2>List ID: {{listID}}</h2>
+<p>Owned by {{teacher.name}}</p>
+<a [routerLink]="['/teacher-pages/new-project-page']" [state]="{listID: 'ID of parent list'}">New Project Page</a><br />
+<a [routerLink]="['/teacher-pages/edit-project-page']" [state]="{listID: 'ID of parent list', projectID: 'Unique Project ID'}">Edit Project Page</a><br />
 <a href="/teacher-pages/teacher-project-view">Teacher Project View</a><br />
 <a href="/teacher-pages/teacher-landing">Back</a>
 

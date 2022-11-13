@@ -1,6 +1,6 @@
 <h3>New Project</h3>
 <a href="/teacher-pages/edit-project-page">Edit Project</a><br />
-<a href="/teacher-pages/teacher-list-view">Back</a>
+<a [routerLink]="['/teacher-pages/teacher-list-view']" [state]="{listID: parentListID}">Back</a>
 
 <form [formGroup]="newProjectForm" (ngSubmit)="submitForm('new project form')">
     <div class="form-group">
