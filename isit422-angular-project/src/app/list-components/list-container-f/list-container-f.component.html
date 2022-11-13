@@ -1,12 +1,70 @@
+
 <div class="w3-container listItemStyling">
     <div class="w3-card-4">
-        <header class="w3-container">
-            <h2>{{projectName}}</h2>
-        </header>
 
 
-        <app-project-list-item-f></app-project-list-item-f>
+
+     
+        <div *ngFor="let course of courses">
+            <header class="w3-container">
+                <h2 >{{course.name}}</h2>
+            </header>
+            <!--table  class="courses">
+                <th>
+                    What
+                    
+                </th>
+            
+                <tr>More coming here </tr>
+            </table-->
+
+            
+        </div>
+
+  
 
 
     </div>
 </div>
+
+<!--ul class="courses">
+    <li *ngFor="let course of courses">
+      <a routerLink="">
+         {{course.name}}
+      </a>
+      
+    </li>
+  </ul>
+
+
+  <table class="projects">
+    <th>ID</th>
+    <th>Project Name</th>
+
+    <tr *ngFor="let project of projects">
+        
+
+      <td>
+        <a routerLink="">
+        <span class="badge">{{project.id}}</span> {{project.name}}
+      </a>
+      </td>
+
+
+      <td>
+        Description is here
+      </td>
+
+      <td>
+        <button>Add</button>
+        <button>Modify</button>
+        <button>Delete</button>
+      </td>
+      
+    </tr>
+</table-->
+
+ 
+
+
+

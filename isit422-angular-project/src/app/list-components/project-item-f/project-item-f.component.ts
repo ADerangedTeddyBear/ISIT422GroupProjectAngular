@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountCheckService } from '../../control-tests/account-check.service';
 
+
 @Component({
-  selector: 'app-project-list-item-f',
-  templateUrl: './project-list-item-f.component.html',
-  styleUrls: ['./project-list-item-f.component.css']
+  selector: 'app-project-item-f',
+  templateUrl: './project-item-f.component.html',
+  styleUrls: ['./project-item-f.component.css']
 })
-export class ProjectListItemFComponent implements OnInit {
+export class ProjectItemFComponent implements OnInit {
+
 
   //modify these variables to use database values
-  projectListName: string = "Project List Name"
+  projectName: string = "Project Name"
   studentsAssigned: string = "[Students assigned go here]"
 
   accountCurrent: string = "";
@@ -19,5 +21,4 @@ export class ProjectListItemFComponent implements OnInit {
   ngOnInit(): void {
     this.accountCheck.currentAccountType.subscribe(accountCurrent => this.accountCurrent = accountCurrent)
   }
-
 }

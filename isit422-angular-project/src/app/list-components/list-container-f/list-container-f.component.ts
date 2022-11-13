@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ListDisplayService } from '../../services/list-display.service';
+import { Course } from '../../control-tests/mock-course';
+
+
+
 
 @Component({
   selector: 'app-list-container-f',
@@ -7,11 +12,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListContainerFComponent implements OnInit {
   //modify these variables to use database values
-  projectName: string = "Project 1"
+  courseName: string = "Course Name"
 
-  constructor() { }
+
+  courses:Course[] = [];
+
+  coursesApiUrl = 'http://localhost:5000/api/courses';
+
+
+  constructor(
+    private listDisplayService: ListDisplayService
+
+  ) { }
   
   ngOnInit(): void {
+    // On load call courses API
+    this.getCourses();
+  }
+
+  getCourses(): void {
+    this.listDisplayService.getCourses(this.coursesApiUrl)
+    .subscribe(courses => this.courses = courses);
   }
 
 }

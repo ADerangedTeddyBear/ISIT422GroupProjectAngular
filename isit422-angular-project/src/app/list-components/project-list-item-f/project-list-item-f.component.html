@@ -1,11 +1,12 @@
+<div>
 <div class="w3-container">
-    <p>{{projectDescription}}</p>
+    <p>{{projectListName}}</p>
 </div>
 
 <div *ngIf="accountCurrent === 'teacher'">
 
     <div class="w3-show-inline-block">
-        <button class="w3-button w3-small">View Details</button>
+        <button class="w3-button w3-small">View Projects Listed</button>
         <button class="w3-button w3-small">Edit</button>
         <button class="w3-button w3-small">Remove</button>
     </div>
@@ -19,6 +20,7 @@
 <div *ngIf="accountCurrent === 'student'">
 
     <div class="w3-show-inline-block">
-        <button class="w3-button w3-small">View Details</button>
+        <button class="w3-button w3-small">View Projects Listed</button>
     </div>
+</div>
 </div>

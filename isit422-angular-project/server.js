@@ -120,6 +120,21 @@ app.get('api/display1/:id', (req, res) => {
     })
 })
 
+//Dummy Fetch Data for Lists
+//Dummy Fetching Tests
+app.get('/api/projectlistsnames', (req, res) => {
+    var obj = req.body;
+    console.log(obj);
+    var dbo = client.db("db");
+    dbo.collection("project_lists").find({}).toArray(function(err, res2) {
+        if (err) throw err;
+        console.log(res2);
+        res.send(res2);
+    })
+})
+
+
+
 function makeConnection() {
     const uri = "mongodb+srv://eric:thirteen@isit422-groupproject-20.sdxooup.mongodb.net/testDB";
     client = new MongoClient(uri);

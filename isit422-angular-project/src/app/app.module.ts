@@ -27,6 +27,9 @@ import { NewCoursePageComponent } from './teacher-pages/new-course-page/new-cour
 import { ProjectListItemComponent } from './project-list-item/project-list-item.component';
 import { ListContainerFComponent } from './list-components/list-container-f/list-container-f.component';
 import { ProjectListItemFComponent } from './list-components/project-list-item-f/project-list-item-f.component';
+import { ProjectListContainerFComponent } from './list-components/project-list-container-f/project-list-container-f.component';
+import { ProjectViewFComponent } from './list-components/project-view-f/project-view-f.component';
+import { ProjectItemFComponent } from './list-components/project-item-f/project-item-f.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,9 @@ import { ProjectListItemFComponent } from './list-components/project-list-item-f
     ProjectListItemComponent,
     ListContainerFComponent,
     ProjectListItemFComponent,
+    ProjectListContainerFComponent,
+    ProjectViewFComponent,
+    ProjectItemFComponent,
     
   ],
   imports: [
