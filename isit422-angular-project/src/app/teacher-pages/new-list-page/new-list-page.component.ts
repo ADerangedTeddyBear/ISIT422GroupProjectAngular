@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormService } from 'src/app/services/form.service';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-new-list-page',
@@ -11,14 +12,14 @@ import { Router } from '@angular/router';
 export class NewListPageComponent implements OnInit {
 
   public newListForm: FormGroup;
-  teacher: {name: string, id: string} | undefined;
   courseArray: { name: string; id: string; }[] | undefined;
+
+  teacher = SessionService.GetCurrentUser();
 
   constructor(
     private FormService: FormService,
     private formBuilder: FormBuilder,
     private router: Router) {
-      this.teacher = history.state.teacher;
       if (typeof this.teacher !== 'undefined') {
         this.courseArray = this.FormService.GetCourseNamesAndIDs(this.teacher.id);
       }

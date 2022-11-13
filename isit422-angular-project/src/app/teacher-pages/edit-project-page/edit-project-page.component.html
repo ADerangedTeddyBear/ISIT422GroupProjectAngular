@@ -1,6 +1,4 @@
-<p>edit-project-page works!</p>
-<a href="/teacher-pages/teacher-project-view">Teacher Project View</a><br />
-<a href="/teacher-pages/teacher-list-view">Back</a>
+<a *ngIf="currentList" [routerLink]="['/teacher-pages/teacher-list-view']" [state]="{listname: currentList.listname, listID: currentList.listID, courseID: currentList.courseID}">Back</a>
 
 <form [formGroup]="editProjectForm" (ngSubmit)="submitForm('edit project form')">
     <div class="form-group">

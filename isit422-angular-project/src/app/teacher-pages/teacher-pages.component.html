@@ -1,18 +1,3 @@
-<h2>Teacher Page</h2>
-<div class="w3-row w3-padding-16">
-    <div class="w3-col s2 w3-border">
-        <div class="w3-col"><a class="vertNavItem" href="/teacher-pages/course-page">Course Page</a></div>
-        <div class="w3-col"><a class="vertNavItem" href="/teacher-pages/new-list-page">New List</a></div>
-        <div class="w3-col"><a class="vertNavItem" href="/teacher-pages/teacher-list-view">Teacher List View</a></div>
-      <!-- <ul>
-        <li><a href="/teacher-pages/course-page">Course Page</a></li>
-        <li><a href="/teacher-pages/new-list-page">New List</a></li>
-        <li> <a href="/teacher-pages/teacher-list-view">Teacher List View</a>  </li>
-      </ul> -->
-    </div>
+<h2 *ngIf="currentTeacher">Current Teacher: {{currentTeacher.name}}</h2>
+<router-outlet></router-outlet>
   
-    <div class="w3-col s10 w3-border">
-        <router-outlet></router-outlet>
-    </div>
-  
-  </div>

@@ -4,6 +4,7 @@
 <a href="/teacher-pages/teacher-list-view">Teacher List View</a> -->
 
 
-<a [routerLink]="['/teacher-pages/new-list-page']" [state]="{teacher: currentTeacher}">New List With {{currentTeacher.name}}</a>
+<a [routerLink]="['/teacher-pages/new-list-page']" >New List "New List"</a><br />
+<a [routerLink]="['/teacher-pages/teacher-list-view']" [state]="{listname: 'Existing List', listID: 'Existing List ID', courseID: 'Existing Course ID'}">View List "Existing List"</a>
 <app-course-list-container></app-course-list-container>
 <!--app-course-list-item></app-course-list-item-->

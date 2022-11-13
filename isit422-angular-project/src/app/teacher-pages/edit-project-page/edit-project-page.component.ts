@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormService } from 'src/app/services/form.service';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-edit-project-page',
@@ -16,6 +17,7 @@ export class EditProjectPageComponent implements OnInit {
 
   projectID = "This value should be passed from the project-list-view page";
   projectData: {projectName: string, projectDescription: string} = this.FormService.GetProject(this.projectID);
+  currentList = SessionService.GetCurrentList();
 
   ngOnInit(): void {
     console.log(history.state.projectID);

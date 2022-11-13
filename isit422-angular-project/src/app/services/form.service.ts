@@ -64,11 +64,15 @@ export class FormService {
     // TODO: Replace with database call that creates a new list in the database
 
     // TODO: Return the ID of the newly generated list
-    return "ID of new list"
+    return {listname: 'New List', listID: 'New List ID', courseID: 'Existing Course ID'}
+  }
+  CreateNewProject(in_name: string, in_description: string, in_projectListID: string) {
+    // TODO: Replace with a database call that creates a new project in the database
   }
   EditProject(in_name: string, in_description: string, in_id: string) {
     // TODO: Replace with a database call that updates a project record (found with the given id) to have the new input values
   }
+
 
   //
   // --=|| FORM HANDLERS ||=--
@@ -109,12 +113,18 @@ export class FormService {
     console.log(`${in_FormName} - Add a new course to the database with the following data:`);
     this.logFormData(in_FormData);
 
-    const currentUser: {name: string, id: string, user_type: string} = SessionService.GetCurrentUser();
-    console.log(`Teacher: ${currentUser.id}`);
-
-    this.CreateNewCourse(in_FormData.coursename, in_FormData.students, currentUser.id);
-    // navigate back to teacher landing after making the new course
-    this.router.navigate(['/teacher-pages/teacher-landing']);
+    const currentUser: {name: string, id: string, user_type: string} | undefined = SessionService.GetCurrentUser();
+    if (typeof currentUser == 'undefined') {
+      console.log("Error: current user is undefined");
+      this.router.navigate(['/login-pages/sign-in']);
+    }
+    else {
+      console.log(`Teacher: ${currentUser.id}`);
+  
+      this.CreateNewCourse(in_FormData.coursename, in_FormData.students, currentUser.id);
+      // navigate back to teacher landing after making the new course
+      this.router.navigate(['/teacher-pages/teacher-landing']);
+    }
   }
 
   HandleEditProjectForm(in_FormData: {projectname: string, description: string, id: string}, in_FormName: string) {
@@ -125,21 +135,31 @@ export class FormService {
     this.EditProject(in_FormData.projectname, in_FormData.description, in_FormData.id);
 
     // Navigate back to the project list view
+    const currentList = SessionService.GetCurrentList();
+    if (typeof currentList !== 'undefined') this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: currentList.listname, listID: currentList.listID, courseID: currentList.courseID}});
 
   }
 
-  HandleNewProjectForm(in_FormData: {[index: string]: any}, in_FormName: string) {
+  HandleNewProjectForm(in_FormData: {projectname: string, description: string}, in_FormName: string) {
     console.log(`${in_FormName} - Add a new project to the database with the following data:`);
     this.logFormData(in_FormData);
 
+    // Add a new project to the database
+    const currentList = SessionService.GetCurrentList();
+    if (typeof currentList !== 'undefined') {
+      this.CreateNewProject(in_FormData.projectname, in_FormData.description, currentList.listID)
+      
+      // Navigate back to the project list view
+      this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: currentList.listname, listID: currentList.listID, courseID: currentList.courseID}});
+    }
   }
 
   HandleNewListForm(in_FormData: {listname: string, course: string}, in_FormName: string) {
     console.log(`${in_FormName} - Add a new list to the database with the following data:`);
 
-    const newListID = this.CreateNewProjectList(in_FormData.listname, in_FormData.course);
+    const newList: {listname: string, listID: string, courseID: string} = this.CreateNewProjectList(in_FormData.listname, in_FormData.course);
 
-    this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listID: newListID}});
+    this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: newList.listname, listID: newList.listID, courseID: newList.courseID}});
 
   }
 
@@ -170,7 +190,7 @@ export class FormService {
         this.HandleEditProjectForm(in_FormData as {projectname: string, description: string, id: string}, in_FormName);
         break;
       case "new project form":
-        this.HandleNewProjectForm(in_FormData, in_FormName);
+        this.HandleNewProjectForm(in_FormData as {projectname: string, description: string}, in_FormName);
         break;
       case "new list form":
         this.HandleNewListForm(in_FormData as {listname: string, course: string}, in_FormName);

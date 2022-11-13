@@ -11,14 +11,19 @@ export class TeacherListViewComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  listID = '';
+  list: {listname: string, listID: string, courseID: string} | undefined;
   teacher = SessionService.GetCurrentUser();
 
   ngOnInit(): void {
     console.log(history.state.listID);
-    this.listID = history.state.listID;
+    let s_listname = history.state.listname as string;
+    let s_listID = history.state.listID;
+    let s_courseID = history.state.courseID;
 
-    if (typeof this.listID == 'undefined') {
+    this.list = {listname: s_listname, listID: s_listID, courseID: s_courseID};
+    SessionService.SetCurrentList(s_listname, s_listID, s_courseID);
+
+    if (typeof this.list == 'undefined') {
       this.router.navigate(['/teacher-pages/teacher-landing']);
       throw new Error("Invalid state: list view loaded without a list ID");
     }

@@ -1,8 +1,8 @@
-<h2>List ID: {{listID}}</h2>
-<p>Owned by {{teacher.name}}</p>
-<a [routerLink]="['/teacher-pages/new-project-page']" [state]="{listID: 'ID of parent list'}">New Project Page</a><br />
-<a [routerLink]="['/teacher-pages/edit-project-page']" [state]="{listID: 'ID of parent list', projectID: 'Unique Project ID'}">Edit Project Page</a><br />
-<a href="/teacher-pages/teacher-project-view">Teacher Project View</a><br />
-<a href="/teacher-pages/teacher-landing">Back</a>
+<h2 *ngIf="list">List: {{list.listname}}</h2>
+<p *ngIf="teacher">Owned by {{teacher.name}}</p>
+<a [routerLink]="['/teacher-pages/new-project-page']" >New Project</a><br />
+<a [routerLink]="['/teacher-pages/edit-project-page']" [state]="{projectName: 'Existing Project', projectID: 'Unique Project ID'}">Edit Project "Existing Project"</a><br />
+<a [routerLink]="['/teacher-pages/teacher-project-view']" [state]="{projectName: 'Existing Project', projectID: 'Unique Project ID'}">Teacher Project View</a><br />
+<a [routerLink]="['/teacher-pages/teacher-landing']">Back</a>
 
 <app-list-item></app-list-item>

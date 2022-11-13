@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-teacher-project-view',
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class TeacherProjectViewComponent implements OnInit {
 
   constructor() { }
+
+  currentList = SessionService.GetCurrentList();
 
   ngOnInit(): void {
   }

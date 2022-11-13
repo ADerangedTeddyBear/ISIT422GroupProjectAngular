@@ -13,6 +13,7 @@ export class TeacherLandingComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    SessionService.UnsetCurrentList();
   }
 
 }
