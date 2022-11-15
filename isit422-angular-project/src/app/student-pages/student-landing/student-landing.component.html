@@ -1,9 +1,17 @@
-<div>
-    <app-list-container-f></app-list-container-f>
-        
-        <!--app-project-list-item-f></app-project-list-item-f-->
-        
-        
+<h2>Student Landing Page</h2>
+
+
+<div *ngFor="let course of courses"> 
+    <div>
+    <app-list-container-f    
+    [course]="course">
+</app-list-container-f>
+
+<app-project-list-container-f 
+*ngFor="let projectListName of projectListNames"
+    [projectListName]="projectListName">
+</app-project-list-container-f>
+    </div>
 </div>
 
 

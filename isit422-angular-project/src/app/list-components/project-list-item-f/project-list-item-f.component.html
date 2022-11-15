@@ -1,6 +1,21 @@
 <div>
 <div class="w3-container">
-    <p>{{projectListName}}</p>
+    
+    <!--p>{{projectListName}}</p-->
+    <div *ngFor="let projectListname of projectListNames">
+        
+        
+
+        <table  class="courses">
+                <th>
+                    {{projectListname.name}}
+                    
+                </th>
+            
+        </table>
+        
+    </div>
+
 </div>
 
 <div *ngIf="accountCurrent === 'teacher'">

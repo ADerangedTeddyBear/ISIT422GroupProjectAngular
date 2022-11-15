@@ -4,16 +4,12 @@ import { Observable, of } from 'rxjs';
 //Mock tests
 import { Course } from '../control-tests/mock-course'
 import { ProjectList } from '../control-tests/mock-project-list';
-
+import { Project } from '../control-tests/mock-project';
 
 import { __values } from 'tslib';
 import * as $ from 'jquery';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-
-
-
-
 
 
 @Injectable({
@@ -23,7 +19,7 @@ export class ListDisplayService {
 
 //coursesApiUrl: string = '';
 
-
+// Tests for getting data
 
 getCourses(coursesApiUrl: string): Observable<Course[]> {
   return this.http.get<Course[]>(coursesApiUrl)
@@ -40,6 +36,15 @@ getProjectListName(projectListsApiUrl: string): Observable<ProjectList[]> {
       catchError(this.handleError<ProjectList[]>('getProjectLists', []))
     );
 }
+
+getProjectName(projectApiUrl: string): Observable<Project[]> {
+  return this.http.get<Project[]>(projectApiUrl)
+    .pipe(
+      tap(_ => console.log('fetched project lists')),
+      catchError(this.handleError<Project[]>('getProjectLists', []))
+    );
+}
+
 
 
 

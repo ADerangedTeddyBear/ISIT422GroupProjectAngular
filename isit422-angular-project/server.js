@@ -133,6 +133,17 @@ app.get('/api/projectlistsnames', (req, res) => {
     })
 })
 
+app.get('/api/projects', (req, res) => {
+    var obj = req.body;
+    console.log(obj);
+    var dbo = client.db("db");
+    dbo.collection("projects").find({}).toArray(function(err, res2) {
+        if (err) throw err;
+        console.log(res2);
+        res.send(res2);
+    })
+})
+
 
 
 function makeConnection() {

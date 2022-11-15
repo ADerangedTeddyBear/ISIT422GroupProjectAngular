@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ListDisplayService } from '../../services/list-display.service';
-import { ProjectList } from '../../control-tests/mock-project-list';
-
+import { ProjectList} from '../../control-tests/mock-project-list'
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -10,28 +10,41 @@ import { ProjectList } from '../../control-tests/mock-project-list';
   styleUrls: ['./project-list-container-f.component.css']
 })
 export class ProjectListContainerFComponent implements OnInit {
-  //projectListName: string = "Project List Name"
+
+  @Input() projectListName!:ProjectList;
+  @Input() currentProjecNameState!: string;
+
+  projectListNameStudentListView: ProjectList = {} as ProjectList;
+  buttonValue: string = "";
+
   
-  projectListName: string = "Project List Name"
+  //@ViewChild("projectListNameHeading") projectListNameHeading: ElementRef<any>;
 
 
-  projectListNames:ProjectList[] = [];
+  constructor(private router: Router) {
+   
 
-  projectListsApiUrl = 'http://localhost:5000/api/projectlistsnames';
+   }
 
-  constructor(
-    private listDisplayService: ListDisplayService
-
-  ) { }
-
-  ngOnInit(): void {
-     // On load call courses API
-     this.getProjectListName();
+  ngOnInit(): void { 
+    if (!this.projectListName){
+      this.projectListNameStudentListView.name = this.currentProjecNameState;
+      this.buttonValue = "View Project Details";
+    }else{
+      this.projectListNameStudentListView = this.projectListName;
+      this.buttonValue = "View Projects Listed"
+    }
   }
 
-  getProjectListName(): void {
-    this.listDisplayService.getProjectListName(this.projectListsApiUrl)
-    .subscribe(projectListNames => this.projectListNames = projectListNames);
+  setProjName(projName: string){
+    this.projectListNameStudentListView.name = projName;
+    console.log("The WORD is " + projName);
   }
+
+  getValue(event: Event): string {
+    return (event.target as HTMLInputElement).value;
+  }
+
+ 
 
 }

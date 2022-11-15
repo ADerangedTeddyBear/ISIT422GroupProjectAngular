@@ -1,15 +1,31 @@
-<div>
-    <div *ngFor="let projectListname of projectListNames">
-        
-        
 
-        <table  class="courses">
-                <th>
-                    {{projectListname.name}}
+        <div >
+
+        <table >
+                <th #projName>
+                    {{projectListNameStudentListView.name}}                  
                     
                 </th>
-            
+
+                <tr>
+                    <td>
+                        <button (click)="setProjName(projName.innerHTML)">
+
+                        <a [routerLink]="['/student-pages/student-list-view']"
+                        [state]="{projectName:projName.innerHTML, projectID:'PID Unique'}">
+                        {{buttonValue}}</a>
+                        </button>
+
+
+                    </td>
+                     <!---->
+                </tr>
+                
+
         </table>
-        
-    </div>
-</div>
+        <br/>
+        </div>
+  
+
+
+
