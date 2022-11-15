@@ -2,17 +2,26 @@
 
 <div>
 
-<app-project-list-container-f 
+<!--app-project-list-container-f 
     [currentProjectNameState]="currentProjectNameState">
-</app-project-list-container-f>
+</app-project-list-container-f-->
 
-<!-- <!--app-project-list-item></app-project-list-item> ---->
-     
-    <div *ngFor="let project of projects">
-        {{project.name}}
+<!-- app-project-list-item></app-project-list-item> -->
+
+
+    <div *ngFor="let projectListName of projectListNames"> 
+        <div>
+            {{projectListName.name}}
+        </div>
+
+        <div *ngFor="let project of projects">
+            <div *ngIf="project.project_list_id == projectListName.id">
+                {{project.name}}
+            </div>
+        </div>
     </div>
-    
 </div>
+
 
 
 
