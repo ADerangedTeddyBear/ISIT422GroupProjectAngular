@@ -10,9 +10,9 @@
 
 
     <div *ngFor="let projectListName of projectListNames"> 
-        <div>
+        <h3>
             {{projectListName.name}}
-        </div>
+        </h3>
 
         <div *ngFor="let project of projects">
             <div *ngIf="project.project_list_id == projectListName.id">
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>  
 
 
 
