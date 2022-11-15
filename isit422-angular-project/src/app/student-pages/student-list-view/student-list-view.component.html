@@ -6,9 +6,11 @@
     [currentProjecNameState]="currentProjecNameState">
 </app-project-list-container-f>
 
-<app-project-list-item></app-project-list-item>
+<!-- <app-project-list-item></app-project-list-item> -->
      
-        
+    <div *ngFor="let project of projects">
+        {{project.name}}
+    </div>
     
 </div>
 
