@@ -1,31 +1,57 @@
+<div class="w3-container listItemStyling">
+    <div class="w3-card-4">
+        <header class="w3-container">
+            <h5 #projName>{{projectListNameStudentListView.name}}    </h5>
+        </header>
 
-        <div >
-
-        <table >
-                <th #projName>
-                    {{projectListNameStudentListView.name}}                  
-                    
-                </th>
-
-                <tr>
-                    <td>
-                        <button (click)="setProjName(projName.innerHTML)">
-
-                        <a [routerLink]="['/student-pages/student-list-view']"
-                        [state]="{projectName:projName.innerHTML, projectID:'PID Unique'}">
-                        {{buttonValue}}</a>
-                        </button>
+          <div class="w3-container">
+            <p>Random Description</p>
+          </div>
+          <div class="w3-show-inline-block	">
+            <button class="w3-button w3-small">View Details</button>
+            <button class="w3-button w3-small">Edit</button>
+            <button class="w3-button w3-small">Remove</button>
+          </div>
 
 
-                    </td>
-                     <!---->
-                </tr>
-                
+          <div class="w3-container">
+            <!-- <b>Students Assigned:</b> {{studentsAssigned}} -->
+          </div>
+          <button (click)="setProjName(projName.innerHTML)">
 
-        </table>
-        <br/>
-        </div>
-  
+            <a [routerLink]="['/student-pages/student-list-view']"
+            [state]="{projectName:projName.innerHTML, projectID:'PID Unique'}">
+            {{buttonValue}}</a>
+        </button>
+    </div>
+
+</div>
+
+<!-- <div >
+
+    <table >
+        <th #projName>
+        {{projectListNameStudentListView.name}}                  
+        </th>
+
+        <tr>
+        <td>
+        <button (click)="setProjName(projName.innerHTML)">
+
+            <a [routerLink]="['/student-pages/student-list-view']"
+            [state]="{projectName:projName.innerHTML, projectID:'PID Unique'}">
+            {{buttonValue}}</a>
+        </button>
+
+
+        </td>
+        </tr>
+
+
+    </table>
+    <br/>
+</div>
+   -->
 
 
 
