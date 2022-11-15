@@ -11,6 +11,12 @@
           <div *ngIf="accountCurrent == 'teacher'">
             <div class="w3-show-inline-block	">
               <button class="w3-button w3-small">View Details</button>
+              <button (click)="setProjName(projName.innerHTML)">
+
+                <a [routerLink]="['/student-pages/student-list-view']"
+                [state]="{projectName:projName.innerHTML, projectID:'PID Unique'}">
+                {{buttonValue}}</a>
+            </button>
               <button class="w3-button w3-small">Edit</button>
               <button class="w3-button w3-small">Remove</button>
             </div>
@@ -19,6 +25,12 @@
           <div *ngIf="accountCurrent == 'student'">
             <div class="w3-show-inline-block	">
               <button class="w3-button w3-small">View Details</button>
+              <button (click)="setProjName(projName.innerHTML)">
+
+                <a [routerLink]="['/student-pages/student-list-view']"
+                [state]="{projectName:projName.innerHTML, projectID:'PID Unique'}">
+                {{buttonValue}}</a>
+            </button>
               <!--button class="w3-button w3-small">Edit</button-->
               <!--button class="w3-button w3-small">Remove</button-->
             </div>
