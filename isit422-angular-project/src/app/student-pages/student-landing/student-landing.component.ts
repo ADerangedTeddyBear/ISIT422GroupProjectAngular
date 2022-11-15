@@ -13,9 +13,12 @@ import { ProjectList } from '../../control-tests/mock-project-list';
 })
 export class StudentLandingComponent implements OnInit {
 
-  accountCurrent: string = "";
+  studentAccount: string = "student";
   courses:Course[] = [];
   projectListNames: ProjectList[] = []; 
+
+  accountCurrent: string = "";
+
 
   projectListsApiUrl = 'http://localhost:5000/api/projectlistsnames';
   coursesApiUrl = 'http://localhost:5000/api/courses';
@@ -48,7 +51,7 @@ export class StudentLandingComponent implements OnInit {
 
     // Account testing code
   setAccountType(){
-    this.accountCheck.updateAccountType("student")
+    this.accountCheck.updateAccountType(this.studentAccount)
   }
 
   // Get courses
