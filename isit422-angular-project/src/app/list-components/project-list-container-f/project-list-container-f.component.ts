@@ -15,6 +15,9 @@ export class ProjectListContainerFComponent implements OnInit {
   @Input() currentProjecNameState!: string;
 
   projectListNameStudentListView: ProjectList = {} as ProjectList;
+  currentProjectName: string =  this.currentProjecNameState;
+
+  //this.currentProjectName =
   buttonValue: string = "";
 
   
@@ -27,13 +30,17 @@ export class ProjectListContainerFComponent implements OnInit {
    }
 
   ngOnInit(): void { 
+
     if (!this.projectListName){
-      this.projectListNameStudentListView.name = this.currentProjecNameState;
+      this.projectListNameStudentListView.name = this.currentProjectName;
       this.buttonValue = "View Project Details";
     }else{
       this.projectListNameStudentListView = this.projectListName;
       this.buttonValue = "View Projects Listed"
     }
+
+    console.log("the current project is " + this.currentProjecNameState);
+    console.log("the current projects listed is " + this.projectListName);
   }
 
   setProjName(projName: string){
