@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-teacher-landing',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeacherLandingComponent implements OnInit {
 
+  currentTeacher = SessionService.GetCurrentUser();
+
   constructor() { }
 
   ngOnInit(): void {
+    SessionService.UnsetCurrentList();
   }
 
 }

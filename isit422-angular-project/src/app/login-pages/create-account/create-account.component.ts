@@ -1,6 +1,7 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { FormService } from 'src/app/services/form.service';
 import { FormBuilder } from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-account',
@@ -11,16 +12,17 @@ export class CreateAccountComponent implements OnInit {
 
   constructor(
     private FormService: FormService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
   }
 
   createAccountForm = this.formBuilder.group({
-    username: '',
-    password: '',
-    user_type: ''
+    name: ['', Validators.required],
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+    user_type: ['', Validators.required]
   });
 
   submitForm(in_formName: string) {

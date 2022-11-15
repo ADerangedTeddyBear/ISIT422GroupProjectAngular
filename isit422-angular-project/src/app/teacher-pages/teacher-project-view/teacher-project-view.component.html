@@ -1,4 +1,4 @@
 <app-list-item></app-list-item>
 
-<a href="/teacher-pages/teacher-list-view">Back</a>
+<a *ngIf="currentList" [routerLink]="['/teacher-pages/teacher-list-view']" [state]="{listname: currentList.listname, listID: currentList.listID, courseID: currentList.courseID}">Back</a>
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from 'src/app/services/form.service';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-new-list-page',
@@ -10,14 +12,25 @@ import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 export class NewListPageComponent implements OnInit {
 
   public newListForm: FormGroup;
-  courseArray = ["course 1", "course 2"];
+  courseArray: { name: string; id: string; }[] | undefined;
+
+  teacher = SessionService.GetCurrentUser();
 
   constructor(
     private FormService: FormService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private router: Router) {
+      if (typeof this.teacher !== 'undefined') {
+        this.courseArray = this.FormService.GetCourseNamesAndIDs(this.teacher.id);
+      }
+      else {
+        this.router.navigate(['/teacher-pages/teacher-landing']);
+        throw new Error("Invalid state: list view loaded without a teacher ID");
+      }
       this.newListForm = this.createForm();
       this.newListForm.reset();
   }
+
 
   ngOnInit(): void {
   }
@@ -34,8 +47,9 @@ export class NewListPageComponent implements OnInit {
     let courseControls = form.get('course') as FormArray;
     
     // Add all students in the studentsArray to the form
-    for (let student in this.courseArray) {
-      courseControls.push(this.formBuilder.control(this.courseArray[student]))
+    if (typeof this.courseArray !== 'undefined') for (let course in this.courseArray) {
+      courseControls.push(this.formBuilder.control(this.courseArray[course]));
+      console.log(this.courseArray[course]);
     }
 
     // return fully created form
@@ -45,17 +59,20 @@ export class NewListPageComponent implements OnInit {
 
   submitForm(in_formName: string) {
     // Process radio button input
-    let selectedCourse = "";
-    for (let course in this.newListForm.value.course) {
-      if (this.newListForm.value.course[course] != null) {
-        selectedCourse = this.newListForm.value.course[course];
-        break;
+    if (typeof this.newListForm !== 'undefined') {
+      let selectedCourse = "";
+      for (let course in this.newListForm.value.course) {
+        if (this.newListForm.value.course[course] != null) {
+          selectedCourse = this.newListForm.value.course[course];
+          break;
+        }
       }
-    }
-    this.newListForm.value["course"] = selectedCourse;
+      this.newListForm.value["course"] = selectedCourse;
+  
+      this.FormService.postData(this.newListForm.value, in_formName);
+      this.newListForm.reset();
 
-    this.FormService.postData(this.newListForm.value, in_formName);
-    this.newListForm.reset();
+    }
   }
 
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from 'src/app/services/form.service';
 import { FormBuilder } from '@angular/forms';
+import { Validators } from '@angular/forms';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-new-project-page',
@@ -8,6 +10,8 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./new-project-page.component.css']
 })
 export class NewProjectPageComponent implements OnInit {
+
+  currentList = SessionService.GetCurrentList();
 
   constructor(
     private FormService: FormService,
@@ -17,8 +21,8 @@ export class NewProjectPageComponent implements OnInit {
   }
 
   newProjectForm = this.formBuilder.group({
-    projectname: '',
-    description: ''
+    projectname: ['', Validators.required],
+    description: ['', Validators.required]
   });
 
   submitForm(in_formName: string) {
