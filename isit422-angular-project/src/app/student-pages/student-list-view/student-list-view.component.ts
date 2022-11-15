@@ -15,7 +15,7 @@ export class StudentListViewComponent implements OnInit {
   accountCurrent: string = "";
   projects:Project[] = [];
 
-  currentProjecNameState: string = "";
+  currentProjectNameState: string = "";
 
   projectsApiUrl = 'http://localhost:5000/api/projects';
 
@@ -24,6 +24,7 @@ export class StudentListViewComponent implements OnInit {
     private accountCheck: AccountCheckService,
     private listDisplayService: ListDisplayService,
     private router: Router
+
     ) { }
 
    
@@ -36,10 +37,10 @@ export class StudentListViewComponent implements OnInit {
 
     //Get courses in array
     this.getProjects();
+    this.currentProjectNameState = history.state.projectName;
 
-    this.currentProjecNameState = history.state.projectName;
-    console.log(this.currentProjecNameState);
-
+    //console.log(this.currentProjectNameState);
+    //console.log("Welcome to student view list");
   }
 
     // Account testing code
@@ -52,5 +53,6 @@ export class StudentListViewComponent implements OnInit {
     this.listDisplayService.getProjectName(this.projectsApiUrl)
     .subscribe(projects => this.projects = projects);
   }
+
 
 }

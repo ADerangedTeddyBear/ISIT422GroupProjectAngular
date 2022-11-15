@@ -14,25 +14,20 @@ import { Router } from '@angular/router';
 export class ProjectListContainerFComponent implements OnInit {
 
   @Input() projectListName!:ProjectList;
-  @Input() currentProjecNameState!: string;
+  @Input() currentProjectNameState!: string;
 
   accountCurrent: string = "";
+  currentProjectName: string = "";
 
 
-
-  projectListNameStudentListView: ProjectList = {} as ProjectList;
-  currentProjectName: string =  this.currentProjecNameState;
-
-  //this.currentProjectName =
-  buttonValue: string = "";
-
-  
-  //@ViewChild("projectListNameHeading") projectListNameHeading: ElementRef<any>;
-
+  //projectListNameStudentListView: ProjectList = {} as ProjectList;
+  //currentProjectName: string =  this.currentProjectNameState;
 
   constructor(
     private router: Router,
-    private accountCheck: AccountCheckService
+    private accountCheck: AccountCheckService,
+    private listDisplayService: ListDisplayService
+
     ) {
    }
 
@@ -41,24 +36,30 @@ export class ProjectListContainerFComponent implements OnInit {
     // Account testing code
     this.accountCheck.currentAccountType.subscribe(accountCurrent => this.accountCurrent = accountCurrent);
     //this.accountCurrent = this.accountCheck.updateAccountType
-    console.log("The current account is of type " + this.accountCurrent);
 
+    /*if (this.projectListNameStudentListView == undefined){
+     //this.projectListNameStudentListView = this.projectListName;
 
-    if (!this.projectListName){
-      this.projectListNameStudentListView.name = this.currentProjectName;
-      this.buttonValue = "View Project Details";
+      //this.projectListNameStudentListView.name = this.currentProjectNameState;
+      console.log("I am undefined douchebag");
     }else{
       this.projectListNameStudentListView = this.projectListName;
-      this.buttonValue = "View Projects Listed"
-    }
 
-    console.log("the current project is " + this.currentProjecNameState);
-    console.log("the current projects listed is " + this.projectListName);
+    }*/
+
+    //this.projectListNameStudentListView = this.projectListName;
+
+    history.state.projectName = this.currentProjectName;
+
+    //console.log("the current project is " + this.projectListNameStudentListView);
+    console.log("the current projects listed is " + history.state.projectName)//this.projectListName.name);
   }
 
   setProjName(projName: string){
-    this.projectListNameStudentListView.name = projName;
-    console.log("The WORD is " + projName);
+    this.currentProjectName = history.state.projectName;
+    //this.projectListNameStudentListView.name = this.currentProjectNameState;
+
+    console.log("We made it!" + this.currentProjectName);
   }
 
   getValue(event: Event): string {

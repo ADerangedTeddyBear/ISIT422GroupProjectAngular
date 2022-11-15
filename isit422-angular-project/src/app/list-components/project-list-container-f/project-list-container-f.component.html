@@ -1,7 +1,7 @@
 <div class="w3-container listItemStyling">
     <div class="w3-card-4">
         <header class="w3-container">
-            <h5 #projName>{{projectListNameStudentListView.name}}    </h5>
+            <h5 #projName>{{projectListName.name}}    </h5>
         </header>
 
           <div class="w3-container">
@@ -18,7 +18,22 @@
 
           <div *ngIf="accountCurrent == 'student'">
             <div class="w3-show-inline-block	">
-              <button class="w3-button w3-small">View Details</button>
+              <button 
+                  (click)="setProjName(projName.innerHTML)"
+                  class="w3-button w3-small">
+                  <a [routerLink]="['/student-pages/student-list-view']"
+                  [state]="{projectName:projName.innerHTML, projectID:'PID Unique'}">
+                  View Details
+                </a>              
+              </button>
+
+              
+
+
+
+
+
+
               <!--button class="w3-button w3-small">Edit</button-->
               <!--button class="w3-button w3-small">Remove</button-->
             </div>

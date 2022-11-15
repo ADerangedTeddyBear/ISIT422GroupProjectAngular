@@ -19,6 +19,12 @@ export class ListDisplayService {
 
 //coursesApiUrl: string = '';
 
+//Holding course, project-list and projects names tests
+courseName: string = "";
+projectListName: string = "";
+projectName: string = "";
+
+
 // Tests for getting data
 
 getCourses(coursesApiUrl: string): Observable<Course[]> {
@@ -43,6 +49,10 @@ getProjectName(projectApiUrl: string): Observable<Project[]> {
       tap(_ => console.log('fetched project lists')),
       catchError(this.handleError<Project[]>('getProjectLists', []))
     );
+}
+
+setProjectListName(projectListName: string){
+  this.projectListName = projectListName;
 }
 
 
