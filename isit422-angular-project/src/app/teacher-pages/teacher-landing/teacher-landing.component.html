@@ -3,3 +3,17 @@
 <a href="/teacher-pages/new-list-page">New List Page</a><br />
 <a href="/teacher-pages/teacher-list-view">Teacher List View</a> -->
 
+<div *ngFor="let course of courses"> 
+    <div>
+      <app-list-container-f    
+        [course]="course">
+      </app-list-container-f>
+      <div *ngFor="let projectListName of projectListNames">
+        <app-project-list-container-f
+        *ngIf="course.id == projectListName.course_id" 
+  
+        [projectListName]="projectListName">
+        </app-project-list-container-f>
+      </div>
+    </div>
+  </div>

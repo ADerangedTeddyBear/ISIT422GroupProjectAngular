@@ -1,19 +1,20 @@
 <h2>Teacher List</h2>
 
-<div *ngFor="let course of courses"> 
-  <div>
-    <app-list-container-f    
-      [course]="course">
-    </app-list-container-f>
-    <div *ngFor="let projectListName of projectListNames">
-      <app-project-list-container-f
-      *ngIf="course.id == projectListName.course_id" 
+<div *ngFor="let projectListName of projectListNames"> 
+  <h3>
+      {{projectListName.name}}
+  </h3>
 
-      [projectListName]="projectListName">
-      </app-project-list-container-f>
-    </div>
+  <div *ngFor="let project of projects">
+      <div *ngIf="project.project_list_id == projectListName.id">
+          {{project.name}}
+      </div>
   </div>
 </div>
+
+
+
+
 <!--ul>
 <li><a href="/teacher-pages/new-project-page">New Project Page</a></li>
 <li><a href="/teacher-pages/edit-project-page">Edit Project Page</a></li>
