@@ -1,5 +1,5 @@
 <h2 *ngIf="teacher">New List For {{teacher.name}}</h2>
-<a href="/teacher-pages/teacher-landing">Back</a>
+<a [routerLink]="['/teacher-pages/teacher-landing']">Back</a>
 
 <form [formGroup]="newListForm" (ngSubmit)="submitForm('new list form')">
     <div class="form-group">

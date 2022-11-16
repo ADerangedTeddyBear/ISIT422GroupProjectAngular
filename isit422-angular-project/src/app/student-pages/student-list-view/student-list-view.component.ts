@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountCheckService } from '../../control-tests/account-check.service';
+import { ListDisplayService } from '../../services/list-display.service';
+import { Course } from '../../control-tests/mock-course';
+import { Router } from '@angular/router';
+import { Project }from '../../control-tests/mock-project';
+import { ProjectList } from '../../control-tests/mock-project-list';
+
 
 @Component({
   selector: 'app-student-list-view',
@@ -7,9 +14,61 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudentListViewComponent implements OnInit {
 
-  constructor() { }
+  accountCurrent: string = "";
+  projects:Project[] = [];
+  projectListNames: ProjectList[] = []; 
+
+
+  currentProjectNameState: string = "";
+
+  projectsApiUrl = 'http://localhost:5000/api/projects';
+  projectListsApiUrl = 'http://localhost:5000/api/projectlistsnames';
+
+
+  constructor(
+    private accountCheck: AccountCheckService,
+    private listDisplayService: ListDisplayService,
+    private router: Router
+
+    ) { }
+
+   
 
   ngOnInit(): void {
+
+    // Account testing code
+    this.accountCheck.currentAccountType.subscribe(accountCurrent => this.accountCurrent = accountCurrent);
+    this.setAccountType();
+
+    //Get projects in array
+    this.getProjects();
+    this.currentProjectNameState = history.state.projectName;
+
+
+    //Get project list names array
+    this.getProjectListName();
+
+    //console.log(this.currentProjectNameState);
+    //console.log("Welcome to student view list");
+
   }
+
+    // Account testing code
+  setAccountType(){
+    this.accountCheck.updateAccountType("student")
+  }
+
+   // Get courses
+   getProjects(): void {
+    this.listDisplayService.getProjectName(this.projectsApiUrl)
+    .subscribe(projects => this.projects = projects);
+  }
+
+  // Get project list names
+  getProjectListName(): void {
+    this.listDisplayService.getProjectListName(this.projectListsApiUrl)
+    .subscribe(projectListNames => this.projectListNames = projectListNames);
+  }
+
 
 }

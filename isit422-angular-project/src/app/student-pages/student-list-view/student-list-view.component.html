@@ -1,3 +1,26 @@
-<p>student-list-view works!</p>
 <a [routerLink]="['/student-pages/student-project-view']">Student Project View</a><br />
 <a [routerLink]="['/student-pages/student-landing']">Back</a>
+<h2>Student List View</h2>
+
+<div>
+
+<!--app-project-list-container-f 
+    [currentProjectNameState]="currentProjectNameState">
+</app-project-list-container-f-->
+
+<!-- app-project-list-item></app-project-list-item> -->
+
+
+    <div *ngFor="let projectListName of projectListNames"> 
+        <h3>
+            {{projectListName.name}}
+        </h3>
+
+        <div *ngFor="let project of projects">
+            <div *ngIf="project.project_list_id == projectListName.id">
+                {{project.name}}
+            </div>
+        </div>
+    </div>
+</div>  
+

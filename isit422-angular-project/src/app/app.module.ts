@@ -22,12 +22,14 @@ import { TeacherProjectViewComponent } from './teacher-pages/teacher-project-vie
 import { NewProjectPageComponent } from './teacher-pages/new-project-page/new-project-page.component';
 import { EditProjectPageComponent } from './teacher-pages/edit-project-page/edit-project-page.component';
 import { StylingTestbenchComponent } from './styling-testbench/styling-testbench.component';
-import { ListContainerComponent } from './list-components/list-container/list-container.component';
-import { ListItemComponent } from './list-components/list-item/list-item.component';
-import { CourseListContainerComponent } from './list-components/course-list-container/course-list-container.component';
-import { CourseListItemComponent } from './list-components/course-list-item/course-list-item.component';
 import { DatabaseComponent } from './database/database.component';
 import { NewCoursePageComponent } from './teacher-pages/new-course-page/new-course-page.component';
+import { ProjectListItemComponent } from './project-list-item/project-list-item.component';
+import { ListContainerFComponent } from './list-components/list-container-f/list-container-f.component';
+import { ProjectListItemFComponent } from './list-components/project-list-item-f/project-list-item-f.component';
+import { ProjectListContainerFComponent } from './list-components/project-list-container-f/project-list-container-f.component';
+import { ProjectViewFComponent } from './list-components/project-view-f/project-view-f.component';
+import { ProjectItemFComponent } from './list-components/project-item-f/project-item-f.component';
 
 @NgModule({
   declarations: [
@@ -48,12 +50,14 @@ import { NewCoursePageComponent } from './teacher-pages/new-course-page/new-cour
     NewProjectPageComponent,
     EditProjectPageComponent,
     StylingTestbenchComponent,
-    ListContainerComponent,
-    ListItemComponent,
-    CourseListContainerComponent,
-    CourseListItemComponent,
     NewCoursePageComponent,
     DatabaseComponent,
+    ProjectListItemComponent,
+    ListContainerFComponent,
+    ProjectListItemFComponent,
+    ProjectListContainerFComponent,
+    ProjectViewFComponent,
+    ProjectItemFComponent,
     
   ],
   imports: [

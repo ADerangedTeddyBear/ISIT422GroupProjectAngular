@@ -1,5 +1,5 @@
 <h2>Course Page</h2>
-<a href="/teacher-pages/teacher-landing">Back</a>
+<a [routerLink]="['/teacher-pages/teacher-landing']">Back</a>
 
 <form [formGroup]="courseForm" (ngSubmit)="submitForm('course form')">
     <div class="form-group">

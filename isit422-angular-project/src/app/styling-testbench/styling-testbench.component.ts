@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProjectListItemComponent } from '../project-list-item/project-list-item.component';  
 
 @Component({
   selector: 'app-styling-testbench',

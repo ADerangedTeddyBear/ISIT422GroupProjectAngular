@@ -5,4 +5,18 @@
 <a [routerLink]="['/teacher-pages/teacher-project-view']" [state]="{projectName: 'Existing Project', projectID: 'Unique Project ID'}">Teacher Project View</a><br />
 <a [routerLink]="['/teacher-pages/teacher-landing']">Back</a>
 
-<app-list-item></app-list-item>
+<h2>Teacher List</h2>
+
+<div *ngFor="let projectListName of projectListNames"> 
+  <h3>
+      {{projectListName.name}}
+  </h3>
+
+  <div *ngFor="let project of projects">
+      <div *ngIf="project.project_list_id == projectListName.id">
+          {{project.name}}
+      </div>
+  </div>
+</div>
+
+

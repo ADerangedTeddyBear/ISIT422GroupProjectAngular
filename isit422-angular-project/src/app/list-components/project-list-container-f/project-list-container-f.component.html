@@ -1,0 +1,91 @@
+<div class="w3-container listItemStyling">
+    <div class="w3-card-4">
+        <header class="w3-container">
+            <h5 #projName>{{projectListName.name}}    </h5>
+        </header>
+
+          <div class="w3-container">
+            <p>Random Description</p>
+          </div>
+
+          <div *ngIf="accountCurrent == 'teacher'">
+            <div class="w3-show-inline-block	">
+              <button class="w3-button w3-small" (click)="setProjName(projName.innerHTML)"
+              class="w3-button w3-small">
+                <a [routerLink]="['/teacher-pages/teacher-list-view']"
+                [state]="{projectName:projName.innerHTML, projectID:'PID Unique'}">
+                  View Details
+                </a> 
+              </button>
+              <button class="w3-button w3-small">Edit</button>
+              <button class="w3-button w3-small">Remove</button>
+            </div>
+          </div>
+
+          <div *ngIf="accountCurrent == 'student'">
+            <div class="w3-show-inline-block	">
+              <button 
+                  (click)="setProjName(projName.innerHTML)"
+                  class="w3-button w3-small">
+                  <a [routerLink]="['/student-pages/student-list-view']"
+                  [state]="{projectName:projName.innerHTML, projectID:'PID Unique'}">
+                  View Details
+                </a>              
+              </button>
+
+              
+
+
+
+
+
+
+              <!--button class="w3-button w3-small">Edit</button-->
+              <!--button class="w3-button w3-small">Remove</button-->
+            </div>
+          </div>
+
+          
+
+
+          <div class="w3-container">
+            <!-- <b>Students Assigned:</b> {{studentsAssigned}} -->
+          </div>
+          <!--button (click)="setProjName(projName.innerHTML)">
+
+            <a [routerLink]="['/student-pages/student-list-view']"
+            [state]="{projectName:projName.innerHTML, projectID:'PID Unique'}">
+            {{buttonValue}}</a>
+        </button-->
+    </div>
+
+</div>
+
+<!-- <div >
+
+    <table >
+        <th #projName>
+        {{projectListNameStudentListView.name}}                  
+        </th>
+
+        <tr>
+        <td>
+        <button (click)="setProjName(projName.innerHTML)">
+
+            <a [routerLink]="['/student-pages/student-list-view']"
+            [state]="{projectName:projName.innerHTML, projectID:'PID Unique'}">
+            {{buttonValue}}</a>
+        </button>
+
+
+        </td>
+        </tr>
+
+
+    </table>
+    <br/>
+</div>
+   -->
+
+
+

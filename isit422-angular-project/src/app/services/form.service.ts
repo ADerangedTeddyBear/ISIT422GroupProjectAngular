@@ -44,7 +44,7 @@ export class FormService {
       wasFound: userFound,
       name: (userFound)? 'Name of Existing User' : '',
       id: (userFound)? 'Unique ID for Existing User' : '',
-      user_type: (userFound)? 'teacher' : ''
+      user_type: (userFound)? 'student' : ''
     }
   }
   CreateNewUser(in_name: string, in_username: string, in_password: string, in_user_type: string) {

@@ -1,4 +1,29 @@
-<p>student-landing works!</p>
 <a [routerLink]="['/student-pages/student-list-view']">Student List View</a>
+<h2>Student Landing Page</h2>
 
-<app-course-list-container></app-course-list-container>
+
+<div *ngFor="let course of courses"> 
+    <div>
+    <app-list-container-f    
+    [course]="course">
+</app-list-container-f>
+
+<div *ngFor="let projectListName of projectListNames">
+<app-project-list-container-f
+*ngIf="course.id == projectListName.course_id" 
+
+    [projectListName]="projectListName">
+</app-project-list-container-f>
+
+
+
+</div>
+    </div>
+</div>
+
+
+
+
+
+<a href="/student-pages/student-list-view">Student List View</a>
+

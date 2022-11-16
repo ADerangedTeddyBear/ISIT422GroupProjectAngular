@@ -1,0 +1,41 @@
+<div>
+<div class="w3-container">
+    
+    <!--p>{{projectListName}}</p-->
+    <div *ngFor="let projectListname of projectListNames">
+        
+        
+
+        <table  class="courses">
+                <th>
+                    {{projectListname.name}}
+                    
+                </th>
+            
+        </table>
+        
+    </div>
+
+</div>
+
+<div *ngIf="accountCurrent === 'teacher'">
+
+    <div class="w3-show-inline-block">
+        <button class="w3-button w3-small">View Projects Listed</button>
+        <button class="w3-button w3-small">Edit</button>
+        <button class="w3-button w3-small">Remove</button>
+    </div>
+
+
+    <div class="w3-container">
+        <b>Students Assigned:</b> {{studentsAssigned}}
+    </div>
+</div>
+
+<div *ngIf="accountCurrent === 'student'">
+
+    <div class="w3-show-inline-block">
+        <button class="w3-button w3-small">View Projects Listed</button>
+    </div>
+</div>
+</div>
