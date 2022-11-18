@@ -14,11 +14,17 @@ export class SessionService {
   static GetCurrentUser() {
     // TODO: replace with code to get the current user from the session data
     if (typeof this.currentUser == 'undefined') return undefined;
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Eric's modification>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+    //console.log(`SessionService -> GetCurrentUser: Name:${this.currentUser.name} Id:${this.currentUser.id} UserType:${this.currentUser.user_type}`);
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>End Eric's modification>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
     return SessionService.currentUser;
   }
   static GetCurrentList() {
     // TODO: replace with code to get the current user from the session data
     if (typeof this.currentList == 'undefined') return undefined;
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Eric's modification>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+    //console.log(`SessionService -> GetCurrentList: Name:${this.currentList.listname} Id:${this.currentList.listID} CourseId:${this.currentList.courseID}`);
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>End Eric's modification>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
     return SessionService.currentList;
   }
 

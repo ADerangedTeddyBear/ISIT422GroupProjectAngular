@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from './session.service';
 import { NewListPageComponent } from '../teacher-pages/new-list-page/new-list-page.component';
+import { DatabaseService } from 'src/app/services/database.service';
+import $ from 'jquery';
 
 @Injectable({
   providedIn: 'root'
@@ -24,32 +26,47 @@ export class FormService {
 
   GetStudentNamesAndIDs() {
     // TODO: replace with database call that gets the names and IDs of all users with the "student" user type
+    DatabaseService.one();
     return [{name: "student 1", id: "student-id-1"}, {name: "student 2", id: "student-id-2"}];
   }
   GetCourseNamesAndIDs(in_teacherID: string) {
     // TODO: replace with database call that gets all of the current teacher's courses
+    DatabaseService.createNewProjectList(Number(in_teacherID));
     return [{name: "course 1", id: "course-id-1"}, {name: "course 2", id: "course-id-2"}];
   }
   GetProject(in_projectID: string) {
+    DatabaseService.three();
     // TODO: replace with database call to get all of the data for the input project
     return {projectName: "Name of project", projectDescription: "Description of project"};
   }
   GetExistingUser(in_username: string, in_password: string) {
     // TODO: replace with database call that looks for a user in the user table with the input username
     // and passowrd.
-
     // If the user was not found, set user found to false and all other return values to empty strings
-    const userFound = true;
+
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Eric's modification>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+    /*The below database call checks the database for the username and password and returns an object 
+    from Database Service named loginObj*/
+    const user:{found: boolean, currentUserName: string, id:string, typeUser:string} = DatabaseService.dbLogIn(in_username, in_password);
+    //console.log(`${user['currentUserName']}`);
+    //console.log(`${user.currentUserName}+_+_+_+__+_+_+_`);
+    /*DatabaseService.dbLogIn2(in_username, in_password);*/    
+    //const userFound = true;
+    const userFound = user.found;
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>End Eric's modification>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
     return {
       wasFound: userFound,
-      name: (userFound)? 'Name of Existing User' : '',
+      name: (userFound)? in_username : '',
       id: (userFound)? 'Unique ID for Existing User' : '',
       user_type: (userFound)? 'teacher' : ''
     }
   }
   CreateNewUser(in_name: string, in_username: string, in_password: string, in_user_type: string) {
-    // TODO: Replace with database call that adds a new user to the databse with the input data
-
+    // TODO: Replace with database call that adds a new user to the databse with the input data        
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Eric's modification>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+    //DatabaseService.getCollectionId(in_user_type);
+    DatabaseService.createNewUser(in_name, in_username, in_password, in_user_type);
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>End Eric's modification>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
     // Return a user data object to set as the current user
     return {
       name: in_name,
@@ -59,6 +76,7 @@ export class FormService {
   }
   CreateNewCourse(in_name: string, in_students: string[], in_teacherID: string) {
     // TODO: Replace with database call that creates a new course using the input data
+    DatabaseService.six();
   }
   CreateNewProjectList(in_name: string, in_course: string) {
     // TODO: Replace with database call that creates a new list in the database
@@ -67,10 +85,12 @@ export class FormService {
     return {listname: 'New List', listID: 'New List ID', courseID: 'Existing Course ID'}
   }
   CreateNewProject(in_name: string, in_description: string, in_projectListID: string) {
-    // TODO: Replace with a database call that creates a new project in the database
+    // TODO: Replace with a database call that creates a new project in the database\
+    DatabaseService.seven();
   }
   EditProject(in_name: string, in_description: string, in_id: string) {
     // TODO: Replace with a database call that updates a project record (found with the given id) to have the new input values
+    DatabaseService.eight();
   }
 
 
@@ -82,6 +102,7 @@ export class FormService {
     this.logFormData(in_FormData);
 
     // TODO: Replace with database call to get user data
+    
     const exampleUser: {wasFound: boolean, name: string, id: string, user_type: string} = this.GetExistingUser(in_FormData.username, in_FormData.password);
     // If the user was found
     const userFound = true;
