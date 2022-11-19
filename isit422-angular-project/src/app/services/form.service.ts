@@ -31,6 +31,7 @@ export class FormService {
   }
   GetCourseNamesAndIDs(in_teacherID: string) {
     // TODO: replace with database call that gets all of the current teacher's courses
+    DatabaseService.two()
     DatabaseService.createNewProjectList(Number(in_teacherID));
     return [{name: "course 1", id: "course-id-1"}, {name: "course 2", id: "course-id-2"}];
   }
@@ -80,13 +81,13 @@ export class FormService {
   }
   CreateNewProjectList(in_name: string, in_course: string) {
     // TODO: Replace with database call that creates a new list in the database
-
+    DatabaseService.one();
     // TODO: Return the ID of the newly generated list
     return {listname: 'New List', listID: 'New List ID', courseID: 'Existing Course ID'}
   }
   CreateNewProject(in_name: string, in_description: string, in_projectListID: string) {
     // TODO: Replace with a database call that creates a new project in the database\
-    DatabaseService.seven();
+    DatabaseService.newProject(in_name, in_description, in_projectListID);
   }
   EditProject(in_name: string, in_description: string, in_id: string) {
     // TODO: Replace with a database call that updates a project record (found with the given id) to have the new input values

@@ -23,9 +23,6 @@ export class DatabaseService {
     { id: 4, name: 'project_lists' }
 ];
 
-
-
-
   static one() {
     console.log("one+_+_+_")
   }
@@ -43,6 +40,9 @@ export class DatabaseService {
     })*/
     //xhr.send(d);
     //return d;    
+  }
+  static two() {
+    console.log("two+_+_+_+")
   }
   static three() {
     console.log("three+_+_+_+")
@@ -94,8 +94,6 @@ export class DatabaseService {
   return loginUser;
 }
 
-
-
 static getCollectionId(collection:string) {
   let collectionId;
   for(let p in this.collections) {
@@ -122,10 +120,6 @@ static getCollectionId(collection:string) {
   return Number(this.currentID);
 }
 
-
-
-
-
   static createNewUser(in_name: string, in_username: string, in_password: string, in_user_type:string) {
     //this.getCollectionId(`${in_user_type}s`);
     let collectionId;
@@ -137,7 +131,8 @@ static getCollectionId(collection:string) {
     console.log(`${collectionId}>>>>`)
     let query = `http://localhost:5000/api/createnewuser/${collectionId}/`;
     var xhr = new XMLHttpRequest();
-
+    xhr.open("POST", query, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
     //this works for POSTs, not GETs
     //console.log(this.getCollectionId(`${in_user_type}s`))
     var d = JSON.stringify({
@@ -147,16 +142,26 @@ static getCollectionId(collection:string) {
       password:in_password,
       user_type:in_user_type
     })
-    xhr.open("POST", query, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(d);    
-    return d;    
+    return d;
   }
   static six() {
     console.log("six+_+_+_")
   }
-  static seven() {
-    console.log("seven+_+_+")
+  static newProject(in_name: string, in_description: string, in_projectListID: string) {
+    let query = `http://localhost:5000/api/createnewproject/3`
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", query, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        //id value here is inconsequential, but it must exist as some number
+        var d = JSON.stringify({
+          id:12,
+          name:in_name,
+          description:in_description,
+          projectListID:in_projectListID          
+        })
+        xhr.send(d);    
+        return d;
   }
   static eight() {
     console.log("eight+_+_+")
@@ -167,24 +172,9 @@ static getCollectionId(collection:string) {
     xhr.open("POST", mongo_out, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
   }
-  //Not reliant on jQuery ********
-  static postData(query_in:string) {   
-    console.log(query_in); 
-    var names = ['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
-    let mongo_out = query_in;
-    for(var i = 0;i < 20;i++) {
-    var xhr = new XMLHttpRequest();
-    //console.log(`+++++${mongo_out}`)
-    xhr.open("POST", mongo_out, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    var d = JSON.stringify({
-      id: i,
-      name: names[i],
-      tag: 'test' })      
-    xhr.send(d);
-  }
-  }
-  //Not reliant on jQuery ********
+  
+
+  
   static adminDisplayData(query_in:string, idx:number) {
     let mongo_out = `${query_in}/${idx}`;    
     console.log(`mongo_out from adminDisplayData line 2 : ${mongo_out}`)

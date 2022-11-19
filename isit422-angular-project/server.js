@@ -39,7 +39,25 @@ function PreviousId(value, next) {
 //Current instance for setting new id for a new record
 PreviousId.current = new PreviousId();
 
-
+app.post('/api/createnewproject/:id', (req, res) => {
+    var o = req.body;
+    var dbo = client.db("db");
+    var idValue = req.params.id;
+    let searchCollection = colls[idValue].name;
+    dbo.collection(searchCollection).find({}).sort({id:-1}).limit(1).toArray(function(err, res2) {
+        if(err) throw err;
+        let obj = res2[0];
+        if((Object.getOwnPropertyNames(obj))[1] === 'id') {
+            PreviousId.current.value = obj.id;
+            PreviousId.current.next = obj.id += 1;
+        }
+        o.id = PreviousId.current.next;
+        dbo.collection(searchCollection).insertOne(o, function(err, res3) {
+            if(err) throw err;
+            console.log('inserted, hopefully');    
+        })
+    })
+})
 
 app.post('/api/createnewuser/:id', (req, res) => {
     /*the stringified object passed from database service -- id, name, username, password and user_type*/
@@ -63,7 +81,7 @@ app.post('/api/createnewuser/:id', (req, res) => {
             //store previous max id within specified collection in PreviousId Object property to retain value
             PreviousId.current.value = obj.id;
             //set the next id to keep ids unique
-            PreviousId.current.next = obj.id += 1;            
+            PreviousId.current.next = obj.id += 1;
         }
         //update value of id to increment by 1 from the largest id found in the database
         o.id = PreviousId.current.next;
@@ -129,9 +147,6 @@ app.get('/api/login/:login', (req, res) => {
         }
     })
 })
-
-
-
 
 function makeConnection() {
     const uri = "mongodb+srv://eric:thirteen@isit422-groupproject-20.sdxooup.mongodb.net/testDB";
