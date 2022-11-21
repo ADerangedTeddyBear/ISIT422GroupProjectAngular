@@ -6,43 +6,49 @@ import { Injectable } from '@angular/core';
 export class SessionService {
 
   constructor() { }
-  
-  public static currentUser: {name: string, id: string, user_type: string} | undefined;
-  public static currentCourse = {};
-  public static currentList: {listname: string, listID: string, courseID: string} | undefined;
 
   static GetCurrentUser() {
-    // TODO: replace with code to get the current user from the session data
-    if (typeof this.currentUser == 'undefined') return undefined;
-    return SessionService.currentUser;
+    let currentUser = sessionStorage.getItem('current user');
+    if (currentUser != null) {
+      return JSON.parse(currentUser);
+    } 
+    else {
+      return undefined
+    }
   }
   static GetCurrentList() {
-    // TODO: replace with code to get the current user from the session data
-    if (typeof this.currentList == 'undefined') return undefined;
-    return SessionService.currentList;
+    let currentUser = sessionStorage.getItem('current list');
+    if (currentUser != null) {
+      return JSON.parse(currentUser);
+    } 
+    else {
+      return undefined
+    }
   }
 
   static SetCurrentList(in_listname: string, in_listID: string, in_courseID: string) {
-    SessionService.currentList = {
+    let  currentList = {
       listname: in_listname,
       listID: in_listID,
       courseID: in_courseID
     }
+    sessionStorage.setItem('current list', JSON.stringify(currentList));
   }
   static SetCurrentUser(in_name: string, in_id: string, in_user_type: string) {
     // TODO: Replace with code to set the current user in the session data
-    this.currentUser = {
+    let currentUser = {
       name: in_name,
       id: in_id,
       user_type: in_user_type
     };
+    sessionStorage.setItem('current user', JSON.stringify(currentUser));
   }
 
   static UnsetCurrentUser() {
-    this.currentUser = undefined;
+    sessionStorage.removeItem('current user');
   }
   static UnsetCurrentList() {
-    this.currentList = undefined;
+    sessionStorage.removeItem('current list');
   }
 
 }
