@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from './session.service';
 import { NewListPageComponent } from '../teacher-pages/new-list-page/new-list-page.component';
+import { DatabaseService } from 'src/app/services/database.service';
+import $ from 'jquery';
+import { async } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,32 +27,89 @@ export class FormService {
 
   GetStudentNamesAndIDs() {
     // TODO: replace with database call that gets the names and IDs of all users with the "student" user type
+    DatabaseService.one();
     return [{name: "student 1", id: "student-id-1"}, {name: "student 2", id: "student-id-2"}];
   }
   GetCourseNamesAndIDs(in_teacherID: string) {
     // TODO: replace with database call that gets all of the current teacher's courses
+    DatabaseService.two()
+    DatabaseService.createNewProjectList(Number(in_teacherID));
     return [{name: "course 1", id: "course-id-1"}, {name: "course 2", id: "course-id-2"}];
   }
   GetProject(in_projectID: string) {
+    DatabaseService.three();
     // TODO: replace with database call to get all of the data for the input project
     return {projectName: "Name of project", projectDescription: "Description of project"};
   }
+  
   GetExistingUser(in_username: string, in_password: string) {
     // TODO: replace with database call that looks for a user in the user table with the input username
     // and passowrd.
-
     // If the user was not found, set user found to false and all other return values to empty strings
+    
+    
+    /***************START ERICS MODIFICATIONS*************************/
+    //call to establish the url to use as parameter in the request login promise see database service line 66
+    let url = DatabaseService.dbLogIn(in_username, in_password);
+    
+    //Promise api call see database service line 78
+    let user = DatabaseService.requestLogin('GET', url)
+    .then(function(d:any) {      
+      let found = false;
+      let usertype;
+      //The returned values being turned into an array -> array values are the user's real name, username, id, and user type as a number
+      let dArr:any = d.split('|');
+      //if the array length is greater than 0 then the api call successfully returned data and therefore the user does exist and was found in the database
+      if (dArr.length > 0) {
+        //if so set found to true
+        found = true;
+      }
+      //if the usertype value is a 1 then the user that was found in the database was a student
+      if(dArr[2] === '1') {
+        usertype = 'student';
+      } else {
+        //otherwise the user that was found would be a teacher
+        usertype = 'teacher';
+      }
+      //user object signature to match the object signature in the "To Do" and what the predefined needed data is 
+      let user = {wasfound:found, realname:dArr[0], username:dArr[1], userid:dArr[3], user_type:usertype };
+      
+      //verify the values
+      console.log(`
+        user.wasFound: ${user.wasfound} 
+        user.realname: ${user.realname} 
+        user.username:$${user.username} 
+        user.id: ${user.userid} 
+        user.user_type: ${user.user_type}
+      `);
+      //Testing purposes - I can get this to work by directly calling this from here
+      /*SessionService.SetCurrentUser(user.username, user.userid, user.user_type);*/
+      //not working Please correct   
+      return user;
+      })
+      //error handling 
+    .catch(function(err:any) {
+      console.log('error', err.statusText);
+    });
+    //returns ZoneAwarePromise {__zone_symbol__state: null, __zone_symbol__value: Array(0)} which does have the values in the prototype
+    console.log(user);
+
+
+    //const user:{wasfound:boolean, realname:string, username:string, userid:string, user_type:string} = DatabaseService.requestLogin(method, url)
+    
+    /***************END ERICS MODIFICATIONS*************************/
     const userFound = true;
+    //const userFound = user.found;    
     return {
       wasFound: userFound,
-      name: (userFound)? 'Name of Existing User' : '',
+      name: (userFound)? in_username : '',
       id: (userFound)? 'Unique ID for Existing User' : '',
-      user_type: (userFound)? 'student' : ''
+      user_type: (userFound)? 'teacher' : ''
     }
   }
-  CreateNewUser(in_name: string, in_username: string, in_password: string, in_user_type: string) {
-    // TODO: Replace with database call that adds a new user to the databse with the input data
-
+  CreateNewUser(in_name: string, in_username: string, in_password: string, in_user_type: string) {        
+    DatabaseService.createNewUser(in_name, in_username, in_password, in_user_type);
+    
     // Return a user data object to set as the current user
     return {
       name: in_name,
@@ -59,18 +119,21 @@ export class FormService {
   }
   CreateNewCourse(in_name: string, in_students: string[], in_teacherID: string) {
     // TODO: Replace with database call that creates a new course using the input data
+    DatabaseService.six();
   }
   CreateNewProjectList(in_name: string, in_course: string) {
     // TODO: Replace with database call that creates a new list in the database
-
+    DatabaseService.one();
     // TODO: Return the ID of the newly generated list
     return {listname: 'New List', listID: 'New List ID', courseID: 'Existing Course ID'}
   }
   CreateNewProject(in_name: string, in_description: string, in_projectListID: string) {
-    // TODO: Replace with a database call that creates a new project in the database
+    // TODO: Replace with a database call that creates a new project in the database\
+    DatabaseService.newProject(in_name, in_description, in_projectListID);
   }
   EditProject(in_name: string, in_description: string, in_id: string) {
     // TODO: Replace with a database call that updates a project record (found with the given id) to have the new input values
+    DatabaseService.eight();
   }
 
 
@@ -82,6 +145,7 @@ export class FormService {
     this.logFormData(in_FormData);
 
     // TODO: Replace with database call to get user data
+    
     const exampleUser: {wasFound: boolean, name: string, id: string, user_type: string} = this.GetExistingUser(in_FormData.username, in_FormData.password);
     // If the user was found
     const userFound = true;

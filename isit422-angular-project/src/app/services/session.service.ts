@@ -14,6 +14,7 @@ export class SessionService {
   static GetCurrentUser() {
     // TODO: replace with code to get the current user from the session data
     if (typeof this.currentUser == 'undefined') return undefined;
+    console.log(`current user name: ${this.currentUser.name} current user id ${this.currentUser.id} current user type: ${this.currentUser.user_type}`);
     return SessionService.currentUser;
   }
   static GetCurrentList() {
