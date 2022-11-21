@@ -7,7 +7,7 @@
 
 <h2>Teacher List</h2>
 
-<div *ngFor="let projectListName of projectListNames"> 
+<!-- <div *ngFor="let projectListName of projectListNames"> 
   <h3>
       {{projectListName.name}}
   </h3>
@@ -17,6 +17,37 @@
           {{project.name}}
       </div>
   </div>
-</div>
+</div> -->
 
 
+<div>
+
+    <!--app-project-list-container-f 
+        [currentProjectNameState]="currentProjectNameState">
+    </app-project-list-container-f-->
+    
+    <!-- app-project-list-item></app-project-list-item> -->
+    
+    <div class="w3-container listItemStyling">
+    
+        <div *ngFor="let projectListName of projectListNames"> 
+            <header class="w3-container">
+                <h1>{{projectListName.name}}</h1>
+            </header>
+    
+    
+            <div *ngFor="let project of projects">
+    
+                <div class="w3-container">
+                    <div *ngIf="project.project_list_id == projectListName.id">
+                        <div>
+                            <h3>{{project.name}}</h3>
+                        </div>
+                    </div>
+                </div>
+    
+    
+            </div>
+            </div>
+        </div>
+    </div>  
