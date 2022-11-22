@@ -27,7 +27,7 @@ export class DatabaseService {
     { id: 4, name: 'project_lists' }
 ];
 
-  static one() {
+  static async one() {
     console.log("one+_+_+_")
   }
   static two() {
@@ -75,7 +75,7 @@ export class DatabaseService {
 }
 
   
-static requestLogin(method:string, url:string) {
+static async requestLogin(method:string, url:string) {
   return new Promise(function(resolve, reject) {
     console.log(`execution point: databaseService -> requestLogin: query/url: ${url}`);
     var xhr = new XMLHttpRequest();
@@ -146,7 +146,7 @@ static getCollectionId(collection:string) {
   return Number(this.currentID);
 }
 
-  static createNewUser(in_name: string, in_username: string, in_password: string, in_user_type:string) {
+  static async createNewUser(in_name: string, in_username: string, in_password: string, in_user_type:string) {
     //this.getCollectionId(`${in_user_type}s`);
     let collectionId;
     for(let p in this.collections) {

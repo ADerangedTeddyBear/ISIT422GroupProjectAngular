@@ -127,38 +127,69 @@ app.get('/api/login/:login', (req, res) => {
     dbo.collection("students").find({username:nameVal, password:passVal}).toArray(function(err, res2) {
     let loginResponse = '';
     let loginStatus = 0;
+    // Ian Edit
+    let loginObj = {};
+    // End Ian Edit
         if (err) throw err;
         try{
             if(`${JSON.stringify(res2[0].name).length}` > 0 ) {
                 console.log(`student login`)
-                loginStatus += 1;
-                loginResponseName = res2[0].name;
-                loginResponseUsername = res2[0].username;
-                loginResponseId = res2[0].id;
-                console.log(`loginResponseId: ${loginResponseId}`);
-                loginResponse += `${loginResponseName}|${loginResponseUsername}|${String(loginStatus)}|${loginResponseId}`;
-                console.log(`${loginResponse} ----------first try`);
-                res.send(loginResponse);                
+
+                // Ian Edit
+                loginObj.wasfound = true;
+                loginObj.name = res2[0].name;
+                loginObj.id = res2[0].id;
+                loginObj.user_type = "student";
+                
+                res.send(JSON.stringify(loginObj));
+                // End Ian Edit
+
+                // loginStatus += 1;
+                // loginResponseName = res2[0].name;
+                // loginResponseUsername = res2[0].username;
+                // loginResponseId = res2[0].id;
+                // console.log(`loginResponseId: ${loginResponseId}`);
+                // loginResponse += `${loginResponseName}|${loginResponseUsername}|${String(loginStatus)}|${loginResponseId}`;
+                // console.log(`${loginResponse} ----------first try`);
+                // res.send(loginResponse);  
             } 
         } catch(e) {
             dbo.collection("teachers").find({username:nameVal, password:passVal}).toArray(function(err, res3) {
                 if(err) throw err;
                 try{
                     if(`${JSON.stringify(res3[0].name).length}` > 0 ) {
-                        console.log(`teacher login`)
-                        loginStatus += 2;
-                        loginResponseName = res3[0].name;    
-                        loginResponseUsername = res3[0].username;
-                        loginResponseId = res3[0].id;
-                        console.log(`loginResponseId: ${loginResponseId}`);
-                        loginResponse += `${loginResponseName}|${loginResponseUsername}|${String(loginStatus)}|${loginResponseId}`;
-                        console.log(`${loginResponse} ----------second try`);
-                        res.send(loginResponse);                    
+
+                        // Ian Edit
+                        loginObj.wasfound = true;
+                        loginObj.name = res2[0].name;
+                        loginObj.id = res2[0].id;
+                        loginObj.user_type = "student";
+                        
+                        res.send(JSON.stringify(loginObj));
+                        // End Ian Edit
+                        // console.log(`teacher login`)
+                        // loginStatus += 2;
+                        // loginResponseName = res3[0].name;    
+                        // loginResponseUsername = res3[0].username;
+                        // loginResponseId = res3[0].id;
+                        // console.log(`loginResponseId: ${loginResponseId}`);
+                        // loginResponse += `${loginResponseName}|${loginResponseUsername}|${String(loginStatus)}|${loginResponseId}`;
+                        // console.log(`${loginResponse} ----------second try`);
+                        // res.send(loginResponse);                    
                     }
                 } catch(e) {
                     loginResponse = `|${String(loginStatus)}`
                 } finally {
-                    res.send(`user ${nameVal} made unsuccessful login attempt using ${passVal} as password`);
+
+                    // Ian Edit
+                    loginObj.wasfound = false;
+                    loginObj.name = '';
+                    loginObj.id = '';
+                    loginObj.user_type = '';
+                    
+                    res.send(JSON.stringify(loginObj));
+                    // End Ian Edit
+                    // res.send(`user ${nameVal} made unsuccessful login attempt using ${passVal} as password`);
                 }
             })
         }

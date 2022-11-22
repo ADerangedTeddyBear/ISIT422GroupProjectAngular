@@ -42,90 +42,51 @@ export class FormService {
     return {projectName: "Name of project", projectDescription: "Description of project"};
   }
   
-  GetExistingUser(in_username: string, in_password: string) {
-    // TODO: replace with database call that looks for a user in the user table with the input username
-    // and passowrd.
-    // If the user was not found, set user found to false and all other return values to empty strings
-    
-    
-    /***************START ERICS MODIFICATIONS*************************/
-    //call to establish the url to use as parameter in the request login promise see database service line 66
-    let url = DatabaseService.dbLogIn(in_username, in_password);
-    
-    //Promise api call see database service line 78
-    let user = DatabaseService.requestLogin('GET', url)
-    .then(function(d:any) {      
-      let found = false;
-      let usertype;
-      //The returned values being turned into an array -> array values are the user's real name, username, id, and user type as a number
-      let dArr:any = d.split('|');
-      //if the array length is greater than 0 then the api call successfully returned data and therefore the user does exist and was found in the database
-      if (dArr.length > 0) {
-        //if so set found to true
-        found = true;
-      }
-      //if the usertype value is a 1 then the user that was found in the database was a student
-      if(dArr[2] === '1') {
-        usertype = 'student';
-      } else {
-        //otherwise the user that was found would be a teacher
-        usertype = 'teacher';
-      }
-      //user object signature to match the object signature in the "To Do" and what the predefined needed data is 
-      let user = {wasfound:found, realname:dArr[0], username:dArr[1], userid:dArr[3], user_type:usertype };
-      
-      //verify the values
-      console.log(`
-        user.wasFound: ${user.wasfound} 
-        user.realname: ${user.realname} 
-        user.username:$${user.username} 
-        user.id: ${user.userid} 
-        user.user_type: ${user.user_type}
-      `);
-      //Testing purposes - I can get this to work by directly calling this from here
-      /*SessionService.SetCurrentUser(user.username, user.userid, user.user_type);*/
-      //not working Please correct   
-      return user;
-      })
-      //error handling 
-    .catch(function(err:any) {
-      console.log('error', err.statusText);
+  async GetExistingUser(in_username: string, in_password: string) {
+    return new Promise((resolve) => {
+      let url = DatabaseService.dbLogIn(in_username, in_password);
+
+      DatabaseService.requestLogin('GET', url).then(
+        (value:any) => {
+          resolve(JSON.parse(value));
+        }
+      );
+
     });
-    //returns ZoneAwarePromise {__zone_symbol__state: null, __zone_symbol__value: Array(0)} which does have the values in the prototype
-    console.log(user);
-
-
-    //const user:{wasfound:boolean, realname:string, username:string, userid:string, user_type:string} = DatabaseService.requestLogin(method, url)
-    
-    /***************END ERICS MODIFICATIONS*************************/
-    const userFound = true;
-    //const userFound = user.found;    
-    return {
-      wasFound: userFound,
-      name: (userFound)? in_username : '',
-      id: (userFound)? 'Unique ID for Existing User' : '',
-      user_type: (userFound)? 'teacher' : ''
-    }
   }
-  CreateNewUser(in_name: string, in_username: string, in_password: string, in_user_type: string) {        
-    DatabaseService.createNewUser(in_name, in_username, in_password, in_user_type);
+  async CreateNewUser(in_name: string, in_username: string, in_password: string, in_user_type: string) {   
+    return new Promise((resolve) => {
+      DatabaseService.createNewUser(in_name, in_username, in_password, in_user_type).then(
+        (value: any) => {
+          // replace with JSON.parse(value)
+          resolve({
+            name: in_name,
+            id: 'Unique ID for Created User',
+            user_type: in_user_type
+          });
+        }
+      );
+
+    });     
     
     // Return a user data object to set as the current user
-    return {
-      name: in_name,
-      id: 'Unique ID for Created User',
-      user_type: in_user_type
-    }
+    return 
   }
   CreateNewCourse(in_name: string, in_students: string[], in_teacherID: string) {
     // TODO: Replace with database call that creates a new course using the input data
     DatabaseService.six();
   }
-  CreateNewProjectList(in_name: string, in_course: string) {
-    // TODO: Replace with database call that creates a new list in the database
-    DatabaseService.one();
-    // TODO: Return the ID of the newly generated list
-    return {listname: 'New List', listID: 'New List ID', courseID: 'Existing Course ID'}
+  async CreateNewProjectList(in_name: string, in_course: string) {
+    return new Promise((resolve) => {
+      // TODO: Replace with database call that creates a new list in the database
+      DatabaseService.one().then(
+        (value: any) => {
+          // replace with JSON.parse(value)
+          resolve({listname: 'New List', listID: 'New List ID', courseID: 'Existing Course ID'})
+        }
+      );
+
+    });
   }
   CreateNewProject(in_name: string, in_description: string, in_projectListID: string) {
     // TODO: Replace with a database call that creates a new project in the database\
@@ -140,22 +101,26 @@ export class FormService {
   //
   // --=|| FORM HANDLERS ||=--
   //
-  HandleLoginForm(in_FormData: {username: string, password: string}, in_FormName: string) {
+  async HandleLoginForm(in_FormData: {username: string, password: string}, in_FormName: string) {
     console.log(`${in_FormName} - Check the users table for a user that has the following usename and password:`);
     this.logFormData(in_FormData);
 
     // TODO: Replace with database call to get user data
     
-    const exampleUser: {wasFound: boolean, name: string, id: string, user_type: string} = this.GetExistingUser(in_FormData.username, in_FormData.password);
-    // If the user was found
-    const userFound = true;
-    if (userFound) {
-      // Set the new user
-      SessionService.SetCurrentUser(exampleUser.name, exampleUser.id, exampleUser.user_type);
-      // Navigate to the correct landing page
-      if (exampleUser.user_type == 'teacher') this.router.navigate(['/teacher-pages/teacher-landing']);
-      else if (exampleUser.user_type == 'student') this.router.navigate(['/student-pages/student-landing']);
-    }
+    this.GetExistingUser(in_FormData.username, in_FormData.password).then(
+      (exampleUser: any) => {
+        // If the user was found
+        console.log(exampleUser);
+        if (typeof exampleUser != 'undefined' && exampleUser['wasfound']) {
+          // Set the new user
+          SessionService.SetCurrentUser(exampleUser['name'], exampleUser['id'], exampleUser['user_type']);
+          // Navigate to the correct landing page
+          if (exampleUser['user_type'] == 'teacher') this.router.navigate(['/teacher-pages/teacher-landing']);
+          else if (exampleUser['user_type'] == 'student') this.router.navigate(['/student-pages/student-landing']);
+        }
+
+      }
+    );
   }
 
   HandleCreateAccountForm(in_FormData: {name: string, username: string, password: string, user_type: string}, in_FormName: string) {
@@ -163,14 +128,18 @@ export class FormService {
     this.logFormData(in_FormData);
 
     // After adding the new user to the database, set them as the current user and navigate to the correct landing page
-    const newUser = this.CreateNewUser(in_FormData.name, in_FormData.username, in_FormData.password, in_FormData.user_type);
+    this.CreateNewUser(in_FormData.name, in_FormData.username, in_FormData.password, in_FormData.user_type).then(
+      (newUser: any) => {
 
-    // Set the new user as the current user
-    SessionService.SetCurrentUser(newUser.name, newUser.id, newUser.user_type);
+        // Set the new user as the current user
+        SessionService.SetCurrentUser(newUser.name, newUser.id, newUser.user_type);
+    
+        // Navigate to the correct landing page
+        if (newUser.user_type == 'teacher') this.router.navigate(['/teacher-pages/teacher-landing']);
+        else if (newUser.user_type == 'student') this.router.navigate(['/student-pages/student-landing']);
 
-    // Navigate to the correct landing page
-    if (newUser.user_type == 'teacher') this.router.navigate(['/teacher-pages/teacher-landing']);
-    else if (newUser.user_type == 'student') this.router.navigate(['/student-pages/student-landing']);
+      }
+    );
   }
 
   HandleCourseForm(in_FormData: {coursename: string, students: string[]}, in_FormName: string) {
@@ -221,9 +190,13 @@ export class FormService {
   HandleNewListForm(in_FormData: {listname: string, course: string}, in_FormName: string) {
     console.log(`${in_FormName} - Add a new list to the database with the following data:`);
 
-    const newList: {listname: string, listID: string, courseID: string} = this.CreateNewProjectList(in_FormData.listname, in_FormData.course);
+    //const newList: {listname: string, listID: string, courseID: string} = this.CreateNewProjectList(in_FormData.listname, in_FormData.course);
+    this.CreateNewProjectList(in_FormData.listname, in_FormData.course).then(
+      (newList: any) => {
+        this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: newList.listname, listID: newList.listID, courseID: newList.courseID}});
+      }
+    );
 
-    this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: newList.listname, listID: newList.listID, courseID: newList.courseID}});
 
   }
 
