@@ -11,7 +11,7 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class NewListPageComponent implements OnInit {
 
-  public newListForm: FormGroup;
+  public newListForm: FormGroup | undefined;
   courseArray: { name: string; id: string; }[] | undefined;
 
   teacher = SessionService.GetCurrentUser();
@@ -21,14 +21,18 @@ export class NewListPageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router) {
       if (typeof this.teacher !== 'undefined') {
-        this.courseArray = this.FormService.GetCourseNamesAndIDs(this.teacher.id);
+        this.FormService.GetCourseNamesAndIDs(this.teacher.id).then((
+          (value: any) => {
+            this.courseArray = value;
+            this.newListForm = this.createForm();
+            this.newListForm.reset();
+          }
+        ));
       }
       else {
         this.router.navigate(['/teacher-pages/teacher-landing']);
         throw new Error("Invalid state: list view loaded without a teacher ID");
       }
-      this.newListForm = this.createForm();
-      this.newListForm.reset();
   }
 
 

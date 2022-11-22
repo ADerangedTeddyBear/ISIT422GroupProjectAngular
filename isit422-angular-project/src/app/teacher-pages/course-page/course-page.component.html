@@ -1,7 +1,7 @@
 <h2>Course Page</h2>
 <a [routerLink]="['/teacher-pages/teacher-landing']">Back</a>
 
-<form [formGroup]="courseForm" (ngSubmit)="submitForm('course form')">
+<form *ngIf="courseForm && studentsArray" [formGroup]="courseForm" (ngSubmit)="submitForm('course form')">
     <div class="form-group">
         <label for="coursename">Course Name: </label>
         <input type="text" id="coursename" name="coursename" formControlName="coursename" />

@@ -1,7 +1,7 @@
 <h2 *ngIf="teacher">New List For {{teacher.name}}</h2>
 <a [routerLink]="['/teacher-pages/teacher-landing']">Back</a>
 
-<form [formGroup]="newListForm" (ngSubmit)="submitForm('new list form')">
+<form *ngIf="newListForm" [formGroup]="newListForm" (ngSubmit)="submitForm('new list form')">
     <div class="form-group">
         <label for="listname">List Name: </label>
         <input type="text" id="listname" name="listname" formControlName="listname" />

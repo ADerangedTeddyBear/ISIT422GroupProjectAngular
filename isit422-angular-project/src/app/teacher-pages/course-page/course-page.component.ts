@@ -10,20 +10,27 @@ import { Validators } from '@angular/forms';
 })
 export class CoursePageComponent implements OnInit {
 
-  public courseForm: FormGroup;
+  public courseForm: FormGroup | undefined;
+
+  studentsArray: {name: string, id: string}[] | undefined;
 
   constructor(
     private FormService: FormService,
     private formBuilder: FormBuilder) {
-      this.courseForm = this.createForm();
-      this.courseForm.reset();
+      FormService.GetStudentNamesAndIDs().then(
+        (value: any) => {
+          this.studentsArray = value;
+          this.courseForm = this.createForm();
+          this.courseForm.reset();
+        }
+      );
   }
 
   ngOnInit(): void {
   }
   
   // TODO: replace this with databse call
-  studentsArray = this.FormService.GetStudentNamesAndIDs();
+  //studentsArray = this.FormService.GetStudentNamesAndIDs();
 
   // Initialize the form with form boulder controls mapped to dynamically created elements
   createForm() {
@@ -37,8 +44,8 @@ export class CoursePageComponent implements OnInit {
     let studentControls = form.get('students') as FormArray;
     
     // Add all students in the studentsArray to the form
-    for (let student in this.studentsArray) {
-      studentControls.push(this.formBuilder.control(this.studentsArray[student]))
+    if (this.studentsArray) for (let i = 0; i < this.studentsArray.length; i++) {
+      studentControls.push(this.formBuilder.control(this.studentsArray[i]));
     }
 
     // return fully created form
@@ -48,14 +55,17 @@ export class CoursePageComponent implements OnInit {
 
   submitForm(in_formName: string) {
     let idArray = [];
-    // Convert the boolean values from the radio buttons to IDs of the selected students
-    for (let i = 0; i < this.courseForm.value.students.length; i++) {
-      if (this.courseForm.value.students[i]) idArray.push(this.studentsArray[i].id)
-    }
-    this.courseForm.value.students = idArray;
+    if (this.courseForm) {
+      // Convert the boolean values from the radio buttons to IDs of the selected students
+      for (let i = 0; i < this.courseForm.value.students.length; i++) {
+        if (this.courseForm.value.students[i] && this.studentsArray) idArray.push(this.studentsArray[i].id)
+      }
+      this.courseForm.value.students = idArray;
+  
+      this.FormService.postData(this.courseForm.value, in_formName);
+      this.courseForm.reset();
 
-    this.FormService.postData(this.courseForm.value, in_formName);
-    this.courseForm.reset();
+    }
   }
 
 }

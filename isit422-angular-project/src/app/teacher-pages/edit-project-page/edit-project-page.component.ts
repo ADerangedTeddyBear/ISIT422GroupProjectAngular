@@ -11,28 +11,36 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class EditProjectPageComponent implements OnInit {
 
+  projectID: string;
+  projectData: {projectName: string, projectDescription: string} | undefined;
+  editProjectForm: any;
+  
+
   constructor(
     private FormService: FormService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) { 
+      console.log(history.state.projectID);
+      this.projectID = history.state.projectID;
+      this.FormService.GetProject(this.projectID).then(
+        (value: any) => {
+          this.projectData = value;
+          if (this.projectData) this.editProjectForm = this.formBuilder.group({
+            projectname: [this.projectData.projectName, Validators.required],
+            description: [this.projectData.projectDescription, Validators.required]
+          });
+        }
+      )
+    }
 
-  projectID = "This value should be passed from the project-list-view page";
-  projectData: {projectName: string, projectDescription: string} = this.FormService.GetProject(this.projectID);
+  // projectData: {projectName: string, projectDescription: string} = this.FormService.GetProject(this.projectID);
   currentList = SessionService.GetCurrentList();
 
   ngOnInit(): void {
-    console.log(history.state.projectID);
-    this.projectID = history.state.projectID;
-    this.projectData = this.FormService.GetProject(this.projectID);
   }
 
   // TODO: The edit project page should only be accessible from the project list view.
   // Selecting to edit a project from the project list should populate this page with data from the 
   // selected project
-
-  editProjectForm = this.formBuilder.group({
-    projectname: [this.projectData.projectName, Validators.required],
-    description: [this.projectData.projectDescription, Validators.required]
-  });
 
   submitForm(in_formName: string) {
     const returnObject = {

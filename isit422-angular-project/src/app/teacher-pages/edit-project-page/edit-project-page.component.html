@@ -1,6 +1,6 @@
 <a *ngIf="currentList" [routerLink]="['/teacher-pages/teacher-list-view']" [state]="{listname: currentList.listname, listID: currentList.listID, courseID: currentList.courseID}">Back</a>
 
-<form [formGroup]="editProjectForm" (ngSubmit)="submitForm('edit project form')">
+<form *ngIf="projectData" [formGroup]="editProjectForm" (ngSubmit)="submitForm('edit project form')">
     <div class="form-group">
         <label for="projectname">Project Name: </label><br>
         <input type="text" id="projectname" name="projectname" formControlName="projectname" value="{{this.projectData.projectName}}"/>

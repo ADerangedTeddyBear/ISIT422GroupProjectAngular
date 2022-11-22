@@ -25,21 +25,27 @@ export class FormService {
   // --=|| DATABASE QUERRIES ||=--
   //
 
-  GetStudentNamesAndIDs() {
+  async GetStudentNamesAndIDs() {
     // TODO: replace with database call that gets the names and IDs of all users with the "student" user type
-    DatabaseService.one();
-    return [{name: "student 1", id: "student-id-1"}, {name: "student 2", id: "student-id-2"}];
+    return new Promise((resolve) => {
+      DatabaseService.one();
+      resolve([{name: "student 1", id: "student-id-1"}, {name: "student 2", id: "student-id-2"}]);
+    })
   }
-  GetCourseNamesAndIDs(in_teacherID: string) {
+  async GetCourseNamesAndIDs(in_teacherID: string) {
     // TODO: replace with database call that gets all of the current teacher's courses
-    DatabaseService.two()
-    DatabaseService.createNewProjectList(Number(in_teacherID));
-    return [{name: "course 1", id: "course-id-1"}, {name: "course 2", id: "course-id-2"}];
+    return new Promise((resolve) => {
+      DatabaseService.two()
+      //DatabaseService.createNewProjectList(Number(in_teacherID));
+      resolve ([{name: "course 1", id: "course-id-1"}, {name: "course 2", id: "course-id-2"}]);
+
+    });
   }
-  GetProject(in_projectID: string) {
-    DatabaseService.three();
-    // TODO: replace with database call to get all of the data for the input project
-    return {projectName: "Name of project", projectDescription: "Description of project"};
+  async GetProject(in_projectID: string) {
+    return new Promise((resolve) => {
+      DatabaseService.three();
+      resolve({projectName: "Name of project", projectDescription: "Description of project"});
+    });
   }
   
   async GetExistingUser(in_username: string, in_password: string) {
@@ -67,10 +73,7 @@ export class FormService {
         }
       );
 
-    });     
-    
-    // Return a user data object to set as the current user
-    return 
+    });    
   }
   CreateNewCourse(in_name: string, in_students: string[], in_teacherID: string) {
     // TODO: Replace with database call that creates a new course using the input data
@@ -123,7 +126,7 @@ export class FormService {
     );
   }
 
-  HandleCreateAccountForm(in_FormData: {name: string, username: string, password: string, user_type: string}, in_FormName: string) {
+  async HandleCreateAccountForm(in_FormData: {name: string, username: string, password: string, user_type: string}, in_FormName: string) {
     console.log(`${in_FormName} - Add a new user to the database with the following credentials:`);
     this.logFormData(in_FormData);
 
@@ -187,7 +190,7 @@ export class FormService {
     }
   }
 
-  HandleNewListForm(in_FormData: {listname: string, course: string}, in_FormName: string) {
+  async HandleNewListForm(in_FormData: {listname: string, course: string}, in_FormName: string) {
     console.log(`${in_FormName} - Add a new list to the database with the following data:`);
 
     //const newList: {listname: string, listID: string, courseID: string} = this.CreateNewProjectList(in_FormData.listname, in_FormData.course);
