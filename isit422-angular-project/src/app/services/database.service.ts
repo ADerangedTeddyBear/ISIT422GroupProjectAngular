@@ -1,13 +1,6 @@
 import { Inject, Injectable, resolveForwardRef } from '@angular/core';
 import { __values } from 'tslib';
 import * as $ from 'jquery';
-import { findIndex, ReplaySubject } from 'rxjs';
-import { STRING_TYPE } from '@angular/compiler';
-import { SessionService } from './session.service';
-import { FormsService } from './forms.service';
-import { FormService } from './form.service';
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +8,6 @@ import { FormService } from './form.service';
 
 export class DatabaseService {
   constructor() {}
-
-  public static currentID:number;
-  public static currentIDstr:string;
 
   static collections = [
     { id: 0, name: 'courses' },
@@ -27,6 +17,7 @@ export class DatabaseService {
     { id: 4, name: 'project_lists' }
 ];
 
+/************************************ These are to test execution points *************************************************/
   static async one() {
     console.log("one+_+_+_")
   }
@@ -45,24 +36,18 @@ export class DatabaseService {
   static eight() {
     console.log("eight+_+_+")
   }
+  /*****************E*N*D********************************************/
+
+  /******************** Not yet implemented ********************************************************************************/
   static createNewProjectList(in_teacherID:number) {
     let query = 'http://localhost:5000/api/createnewprojectlist/';
     var xhr = new XMLHttpRequest();
     xhr.open("POST", query, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    /*var d = JSON.stringify({
-      id:113,
-      name:in_name,
-      username:in_username,
-      password:in_password,
-      user_type:in_user_type
-    })*/
-    //xhr.send(d);
-    //return d;    
   }
+/*****************E*N*D********************************************/
 
-
-//Build the query string
+/****** Form Service Login ********************************************************************************/
   static dbLogIn(in_username:string, in_password:string) {
     let loginArr: any[] = [];
     let query = 'http://localhost:5000/api/login/';  
@@ -100,69 +85,22 @@ static async requestLogin(method:string, url:string) {
     xhr.send();
   });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-static getCollectionId(collection:string) {
-  let collectionId;
-  for(let p in this.collections) {
-    if(this.collections[p].name === collection) {
-      collectionId = this.collections[p].id;
-    }
-  }
-  let query = `http://localhost:5000/api/getid/${collectionId}/`;
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      console.log(`xhr.response: ${xhr.response}`);
-      console.log(`xhr.response.split(',')[1].split(':')[1]: ${xhr.response.split(',')[1].split(':')[1]}`);
-      var idVal = xhr.response.split(',')[1].split(':')[1];
-      idVal = idVal++;
-      this.currentID = Number(idVal);
-      console.log(`idVal: ${this.currentID}`)
-    }    
-  }  
-  xhr.open("GET", query, true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.send();
-  console.log(this.currentID);
-  return Number(this.currentID);
-}
-
-  static async createNewUser(in_name: string, in_username: string, in_password: string, in_user_type:string) {
-    //this.getCollectionId(`${in_user_type}s`);
+/*****************E*N*D********************************************/
+/****** Form Service Create User ********************************************************************************/
+  static async createNewUser(in_name: string, in_username: string, in_password: string, in_user_type:string) {    
     let collectionId;
     for(let p in this.collections) {
       if(this.collections[p].name === `${in_user_type}s`) {
         collectionId = this.collections[p].id;
       }
-    }
-    console.log(`${collectionId}>>>>`)
+    }    
     let query = `http://localhost:5000/api/createnewuser/${collectionId}/`;
     var xhr = new XMLHttpRequest();
     xhr.open("POST", query, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    //this works for POSTs, not GETs
-    //console.log(this.getCollectionId(`${in_user_type}s`))
+    xhr.setRequestHeader('Content-Type', 'application/json');    
+    //id value must be set to any number. It will get changed but needs an initial value
     var d = JSON.stringify({
-      id:12/*this.currentID++*//*211*//*this.getCollectionId(`${in_user_type}s`)*/,
+      id:1,
       name:in_name,
       username:in_username,
       password:in_password,
@@ -171,7 +109,8 @@ static getCollectionId(collection:string) {
     xhr.send(d);    
     return d;
   }
-
+/*****************E*N*D********************************************/
+/****** Form Service New Project ********************************************************************************/
   static newProject(in_name: string, in_description: string, in_projectListID: string) {
     let query = `http://localhost:5000/api/createnewproject/3`
         var xhr = new XMLHttpRequest();
@@ -187,19 +126,16 @@ static getCollectionId(collection:string) {
         xhr.send(d);    
         return d;
   }
+/*****************E*N*D********************************************/
 
-  static updateMany(query_in:string) {
-    let mongo_out = query_in;
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", mongo_out, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-  }
-  
 
+
+/***********************************************************************************************************/
+/******** The code below is used from database component  and  uses jQuery**********************************/
+/***********************************************************************************************************/
   
   static adminDisplayData(query_in:string, idx:number) {
-    let mongo_out = `${query_in}/${idx}`;    
-    console.log(`mongo_out from adminDisplayData line 2 : ${mongo_out}`)
+    let mongo_out = `${query_in}/${idx}`;        
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = (e) => {
       console.log(`onreadystatechanged error :${e}`);
@@ -213,7 +149,6 @@ static getCollectionId(collection:string) {
           var o = JSON.parse(xhr.responseText);
           for(var p in o) {
             var current = o[p];
-            //add each object to 
             responseArr.push(current);
             var tbl = document.getElementsByClassName('displayTbl')[0];
             var row = document.createElement('tr');
@@ -221,10 +156,7 @@ static getCollectionId(collection:string) {
               tbl.appendChild(row);
               row.setAttribute('class', 'current');              
               for(var d in responseArr[p2]) {
-                //var dtag = document.getElementsByClassName('current')[0];
-                //console.log(`dtag is - > ${dtag.childElementCount}`)
                 this.addData((responseArr[p2][d]),n, d, row);
-                //console.log(`d from adminDisplayData is -> ${d}`)
               }
             }
             row.removeAttribute('class');
@@ -236,21 +168,19 @@ static getCollectionId(collection:string) {
           this.doTableElems(idx);
     }
     xhr.open("GET", mongo_out, true);
-    xhr.send(/*JSON.stringify({test:"test1"})*/null);
+    xhr.send(null);
   }
-  //Not reliant on jQuery ********
+  
   static addData(d:any,n:number, dtag:any, rowElem:HTMLElement) {
     var data = document.createElement('td');
     rowElem.appendChild(data);    
     var textNode = document.createTextNode(d);
-    //console.log(`d from addData is -> ${d}`)
     //only add data element text for strings and numbers - objects hide
     typeof d !== 'object' ? data.appendChild(textNode) : console.log();
-    //data.appendChild(textNode);
     data.setAttribute('class', dtag );
     document.getElementsByClassName('_id')[n].setAttribute('hidden', 'true')
   }
-  //Not reliant on jQuery - can change styling by commenting out 6th line down and uncommenting rest ********
+    
   static buildTable() {
     let tbl = document.createElement('table');
     let tblRows = document.getElementsByTagName('tr');
@@ -258,18 +188,16 @@ static getCollectionId(collection:string) {
     divElem.after(tbl);
     tbl.setAttribute('class', 'displayTbl');
     $('.displayTbl').css({'position':'absolute','left':'10%','top':'45%','backgroundColor': 'yellow', 'border':'solid 7px #000000'});
-    //tbl.style.position = 'absolute';
-    //tbl.style.left = '10%';
-    //tbl.style.top = '45%';
-    //tbl.style.backgroundColor = '#00afdd';
-    //tbl.style.border = "solid 7px #000000";
+    $('.displayTbl').prepend('<input type = "button" class = "x" value = "X"></input>').on('click', () => {
+      $('.displayTbl').remove();
+    });
   }
-  //Not reliant on jQuery ********
+  
   static rebuildTable() {
     document.getElementsByTagName('table')[0].remove();
     this.buildTable();
   }
-  //This function is highly reliant on jQuery*******
+  
   static doTableElems(idx:number) {    
     var fields: (string | undefined)[] = [];
     var fieldVals: (string | undefined)[] = [];
@@ -291,7 +219,7 @@ static getCollectionId(collection:string) {
       //transition: width 0.4s ease-in-out;
     })
   }
-  //This function is highly reliant on jQuery*******
+  
   static doForm(fields:(string | undefined)[] = [], idx:number, fieldVals:(string | undefined)[] = []) {
     console.log(`first - ${fields[0]} second - ${fields[1]}`);    
     $('.dynContain').append(`<form class="dynForm"></form>`);    
@@ -300,13 +228,11 @@ static getCollectionId(collection:string) {
       <input type = "text" id = "${fields[p]}" name = "${fields[p]}" placeholder = "${fields[p]}"></input>
       <br>`)
     }
-    let btns = ['Submit_btn, Delete_btn'];
-    for (let i in btns) {
-      $('.dynForm').append(`<input type = "button" id = "submitbtn" value = ${btns[i]}></input>`).css({'margin':'2%'});  
-    }
+
     $('.dynForm').append(`<input type = "button" id = "submitbtn" value = "Submit"></input>`).css({'margin':'2%'});
     $('.dynForm').append(`<input type = "button" id = "deletebtn" value = "Delete"></input>`).css({'margin':'2%'});
-    $('#submitbtn').on('click', function(){
+    $('.dynContain').prepend(`<input type = "button" class = "x" value = "X"></input>`)
+    $('#submitbtn').on('click', () => {
       var i = 0;
       $('input').each(function() {
         var n = Number(`${$(this).val()?.toString().length}`);        
@@ -323,7 +249,7 @@ static getCollectionId(collection:string) {
       console.log(`${mongo_modify_out}`);
       DatabaseService.findAndModify(mongo_modify_out);
     })
-    $('#deletebtn').on('click', function(){
+    $('#deletebtn').on('click', () => {
       var i = 0;
       $('input').each(function() {
         var n = Number(`${$(this).val()?.toString().length}`);        
@@ -339,11 +265,14 @@ static getCollectionId(collection:string) {
       }
       console.log(`${mongo_delete_out}`);
       DatabaseService.deleteRecord(mongo_delete_out);
+    });
+    $('.x').on('click', () => {
+      $('.dynContain').remove();
     })
     $('.dynForm input').css({'width':'40%','margin':'0 50% 0 4%'});
     $('.li__id, #_id').hide();
   }
-  //Not reliant on jQuery ********
+  
   static findAndModify(query_in:string) {
     let mongo_out = query_in;
     var xhr = new XMLHttpRequest;
@@ -371,6 +300,5 @@ static getCollectionId(collection:string) {
     }    
     xhr.open("GET", mongo_out, true)
     xhr.send(null);
-  }
-  
+  }  
 }

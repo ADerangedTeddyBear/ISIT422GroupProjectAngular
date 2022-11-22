@@ -19,8 +19,6 @@ app.use(function(req, res, next){
     next();
 })
 
-
-const idxCollection = ['courses', 'students', 'teachers', 'projects', 'project_lists'];
 const colls = [
     { id: 0, name: 'courses' },
     { id: 1, name: 'students' },
@@ -29,12 +27,13 @@ const colls = [
     { id: 4, name: 'project_lists' }
 ];
 
-
 /*Constructor used to store id values for inserts. Its necessary because in order to insert a value, we have to go into the 
 collection and find the maximum existing id so that we can set the next id for the new record to be inserted*/
-function PreviousId(value, next) {
-    this.value = value || null;
-    this.next = next || null;
+class PreviousId {
+    constructor(value, next) {
+        this.value = value || null;
+        this.next = next || null;
+    }
 };
 //Current instance for setting new id for a new record
 PreviousId.current = new PreviousId();
@@ -58,8 +57,6 @@ app.post('/api/createnewproject/:id', (req, res) => {
         })
     })
 })
-
-
 
 app.post('/api/createnewuser/:id', (req, res) => {
     /*the stringified object passed from database service -- id, name, username, password and user_type*/
@@ -100,7 +97,6 @@ app.post('/api/createnewuser/:id', (req, res) => {
     })
 })
 
-
 app.get('/api/login/:login', (req, res) => {
     console.log(req.params.login)    
     let v = req.params.login.split('|');
@@ -112,97 +108,49 @@ app.get('/api/login/:login', (req, res) => {
         keys.push(current[0]);
         vals.push(current[1]);
     }
-    console.log(`keys[0]: ${keys[0]}`)
-    console.log(`vals[0]: ${vals[0]}`)
-    console.log(`keys[1]: ${keys[1]}`)
-    console.log(`vals[1]: ${vals[1]}`)
-    console.log(`keys[2]: ${keys[2]}`)
-    console.log(`vals[2]: ${vals[2]}`)
-    var obj = req.body;
-    var dbo = client.db("db");
-    //console.log(obj);
-    
+    var dbo = client.db("db");    
     let nameVal = vals[1];
     let passVal = vals[2];
     dbo.collection("students").find({username:nameVal, password:passVal}).toArray(function(err, res2) {
-    let loginResponse = '';
     let loginStatus = 0;
-    // Ian Edit
     let loginObj = {};
-    // End Ian Edit
         if (err) throw err;
         try{
             if(`${JSON.stringify(res2[0].name).length}` > 0 ) {
-                console.log(`student login`)
-
-                // Ian Edit
                 loginObj.wasfound = true;
                 loginObj.name = res2[0].name;
                 loginObj.id = res2[0].id;
-                loginObj.user_type = "student";
-                
+                loginObj.user_type = "student";                
                 res.send(JSON.stringify(loginObj));
-                // End Ian Edit
-
-                // loginStatus += 1;
-                // loginResponseName = res2[0].name;
-                // loginResponseUsername = res2[0].username;
-                // loginResponseId = res2[0].id;
-                // console.log(`loginResponseId: ${loginResponseId}`);
-                // loginResponse += `${loginResponseName}|${loginResponseUsername}|${String(loginStatus)}|${loginResponseId}`;
-                // console.log(`${loginResponse} ----------first try`);
-                // res.send(loginResponse);  
             } 
         } catch(e) {
             dbo.collection("teachers").find({username:nameVal, password:passVal}).toArray(function(err, res3) {
                 if(err) throw err;
                 try{
                     if(`${JSON.stringify(res3[0].name).length}` > 0 ) {
-
-                        // Ian Edit
                         loginObj.wasfound = true;
                         loginObj.name = res2[0].name;
                         loginObj.id = res2[0].id;
-                        loginObj.user_type = "student";
-                        
+                        loginObj.user_type = "student";                        
                         res.send(JSON.stringify(loginObj));
-                        // End Ian Edit
-                        // console.log(`teacher login`)
-                        // loginStatus += 2;
-                        // loginResponseName = res3[0].name;    
-                        // loginResponseUsername = res3[0].username;
-                        // loginResponseId = res3[0].id;
-                        // console.log(`loginResponseId: ${loginResponseId}`);
-                        // loginResponse += `${loginResponseName}|${loginResponseUsername}|${String(loginStatus)}|${loginResponseId}`;
-                        // console.log(`${loginResponse} ----------second try`);
-                        // res.send(loginResponse);                    
                     }
                 } catch(e) {
                     loginResponse = `|${String(loginStatus)}`
                 } finally {
-
-                    // Ian Edit
                     loginObj.wasfound = false;
                     loginObj.name = '';
                     loginObj.id = '';
-                    loginObj.user_type = '';
-                    
+                    loginObj.user_type = '';                    
                     res.send(JSON.stringify(loginObj));
-                    // End Ian Edit
-                    // res.send(`user ${nameVal} made unsuccessful login attempt using ${passVal} as password`);
                 }
             })
         }
     })
 })
 
-
-
-
 //------------------------_-------------------------_-------------------------_-------------------------_-------------------------_-
 app.post('/api/updateMany', (req, res) => {
     var obj = req.body;
-    //console.log(obj);
     var dbo = client.db("ISIT422-db");
     dbo.collection("courses").insertOne(obj, function(err, res2) {
         if(err) {
@@ -216,7 +164,6 @@ app.post('/api/updateMany', (req, res) => {
 
 app.post('/api/findAndModify', (req, res) => {
     var obj = req.body;
-    //console.log(obj);
     var dbo = client.db("ISIT422-db");
     dbo.collection("courses").insertOne(obj, function(err, res2) {
         if(err) {
@@ -231,7 +178,6 @@ app.post('/api/findAndModify', (req, res) => {
 
 app.post('/api/insert', (req, res) => {
     var obj = req.body;
-    //console.log(obj);
     var dbo = client.db("TestDB");
     dbo.collection("testC").insertOne(obj, function(err, res2) {
         if(err) {
@@ -249,7 +195,6 @@ app.get('/api/courses', (req, res) => {
     var dbo = client.db("db");
     dbo.collection("courses").find({}).toArray(function(err, res2) {
         if (err) throw err;
-        //console.log(res2);
         res.send(res2);
     })
 })
@@ -260,7 +205,16 @@ app.get('/api/display', (req, res) => {
     var dbo = client.db("db");
     dbo.collection("students").find({}).toArray(function(err, res2) {
         if (err) throw err;
-        //console.log(res2);
+        res.send(res2);
+    })
+})
+
+app.get('/api/display/:id', (req, res) => {
+    var obj = req.body;
+    console.log(obj);
+    var dbo = client.db("db");
+    dbo.collection(colls[req.params.id].name).find({}).toArray(function(err, res2) {
+        if (err) throw err;        
         res.send(res2);
     })
 })
@@ -272,7 +226,6 @@ app.get('/api/collections', (req, res) => {
     var dbo = client.db("db");
     dbo.listCollections().toArray(function(err, res2) {
         if (err) throw err;
-        //console.log(res2);
         res.send(res2);
     })
 })
@@ -280,7 +233,6 @@ app.get('/api/collections', (req, res) => {
 app.get('api/display1/:id', (req, res) => {
     dbo.collection("testC").findOne({}, function(err, res2) {
         if (err) throw err;
-        //console.log(res2);
         res.send(res2);
 
     })
@@ -294,7 +246,6 @@ app.get('/api/projectlistsnames', (req, res) => {
     var dbo = client.db("db");
     dbo.collection("project_lists").find({}).toArray(function(err, res2) {
         if (err) throw err;
-        //console.log(res2);
         res.send(res2);
     })
 })
@@ -305,11 +256,82 @@ app.get('/api/projects', (req, res) => {
     var dbo = client.db("db");
     dbo.collection("projects").find({}).toArray(function(err, res2) {
         if (err) throw err;
-        //console.log(res2);
         res.send(res2);
     })
 })
 
+app.get('/api/findAndModify/:id', (req, res) => {
+    var obj = req.body;        
+    var dbo = client.db("db");    
+    dbo.collection(colls[req.params.id].name).find({}).toArray(function(err, res2) {
+        if (err) throw err;
+        res.send(res2);
+    })
+})
+
+app.get('/api/findAndModify/:id/:test', (req, res) => {
+    var obj = req.body;
+    let v = req.params.test.split('|');
+    let keys = [];
+    let vals = [];    
+    for(let p in v) {
+        let current = v[p].split(':');
+        keys.push(current[0]);
+        vals.push(current[1]);
+    }
+
+    var d = new Object;
+    d.current = {};
+    for(var i=2;i<keys.length;i++) {
+        if(String(keys[i]).substr(-2) !== 'ds') {       
+            d.current[[`${keys[i]}`]] = vals[i];
+        }
+    }    
+    var dbo = client.db("db");    
+    dbo.collection(colls[req.params.id].name).find({id:Number(vals[2])}).toArray(function(err, res2) {        
+        if (err) throw err;
+        let collection = dbo.collection(colls[req.params.id].name);
+        let filter = {id:Number(vals[2])};
+        let updateDocument = {
+            $set: {id:Number(vals[2]), name:vals[3], username:vals[4], password:vals[5]},
+        };
+        let options = { upsert: true };
+        collection.updateMany(filter, updateDocument, options, function(err, res3) {
+            if(err) throw err;
+            console.log('1 document updated');            
+        })
+    });
+});
+
+app.get('/api/delete/:id/:test', (req, res) => {
+    var obj = req.body;
+    let v = req.params.test.split('|');
+    let keys = [];
+    let vals = [];    
+    for(let p in v) {
+        let current = v[p].split(':');
+        keys.push(current[0]);
+        vals.push(current[1]);
+    }
+
+    var d = new Object;
+    d.current = {};
+    for(var i=2;i<keys.length;i++) {
+        if(String(keys[i]).substr(-2) !== 'ds') {       
+            d.current[[`${keys[i]}`]] = vals[i];
+        }
+    }    
+    var dbo = client.db("db");    
+    dbo.collection(colls[req.params.id].name).find({id:Number(vals[2])}).toArray(function(err, res2) {
+        if (err) throw err;
+        let collection = dbo.collection(colls[req.params.id].name);
+        let filter = {id:Number(vals[1])};
+        collection.deleteOne(filter, function(err, res3) {
+            if(err) throw err;
+            //console.log('1 document deleted');
+        })
+    });
+});
 
 function makeConnection() {
     const uri = "mongodb+srv://eric:thirteen@isit422-groupproject-20.sdxooup.mongodb.net/testDB";
