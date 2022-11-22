@@ -18,7 +18,7 @@
             <header class="w3-container">
                 <h2>{{currentProjectListName}}</h2>
             </header>       
-    <div *ngFor="let projectListName of projectListNames"> 
+    <!--div *ngFor="let projectListName of projectListNames"> 
         <header class="w3-container">
             <h1>{{projectListName.name}}</h1>
         </header>
@@ -37,7 +37,7 @@
 
         </div>
         </div>
-    </div>
+    </div-->
     <div *ngFor="let project of projects">
         <app-project-list-view-f
         *ngIf="project.project_list_id == currentProjectListCourseId" 
