@@ -29,9 +29,7 @@ export class StudentLandingComponent implements OnInit {
 
     ) { }
 
-  ngAfterViewInit(){
-
-  }
+ 
 
   ngOnInit(): void {   
 

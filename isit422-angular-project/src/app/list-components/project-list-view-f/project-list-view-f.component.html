@@ -1,0 +1,46 @@
+<div>
+
+<h4 #projName >{{project.name}}</h4>
+
+<div *ngIf="accountCurrent === 'teacher'">
+
+
+    <div class="w3-show-inline-block">
+        <a
+        [routerLink]="['/teacher-pages/teacher-project-view']"
+        [state]="{projectName:projName.innerHTML, projectDescription:project.description}"
+        >
+        <button (click)="setProjectNameAndDescription()"
+            
+            class="w3-button w3-small">        
+            View Project Details                    
+        </button>
+        <button class="w3-button w3-small">Edit</button>
+        <button class="w3-button w3-small">Remove</button>
+    </a>
+    </div>
+</div>
+
+<div *ngIf="accountCurrent === 'student'">
+    <div class="w3-show-inline-block	">
+        <a
+        [routerLink]="['/student-pages/student-project-view']"
+        [state]="{projectName:projName.innerHTML, projectDescription:project.description}"
+        >
+        <button (click)="setProjectNameAndDescription()"
+            
+            class="w3-button w3-small">        
+            View Project Details                    
+        </button>
+      </a>
+     </div>
+    </div>
+
+
+
+
+
+
+
+
+ </div>

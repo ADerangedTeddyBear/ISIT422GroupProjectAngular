@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountCheckService } from '../../control-tests/account-check.service';
+import { ListDisplayService } from '../../services/list-display.service';
 
 
 @Component({
@@ -11,14 +12,19 @@ export class ProjectItemFComponent implements OnInit {
 
 
   //modify these variables to use database values
-  projectName: string = "Project Name"
+  selectedProjectName: string = "";
+  selectedProjectDescription: string = "";
   studentsAssigned: string = "[Students assigned go here]"
 
-  accountCurrent: string = "";
+  accountCurrent: string = "student";
 
-  constructor(private accountCheck: AccountCheckService) { }
+  constructor(
+    private accountCheck: AccountCheckService,
+    private listDisplayService: ListDisplayService) { }
 
   ngOnInit(): void {
     this.accountCheck.currentAccountType.subscribe(accountCurrent => this.accountCurrent = accountCurrent)
+    this.selectedProjectName = this.listDisplayService.selectedProjectName;
+    this.selectedProjectDescription = this.listDisplayService.selectedProjectDescription;
   }
 }

@@ -1,12 +1,17 @@
-<div>
-    <div class="w3-container">
-        <p>{{projectName}}</p>
-    </div>
+<div class="w3-container listItemStyling">
+    <div class="w3-card-4">
+
+    <header class="w3-container">
+        <h3>{{selectedProjectName}}</h3>
+    </header>
     
     <div *ngIf="accountCurrent === 'teacher'">
+
     
         <div class="w3-show-inline-block">
-            <button class="w3-button w3-small">View Project Details</button>
+
+            {{selectedProjectDescription}}
+
             <button class="w3-button w3-small">Edit</button>
             <button class="w3-button w3-small">Remove</button>
         </div>
@@ -20,10 +25,16 @@
     <div *ngIf="accountCurrent === 'student'">
     
         <div class="w3-show-inline-block">
-            <a href="../../student-pages/student-project-view">
-             <button class="w3-button w3-small">View Project Details</button>
+
+            <p>{{selectedProjectDescription}}</p>
+
+
+            <a [routerLink]="['/student-pages/student-list-view']">
+             <button class="w3-button w3-small">Back to Project List</button>
            </a>
 
         </div>
     </div>
+</div>
+
 </div>

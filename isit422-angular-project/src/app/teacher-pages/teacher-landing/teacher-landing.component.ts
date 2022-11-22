@@ -37,6 +37,7 @@ export class TeacherLandingComponent implements OnInit {
     
          //Get project list names array
          this.getProjectListName();
+
   }
     // Account testing code
     setAccountType(){

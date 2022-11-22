@@ -15,9 +15,12 @@ import { ProjectList } from '../../control-tests/mock-project-list';
 export class StudentListViewComponent implements OnInit {
 
   accountCurrent: string = "";
-  projects:Project[] = [];
+  projects: Project[] = [];
   projectListNames: ProjectList[] = []; 
 
+
+  currentProjectListName = "";
+  currentProjectListCourseId = 0;
 
   currentProjectNameState: string = "";
 
@@ -42,14 +45,15 @@ export class StudentListViewComponent implements OnInit {
 
     //Get projects in array
     this.getProjects();
-    this.currentProjectNameState = history.state.projectName;
+    this.currentProjectListName = this.listDisplayService.projectListName;
+    this.currentProjectListCourseId = this.listDisplayService.projectListId
 
 
     //Get project list names array
     this.getProjectListName();
 
     //console.log(this.currentProjectNameState);
-    //console.log("Welcome to student view list");
+    console.log("Welcome to student view list for " + " " + this.currentProjectListName + " " + this.currentProjectListCourseId);
 
   }
 
@@ -58,7 +62,7 @@ export class StudentListViewComponent implements OnInit {
     this.accountCheck.updateAccountType("student")
   }
 
-   // Get courses
+   // Get projects
    getProjects(): void {
     this.listDisplayService.getProjectName(this.projectsApiUrl)
     .subscribe(projects => this.projects = projects);

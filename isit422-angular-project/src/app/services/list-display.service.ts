@@ -22,7 +22,10 @@ export class ListDisplayService {
 //Holding course, project-list and projects names tests
 courseName: string = "";
 projectListName: string = "";
+projectListId: number = 0;
 projectName: string = "";
+selectedProjectName: string = "";
+selectedProjectDescription: string = "";
 
 
 // Tests for getting data
@@ -53,6 +56,17 @@ getProjectName(projectApiUrl: string): Observable<Project[]> {
 
 setProjectListName(projectListName: string){
   this.projectListName = projectListName;
+}
+
+setProjectListNameAndProjectListID(projListName: string, projListId: number){
+  this.projectListName = projListName;
+  this.projectListId = projListId;
+
+}
+
+setProjectNameAndProjectDescription(projName: string, projDescription: string){
+  this.selectedProjectName = projName;
+  this.selectedProjectDescription = projDescription; 
 }
 
 
