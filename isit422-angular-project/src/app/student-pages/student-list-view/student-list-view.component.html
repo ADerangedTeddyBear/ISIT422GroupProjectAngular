@@ -4,12 +4,6 @@
 
 <div>
 
-<!--app-project-list-container-f 
-    [currentProjectNameState]="currentProjectNameState">
-</app-project-list-container-f-->
-
-<!-- app-project-list-item></app-project-list-item> -->
-
 <div class="w3-container listItemStyling">
 
 <div class="w3-container listItemStyling">
@@ -18,26 +12,7 @@
             <header class="w3-container">
                 <h2>{{currentProjectListName}}</h2>
             </header>       
-    <!--div *ngFor="let projectListName of projectListNames"> 
-        <header class="w3-container">
-            <h1>{{projectListName.name}}</h1>
-        </header>
-
-
-        <div *ngFor="let project of projects">
-
-            <div class="w3-container">
-                <div *ngIf="project.project_list_id == projectListName.id">
-                    <div>
-                        <h3>{{project.name}}</h3>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-        </div>
-    </div-->
+    
     <div *ngFor="let project of projects">
         <app-project-list-view-f
         *ngIf="project.project_list_id == currentProjectListCourseId" 

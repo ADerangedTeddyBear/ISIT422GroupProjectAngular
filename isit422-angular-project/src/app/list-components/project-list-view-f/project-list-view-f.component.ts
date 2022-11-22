@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SessionService } from '../../services/session.service';
 import { ListDisplayService } from '../../services/list-display.service';
+import { AccountCheckService } from '../../control-tests/account-check.service';
 import { Project } from '../../control-tests/mock-project';
 
 @Component({
@@ -13,6 +14,9 @@ export class ProjectListViewFComponent implements OnInit {
   @Input() project!: Project; 
   currentProjectListName = "";
   currentProjectListCourseId = 0;
+
+  accountCurrent: string = "";
+
   selectedProjectName = "";
   selectedProjectDescription = ""; 
   currentList = {};
@@ -21,11 +25,16 @@ export class ProjectListViewFComponent implements OnInit {
 
   constructor(
     private sessionService: SessionService,
+    private accountCheck: AccountCheckService,
     private listDisplayService: ListDisplayService
 
   ) {}
 
 ngOnInit(): void {
+
+    // Account testing code
+    this.accountCheck.currentAccountType.subscribe(accountCurrent => this.accountCurrent = accountCurrent);
+
     this.currentProjectListName = this.listDisplayService.projectListName;
     this.currentProjectListCourseId = this.listDisplayService.projectListId
 

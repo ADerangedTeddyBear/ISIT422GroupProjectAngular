@@ -8,15 +8,19 @@
             <p>Random Description</p>
           </div>
 
-          <div *ngIf="accountCurrent == 'teacher'">
+          <div *ngIf="accountCurrent === 'teacher'">
             <div class="w3-show-inline-block	">
-              <button class="w3-button w3-small" (click)="setProjNameAndID()"
+
+              <a [routerLink]="['/teacher-pages/teacher-list-view']"
+                [state]="{projectListName:projListName.innerHTML, projectListCourseID:projectListName.id}"
+                (click)="setProjNameAndID()">
+              <button class="w3-button w3-small" 
               class="w3-button w3-small">
-                <a [routerLink]="['/teacher-pages/teacher-list-view']"
-                [state]="{projectName:projListName.innerHTML, projectID:'PID Unique'}">
-                  View Details
-                </a> 
+
+                View Details                
+                
               </button>
+            </a> 
               <button class="w3-button w3-small">Edit</button>
               <button class="w3-button w3-small">Remove</button>
             </div>

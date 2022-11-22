@@ -15,7 +15,7 @@ import { ProjectList } from '../../control-tests/mock-project-list';
 export class StudentListViewComponent implements OnInit {
 
   accountCurrent: string = "";
-  projects:Project[] = [];
+  projects: Project[] = [];
   projectListNames: ProjectList[] = []; 
 
 

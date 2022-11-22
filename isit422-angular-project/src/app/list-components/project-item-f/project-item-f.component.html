@@ -4,9 +4,12 @@
     </div>
     
     <div *ngIf="accountCurrent === 'teacher'">
+
     
         <div class="w3-show-inline-block">
-            <button class="w3-button w3-small">View Project Details</button>
+
+            <p>{{selectedProjectDescription}}</p>
+
             <button class="w3-button w3-small">Edit</button>
             <button class="w3-button w3-small">Remove</button>
         </div>

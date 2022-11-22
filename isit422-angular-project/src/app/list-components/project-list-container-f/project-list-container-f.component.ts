@@ -3,7 +3,7 @@ import { ListDisplayService } from '../../services/list-display.service';
 import { AccountCheckService } from '../../control-tests/account-check.service';
 import { SessionService } from '../../services/session.service';
 
-import { ProjectList} from '../../control-tests/mock-project-list'
+import { ProjectList } from '../../control-tests/mock-project-list'
 import { Router } from '@angular/router';
 
 
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class ProjectListContainerFComponent implements OnInit {
 
-  @Input() projectListName!:ProjectList;
+  @Input() projectListName!: ProjectList;
   @Input() currentProjectNameState!: string;
 
   accountCurrent: string = "";
@@ -30,27 +30,27 @@ export class ProjectListContainerFComponent implements OnInit {
     private listDisplayService: ListDisplayService,
     private sessionService: SessionService
 
-    ) {
-   }
+  ) {
+  }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
 
     // Account testing code
     this.accountCheck.currentAccountType.subscribe(accountCurrent => this.accountCurrent = accountCurrent);
-    
+
   }
 
 
-  setProjNameAndID(){
-    this.listDisplayService.setProjectListNameAndProjectListID(this.projectListName.name, this.projectListName.id );
+  setProjNameAndID() {
+    this.listDisplayService.setProjectListNameAndProjectListID(this.projectListName.name, this.projectListName.id);
 
-    SessionService.SetCurrentList(this.projectListName.name,"Try this 1", "Try this 2" );
+    SessionService.SetCurrentList(this.projectListName.name, "Try this 1", "Try this 2");
   }
 
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;
   }
 
- 
+
 
 }

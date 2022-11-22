@@ -25,19 +25,39 @@ export class TeacherListViewComponent implements OnInit {
   accountCurrent: string = "";
   currentProjectNameState: string = "";
 
+  currentProjectListName: string = "";
+  currentProjectListCourseId = 0;
+
   projectsApiUrl = 'http://localhost:5000/api/projects';
   projectListsApiUrl = 'http://localhost:5000/api/projectlistsnames';
 
-  constructor(private accountCheck: AccountCheckService, 
+  constructor(
+    private accountCheck: AccountCheckService, 
     private listDisplayService: ListDisplayService,
-    private router: Router) { }
+    private router: Router
+
+    ) { }
 
     ngAfterViewInit(){
 
     }
     
     ngOnInit(): void {
-      console.log(history.state.listID);
+      // Account testing code
+    this.accountCheck.currentAccountType.subscribe(accountCurrent => this.accountCurrent = accountCurrent);
+    this.setAccountType();
+
+    //Get projects in array
+    this.getProjects();
+    this.currentProjectListName = this.listDisplayService.projectListName;
+    this.currentProjectListCourseId = this.listDisplayService.projectListId
+
+
+    //Get project list names array
+    this.getProjectListName();
+
+   
+      /*console.log(history.state.listID);
       let s_listname = history.state.listname as string;
       let s_listID = history.state.listID;
       let s_courseID = history.state.courseID;
@@ -58,7 +78,7 @@ export class TeacherListViewComponent implements OnInit {
       this.currentProjectNameState = history.state.projectName;
 
       //Get project list names array
-      this.getProjectListName();
+      this.getProjectListName();*/
     }
 
     // Account testing code
@@ -66,6 +86,18 @@ export class TeacherListViewComponent implements OnInit {
       this.accountCheck.updateAccountType("teacher")
     }
   
+       // Get projects
+   getProjects(): void {
+    this.listDisplayService.getProjectName(this.projectsApiUrl)
+    .subscribe(projects => this.projects = projects);
+  }
+
+  // Get project list names
+  getProjectListName(): void {
+    this.listDisplayService.getProjectListName(this.projectListsApiUrl)
+    .subscribe(projectListNames => this.projectListNames = projectListNames);
+  }
+    /*
      // Get courses
      getProjects(): void {
       this.listDisplayService.getProjectName(this.projectsApiUrl)
@@ -76,5 +108,5 @@ export class TeacherListViewComponent implements OnInit {
     getProjectListName(): void {
       this.listDisplayService.getProjectListName(this.projectListsApiUrl)
       .subscribe(projectListNames => this.projectListNames = projectListNames);
-    }
+    }*/
 }
