@@ -1,14 +1,16 @@
-<div>
-    <div class="w3-container">
+<div class="w3-container listItemStyling">
+    <div class="w3-card-4">
+
+    <header class="w3-container">
         <h3>{{selectedProjectName}}</h3>
-    </div>
+    </header>
     
     <div *ngIf="accountCurrent === 'teacher'">
 
     
         <div class="w3-show-inline-block">
 
-            <p>{{selectedProjectDescription}}</p>
+            {{selectedProjectDescription}}
 
             <button class="w3-button w3-small">Edit</button>
             <button class="w3-button w3-small">Remove</button>
@@ -33,4 +35,6 @@
 
         </div>
     </div>
+</div>
+
 </div>
