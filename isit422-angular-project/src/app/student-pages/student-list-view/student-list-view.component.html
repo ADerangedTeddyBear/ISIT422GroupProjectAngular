@@ -11,16 +11,28 @@
 <!-- app-project-list-item></app-project-list-item> -->
 
 
-    <div *ngFor="let projectListName of projectListNames"> 
-        <h3>
-            {{projectListName.name}}
-        </h3>
-
-        <div *ngFor="let project of projects">
-            <div *ngIf="project.project_list_id == projectListName.id">
-                {{project.name}}
-            </div>
+<div class="w3-container listItemStyling">
+    <div class="w3-card-4">     
+        <div>
+            <header class="w3-container">
+                <h2>{{currentProjectListName}}</h2>
+            </header>       
         </div>
     </div>
-</div>  
+    <div *ngFor="let project of projects">
+        <app-project-list-view-f
+        *ngIf="project.project_list_id == currentProjectListCourseId" 
+        
+            [project]="project">
+        </app-project-list-view-f>
+        
+        
+        
+        </div>
+    
+    </div> 
+</div>
+
+
+ 
 

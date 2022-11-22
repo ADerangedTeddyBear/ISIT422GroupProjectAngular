@@ -30,6 +30,7 @@ import { ProjectListItemFComponent } from './list-components/project-list-item-f
 import { ProjectListContainerFComponent } from './list-components/project-list-container-f/project-list-container-f.component';
 import { ProjectViewFComponent } from './list-components/project-view-f/project-view-f.component';
 import { ProjectItemFComponent } from './list-components/project-item-f/project-item-f.component';
+import { ProjectListViewFComponent } from './list-components/project-list-view-f/project-list-view-f.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ProjectItemFComponent } from './list-components/project-item-f/project-
     ProjectListContainerFComponent,
     ProjectViewFComponent,
     ProjectItemFComponent,
+    ProjectListViewFComponent,
     
   ],
   imports: [

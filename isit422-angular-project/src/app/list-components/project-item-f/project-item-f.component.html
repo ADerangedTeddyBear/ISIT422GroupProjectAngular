@@ -1,6 +1,6 @@
 <div>
     <div class="w3-container">
-        <p>{{projectName}}</p>
+        <h3>{{selectedProjectName}}</h3>
     </div>
     
     <div *ngIf="accountCurrent === 'teacher'">
@@ -20,8 +20,12 @@
     <div *ngIf="accountCurrent === 'student'">
     
         <div class="w3-show-inline-block">
-            <a href="../../student-pages/student-project-view">
-             <button class="w3-button w3-small">View Project Details</button>
+
+            <p>{{selectedProjectDescription}}</p>
+
+
+            <a [routerLink]="['/student-pages/student-list-view']">
+             <button class="w3-button w3-small">Back to Project List</button>
            </a>
 
         </div>
