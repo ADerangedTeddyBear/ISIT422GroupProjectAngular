@@ -111,9 +111,9 @@ app.get('/api/login/:login', (req, res) => {
     var dbo = client.db("db");    
     let nameVal = vals[1];
     let passVal = vals[2];
+    let loginObj = {};
     dbo.collection("students").find({username:nameVal, password:passVal}).toArray(function(err, res2) {
     let loginStatus = 0;
-    let loginObj = {};
         if (err) throw err;
         try{
             if(`${JSON.stringify(res2[0].name).length}` > 0 ) {
@@ -124,14 +124,15 @@ app.get('/api/login/:login', (req, res) => {
                 res.send(JSON.stringify(loginObj));
             } 
         } catch(e) {
+            console.log(e);
             dbo.collection("teachers").find({username:nameVal, password:passVal}).toArray(function(err, res3) {
                 if(err) throw err;
                 try{
                     if(`${JSON.stringify(res3[0].name).length}` > 0 ) {
                         loginObj.wasfound = true;
-                        loginObj.name = res2[0].name;
-                        loginObj.id = res2[0].id;
-                        loginObj.user_type = "student";                        
+                        loginObj.name = res3[0].name;
+                        loginObj.id = res3[0].id;
+                        loginObj.user_type = "teacher";                        
                         res.send(JSON.stringify(loginObj));
                     }
                 } catch(e) {

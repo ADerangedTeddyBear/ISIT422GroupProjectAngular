@@ -50,7 +50,7 @@ export class TeacherListViewComponent implements OnInit {
     //Get projects in array
     this.getProjects();
     this.currentProjectListName = this.listDisplayService.projectListName;
-    this.currentProjectListCourseId = this.listDisplayService.projectListId
+    this.currentProjectListCourseId = this.listDisplayService.projectListId;
 
 
     //Get project list names array
