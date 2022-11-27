@@ -28,17 +28,16 @@ export class FormService {
   async GetStudentNamesAndIDs() {
     // TODO: replace with database call that gets the names and IDs of all users with the "student" user type
     return new Promise((resolve) => {
-      DatabaseService.one();
+      DatabaseService.getAllStudentUsers();
       resolve([{name: "student 1", id: "student-id-1"}, {name: "student 2", id: "student-id-2"}]);
     })
   }
   async GetCourseNamesAndIDs(in_teacherID: string) {
     // TODO: replace with database call that gets all of the current teacher's courses
     return new Promise((resolve) => {
-      DatabaseService.two()
-      //DatabaseService.createNewProjectList(Number(in_teacherID));
-      resolve ([{name: "course 1", id: "course-id-1"}, {name: "course 2", id: "course-id-2"}]);
-
+      DatabaseService.coursesByTeacher(in_teacherID).then((value:any) => (resolve(JSON.parse(value))))
+      console.log(`SessionService.GetCurrentList: ${SessionService.GetCurrentList()}`)
+      //resolve ([{name: "course 1", id: "course-id-1"}, {name: "course 2", id: "course-id-2"}]);
     });
   }
   async GetProject(in_projectID: string) {

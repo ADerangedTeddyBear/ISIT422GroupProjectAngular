@@ -6,6 +6,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const { ColdObservable } = require("rxjs/internal/testing/ColdObservable");
+const Promise=require('promise');
 let client;
 
 app.use(bodyParser.json({limit: '50mb'}));
@@ -142,7 +143,31 @@ app.get('/api/login/:login', (req, res, next) => {
             `${JSON.stringify(res5[0].name).length}` > 0 ? res.json({wasfound:true, name:res5[0].name, id:res5[0].id, user_type:'teacher', passFail:true}) : next();
         } catch(e) {}
     });
-})
+});
+
+app.get('/api/getStudents', (req, res) => {
+    var dbo = client.db("db");
+    dbo.collection("students").find().toArray(function(err, res) {
+        console.log(`JSON.stringify(res): ${JSON.stringify(res)}`);
+        //res.json(res);
+        //name: "student 1", id: "student-id-1"}, {name: "student 2", id: "student-id-2"
+    });
+});
+
+app.get('/api/getCoursesByTeacher/:id', (req, res) => {
+    var dbo = client.db("db");
+        let idNum = Number(req.params.id);
+        dbo.collection("courses").find({teacher_id:idNum}).toArray(function(err, res2) {
+        if (err) throw err;
+        let arrOfObjects = [];
+        for(let i = 0;i < res2.length; i++){
+            let o = {name:res2[i].name, id:String(res2[i].id)};
+            arrOfObjects.push(o);
+        }
+        res.json(arrOfObjects);
+    })
+});
+
 
 //------------------------_-------------------------_-------------------------_-------------------------_-------------------------_-
 app.post('/api/updateMany', (req, res) => {

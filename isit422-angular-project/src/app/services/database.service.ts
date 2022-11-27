@@ -21,8 +21,32 @@ export class DatabaseService {
   static async one() {
     console.log("one+_+_+_")
   }
-  static two() {
-    console.log("two+_+_+_+")
+  static coursesByTeacher(teacherID:string) {
+    return new Promise(function(resolve, reject) {
+      let teacherIDAsInt = Number(teacherID);
+      let urlString = 'http://localhost:5000/api/getCoursesByTeacher/';
+      let url = urlString += teacherIDAsInt;
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.onload = () => {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+          console.log(`xhr.response: ${xhr.response}`);
+          resolve(xhr.response);
+        } else {
+          reject({
+            status:xhr.status,
+            statusText: xhr.statusText
+          });
+        }
+      };
+      xhr.onerror = () => {
+        reject({
+          status:xhr.status,
+          statusText:xhr.statusText
+        });
+      };
+      xhr.send();
+    });
   }
   static three() {
     console.log("three+_+_+_+")
@@ -37,6 +61,31 @@ export class DatabaseService {
     console.log("eight+_+_+")
   }
   /*****************E*N*D********************************************/
+
+  static getAllStudentUsers() {
+    return new Promise(function(resolve, reject) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'http://localhost:5000/api/getStudents');
+      xhr.onload = () => {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+          console.log(Response);
+          resolve(xhr.response);
+        } else {
+          reject({
+            status:xhr.status,
+            statusText: xhr.statusText
+          });
+        }
+      };
+      xhr.onerror = () => {
+        reject({
+          status:xhr.status,
+          statusText:xhr.statusText
+        });
+      };
+      xhr.send();
+    });
+  };
 
   /******************** Not yet implemented ********************************************************************************/
   static createNewProjectList(in_teacherID:number) {
