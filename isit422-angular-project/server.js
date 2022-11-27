@@ -98,54 +98,58 @@ app.post('/api/createnewuser/:id', (req, res) => {
 })
 
 app.get('/api/login/:login', (req, res) => {
-    console.log(req.params.login)    
+    console.log(`req.params.login: ${req.params.login}`)    
     let v = req.params.login.split('|');
     let keys = [];
     let vals = [];
-    for(let i = 0;i<v.length;i++) {        
+    for(let i = 1;i<v.length;i++) {        
         let current = v[i].split(':');
-        console.log(`current: ${current}`)
         keys.push(current[0]);
         vals.push(current[1]);
     }
     var dbo = client.db("db");    
-    let nameVal = vals[1];
-    let passVal = vals[2];
-    let loginObj = {};
+    const nameVal = vals[0];
+    const passVal = vals[1];
     dbo.collection("students").find({username:nameVal, password:passVal}).toArray(function(err, res2) {
-    let loginStatus = 0;
         if (err) throw err;
-        try{
+        try {
             if(`${JSON.stringify(res2[0].name).length}` > 0 ) {
-                loginObj.wasfound = true;
-                loginObj.name = res2[0].name;
-                loginObj.id = res2[0].id;
-                loginObj.user_type = "student";                
-                res.send(JSON.stringify(loginObj));
+                let name = res2[0].name;
+                let id = res2[0].id;
+                res.json({wasfound:true, name:name, id:id, user_type:'student'});
+                return;
             } 
-        } catch(e) {
-            console.log(e);
-            dbo.collection("teachers").find({username:nameVal, password:passVal}).toArray(function(err, res3) {
-                if(err) throw err;
-                try{
-                    if(`${JSON.stringify(res3[0].name).length}` > 0 ) {
-                        loginObj.wasfound = true;
-                        loginObj.name = res3[0].name;
-                        loginObj.id = res3[0].id;
-                        loginObj.user_type = "teacher";                        
-                        res.send(JSON.stringify(loginObj));
-                    }
-                } catch(e) {
-                    loginResponse = `|${String(loginStatus)}`
-                } finally {
-                    loginObj.wasfound = false;
-                    loginObj.name = '';
-                    loginObj.id = '';
-                    loginObj.user_type = '';                    
-                    res.send(JSON.stringify(loginObj));
+        } catch(e) {}
+    })
+    dbo.collection("teachers").find({username:nameVal, password:passVal}).toArray(function(err, res3) {        
+        try {    
+            if(err) throw err;                
+                if(`${JSON.stringify(res3[0].name).length}` > 0 ) {
+                    let name = res3[0].name;
+                    let id = res3[0].id;
+                    res.json({wasfound:true, name:name, id:id, user_type:'student'});
+                    return;
                 }
-            })
-        }
+            } catch(e) {}
+        })
+    dbo.collection("students").find({username:nameVal}).toArray(function(err, res4) {                
+        if(err) throw err;                
+        try {                
+            if(`${JSON.stringify(res4[0].name).length}` > 0 ) {
+                let name = res4[0].name;
+                let id = res4[0].id;
+                res.json({wasfound:true, name:name, id:id, user_type:'student'});
+            }
+        } catch(e) {}
+    });
+    dbo.collection("teachers").find({username:nameVal}).toArray(function(err, res5) {
+        if(err) throw err;
+        try {
+            if(`${JSON.stringify(res5[0].name).length}` > 0 ) {
+                let name = res5[0].name;
+                let id = res5[0].id;
+            }
+        } catch(e) {}
     })
 })
 
