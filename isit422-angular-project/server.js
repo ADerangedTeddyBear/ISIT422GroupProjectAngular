@@ -97,60 +97,51 @@ app.post('/api/createnewuser/:id', (req, res) => {
     })
 })
 
-app.get('/api/login/:login', (req, res) => {
-    console.log(`req.params.login: ${req.params.login}`)    
+app.get('/api/login/:login', (req, res, next) => { 
     let v = req.params.login.split('|');
     let keys = [];
     let vals = [];
+    //assign the "login" url parameters to key value pairs
     for(let i = 1;i<v.length;i++) {        
         let current = v[i].split(':');
         keys.push(current[0]);
         vals.push(current[1]);
     }
-    var dbo = client.db("db");    
+    var dbo = client.db("db");
+    //name to look up in the database
     const nameVal = vals[0];
+    //password to look up in the database
     const passVal = vals[1];
+    //first pass, check to see if the name and password are found in the students collection and are correct
     dbo.collection("students").find({username:nameVal, password:passVal}).toArray(function(err, res2) {
-        if (err) throw err;
         try {
-            if(`${JSON.stringify(res2[0].name).length}` > 0 ) {
-                let name = res2[0].name;
-                let id = res2[0].id;
-                res.json({wasfound:true, name:name, id:id, user_type:'student'});
-                return;
-            } 
+            if (err) throw err;
+            `${JSON.stringify(res2[0].name).length}` > 0 ? res.json({wasfound:true, name:res2[0].name, id:res2[0].id, user_type:'student'}) : next();
+                return;            
         } catch(e) {}
-    })
+    });
+    //Second pass, if they weren't found in the students collection, check to see if the name and password are found in the teachers collection and are correct
     dbo.collection("teachers").find({username:nameVal, password:passVal}).toArray(function(err, res3) {        
         try {    
-            if(err) throw err;                
-                if(`${JSON.stringify(res3[0].name).length}` > 0 ) {
-                    let name = res3[0].name;
-                    let id = res3[0].id;
-                    res.json({wasfound:true, name:name, id:id, user_type:'student'});
-                    return;
-                }
-            } catch(e) {}
-        })
+            if(err) throw err;
+            `${JSON.stringify(res3[0].name).length}` > 0 ? res.json({wasfound:true, name:res3[0].name, id:res3[0].id, user_type:'student'}) : next();
+                return;
+        } catch(e) {}
+    });
+    //Check to see if the username was found in the students collection but the password was incorrect
     dbo.collection("students").find({username:nameVal}).toArray(function(err, res4) {                
         if(err) throw err;                
         try {                
-            if(`${JSON.stringify(res4[0].name).length}` > 0 ) {
-                let name = res4[0].name;
-                let id = res4[0].id;
-                res.json({wasfound:true, name:name, id:id, user_type:'student'});
-            }
+            `${JSON.stringify(res4[0].name).length}` > 0 ? res.json({wasfound:true, name:res4[0].name, id:res4[0].id, user_type:'student', passFail:true}) : next();
         } catch(e) {}
     });
+    //Check to see if the username was found in the teachers collection but the password was incorrect
     dbo.collection("teachers").find({username:nameVal}).toArray(function(err, res5) {
         if(err) throw err;
         try {
-            if(`${JSON.stringify(res5[0].name).length}` > 0 ) {
-                let name = res5[0].name;
-                let id = res5[0].id;
-            }
+            `${JSON.stringify(res5[0].name).length}` > 0 ? res.json({wasfound:true, name:res5[0].name, id:res5[0].id, user_type:'teacher', passFail:true}) : next();
         } catch(e) {}
-    })
+    });
 })
 
 //------------------------_-------------------------_-------------------------_-------------------------_-------------------------_-
