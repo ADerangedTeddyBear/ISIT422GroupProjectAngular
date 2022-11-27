@@ -50,13 +50,11 @@ export class FormService {
   async GetExistingUser(in_username: string, in_password: string) {
     return new Promise((resolve) => {
       let url = DatabaseService.dbLogIn(in_username, in_password);
-
       DatabaseService.requestLogin('GET', url).then(
         (value:any) => {
           resolve(JSON.parse(value));
         }
       );
-
     });
   }
   async CreateNewUser(in_name: string, in_username: string, in_password: string, in_user_type: string) {   
@@ -71,7 +69,6 @@ export class FormService {
           });
         }
       );
-
     });    
   }
   CreateNewCourse(in_name: string, in_students: string[], in_teacherID: string) {
@@ -81,13 +78,11 @@ export class FormService {
   async CreateNewProjectList(in_name: string, in_course: string) {
     return new Promise((resolve) => {
       // TODO: Replace with database call that creates a new list in the database
-      DatabaseService.one().then(
+      DatabaseService.newProjectList(in_name, in_course).then(
         (value: any) => {
-          // replace with JSON.parse(value)
-          resolve({listname: 'New List', listID: 'New List ID', courseID: 'Existing Course ID'})
+          resolve(JSON.parse(value));
         }
       );
-
     });
   }
   CreateNewProject(in_name: string, in_description: string, in_projectListID: string) {
@@ -120,7 +115,6 @@ export class FormService {
           if (exampleUser['user_type'] == 'teacher') this.router.navigate(['/teacher-pages/teacher-landing']);
           else if (exampleUser['user_type'] == 'student') this.router.navigate(['/student-pages/student-landing']);
         }
-
       }
     );
   }

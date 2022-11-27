@@ -18,9 +18,38 @@ export class DatabaseService {
 ];
 
 /************************************ These are to test execution points *************************************************/
-  static async one() {
-    console.log("one+_+_+_")
+  static async newProjectList(projectListName:string, courseID:string) {
+    return new Promise(function(resolve, reject) {      
+      let url = 'http://localhost:5000/api/newprojectlist/';
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', url);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      var d = JSON.stringify({
+        id:1,
+        name:projectListName,
+        courseid:Number(courseID)
+      })
+      xhr.onload = () => {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+          console.log(`xhr.response: ${xhr.response}`);
+          resolve(xhr.response);
+        } else {
+          reject({
+            status:xhr.status,
+            statusText: xhr.statusText
+          });
+        }
+      };
+      xhr.onerror = () => {
+        reject({
+          status:xhr.status,
+          statusText:xhr.statusText
+        });
+      };
+      xhr.send(d);
+    });
   }
+
   static coursesByTeacher(teacherID:string) {
     return new Promise(function(resolve, reject) {
       let teacherIDAsInt = Number(teacherID);
@@ -86,15 +115,6 @@ export class DatabaseService {
       xhr.send();
     });
   };
-
-  /******************** Not yet implemented ********************************************************************************/
-  static createNewProjectList(in_teacherID:number) {
-    let query = 'http://localhost:5000/api/createnewprojectlist/';
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", query, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-  }
-/*****************E*N*D********************************************/
 
 /****** Form Service Login ********************************************************************************/
   static dbLogIn(in_username:string, in_password:string) {

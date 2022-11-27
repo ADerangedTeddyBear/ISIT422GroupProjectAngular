@@ -65,7 +65,8 @@ app.post('/api/createnewuser/:id', (req, res) => {
     /*the individual stringified object values sent from database service*/
     //console.log(`user_type: ${obj.user_type} | username: ${obj.username}| password: ${obj.password}| name: ${obj.name}`);
     var dbo = client.db("db");
-    /*id variable passed at end of url*/
+    /*id variable passed at end of url-- this is for selecting the user type by means of the index for the collections
+    , not for the id that gets inserted with the new user. The user's id will be generated. It is to differentiate between students and teachers*/
     var idValue = req.params.id;
     //console.log(`idValue: ${idValue}`);
     /*collections object derived from the constant in this document, using the id variable as the index to 
@@ -165,6 +166,33 @@ app.get('/api/getCoursesByTeacher/:id', (req, res) => {
             arrOfObjects.push(o);
         }
         res.json(arrOfObjects);
+    })
+});
+
+app.post('/api/newprojectlist', (req, res) => {
+    var dbo = client.db("db");
+    let o = req.body;
+    //this sorts the collection in descending order and limits it to the last entry i.e. the entry with the greatest id value.
+    dbo.collection("project_lists").find({}).sort({id:-1}).limit(1).toArray(function(err, res2) {
+        if(err) throw err;
+        //reasign the object on which we are inserting
+        let obj = res2[0];
+        //validate that the database records do contain our custom id field
+        console.log(`Object.getOwnPropertyNames(obj)[1]: ${Object.getOwnPropertyNames(obj)[1]}`)
+        if((Object.getOwnPropertyNames(obj))[1] === 'id') {
+            //store previous max id within specified collection in PreviousId Object property to retain value
+            PreviousId.current.value = obj.id;
+            //set the next id to keep ids unique
+            PreviousId.current.next = obj.id += 1;
+        }
+        //update value of id to increment by 1 from the largest id found in the database
+        o.id = PreviousId.current.next;
+
+        
+        dbo.collection("project_lists").insertOne(o, function(err, res3) {
+            if(err) throw err;
+            console.log('inserted, hopefully');    
+        })
     })
 });
 
