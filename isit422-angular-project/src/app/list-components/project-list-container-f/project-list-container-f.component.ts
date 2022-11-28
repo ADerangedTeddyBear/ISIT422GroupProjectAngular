@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ListDisplayService } from '../../services/list-display.service';
 import { AccountCheckService } from '../../control-tests/account-check.service';
 import { SessionService } from '../../services/session.service';
+import {DatabaseService} from '../../services/database.service';
 
 import { ProjectList } from '../../control-tests/mock-project-list'
 import { Router } from '@angular/router';
@@ -28,7 +29,8 @@ export class ProjectListContainerFComponent implements OnInit {
     private router: Router,
     private accountCheck: AccountCheckService,
     private listDisplayService: ListDisplayService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private databaseService: DatabaseService
 
   ) {
   }
@@ -51,6 +53,10 @@ export class ProjectListContainerFComponent implements OnInit {
     return (event.target as HTMLInputElement).value;
   }
 
-
+  deleteItem(id: number) {
+    let mongo_delete_out = `http://localhost:5000/api/delete/${id}/`;
+    DatabaseService.deleteRecord(mongo_delete_out);
+    console.log(id);
+  }
 
 }
