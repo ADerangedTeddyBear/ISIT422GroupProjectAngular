@@ -62,11 +62,7 @@ export class FormService {
       DatabaseService.createNewUser(in_name, in_username, in_password, in_user_type).then(
         (value: any) => {
           // replace with JSON.parse(value)
-          resolve({
-            name: in_name,
-            id: 'Unique ID for Created User',
-            user_type: in_user_type
-          });
+          resolve(value);
         }
       );
     });    
@@ -76,10 +72,11 @@ export class FormService {
     DatabaseService.six();
   }
   async CreateNewProjectList(in_name: string, in_course: string) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       // TODO: Replace with database call that creates a new list in the database
       DatabaseService.newProjectList(in_name, in_course).then(
         (value: any) => {
+          console.log(value);
           resolve(JSON.parse(value));
         }
       );
@@ -120,15 +117,15 @@ export class FormService {
   }
 
   async HandleCreateAccountForm(in_FormData: {name: string, username: string, password: string, user_type: string}, in_FormName: string) {
-    console.log(`${in_FormName} - Add a new user to the database with the following credentials:`);
-    this.logFormData(in_FormData);
 
     // After adding the new user to the database, set them as the current user and navigate to the correct landing page
     this.CreateNewUser(in_FormData.name, in_FormData.username, in_FormData.password, in_FormData.user_type).then(
-      (newUser: any) => {
+      (val: any) => {
+        let newUser = JSON.parse(val);
+        console.log(newUser["name"], newUser["id"], newUser["user_type"]);
 
         // Set the new user as the current user
-        SessionService.SetCurrentUser(newUser.name, newUser.id, newUser.user_type);
+        SessionService.SetCurrentUser(newUser["name"], newUser["id"], newUser["user_type"]);
     
         // Navigate to the correct landing page
         if (newUser.user_type == 'teacher') this.router.navigate(['/teacher-pages/teacher-landing']);

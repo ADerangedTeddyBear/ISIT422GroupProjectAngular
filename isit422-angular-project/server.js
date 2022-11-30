@@ -126,7 +126,7 @@ app.get('/api/login/:login', (req, res, next) => {
     dbo.collection("teachers").find({username:nameVal, password:passVal}).toArray(function(err, res3) {        
         try {    
             if(err) throw err;
-            `${JSON.stringify(res3[0].name).length}` > 0 ? res.json({wasfound:true, name:res3[0].name, id:res3[0].id, user_type:'student'}) : next();
+            `${JSON.stringify(res3[0].name).length}` > 0 ? res.json({wasfound:true, name:res3[0].name, id:res3[0].id, user_type:'teacher'}) : next();
                 return;
         } catch(e) {}
     });

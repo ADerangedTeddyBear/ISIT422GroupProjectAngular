@@ -34,6 +34,7 @@ export class DatabaseService {
           console.log(`xhr.response: ${xhr.response}`);
           resolve(xhr.response);
         } else {
+          console.log("reject");
           reject({
             status:xhr.status,
             statusText: xhr.statusText
@@ -41,6 +42,7 @@ export class DatabaseService {
         }
       };
       xhr.onerror = () => {
+        console.log("error");
         reject({
           status:xhr.status,
           statusText:xhr.statusText
