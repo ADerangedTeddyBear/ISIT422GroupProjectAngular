@@ -42,6 +42,7 @@ export class SessionService {
       user_type: in_user_type
     };
     sessionStorage.setItem('current user', JSON.stringify(currentUser));
+    console.log(currentUser);
   }
 
   static UnsetCurrentUser() {
