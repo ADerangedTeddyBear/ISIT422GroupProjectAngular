@@ -23,7 +23,8 @@ export class EditProjectPageComponent implements OnInit {
       this.projectID = history.state.projectID;
       this.FormService.GetProject(this.projectID).then(
         (value: any) => {
-          this.projectData = value;
+          let valueObj = JSON.parse(value)
+          this.projectData = valueObj;
           if (this.projectData) this.editProjectForm = this.formBuilder.group({
             projectname: [this.projectData.projectName, Validators.required],
             description: [this.projectData.projectDescription, Validators.required]

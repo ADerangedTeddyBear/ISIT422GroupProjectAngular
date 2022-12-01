@@ -17,8 +17,10 @@ export class CoursePageComponent implements OnInit {
   constructor(
     private FormService: FormService,
     private formBuilder: FormBuilder) {
+      console.log("Course Page");
       FormService.GetStudentNamesAndIDs().then(
         (value: any) => {
+          console.log(value);
           this.studentsArray = value;
           this.courseForm = this.createForm();
           this.courseForm.reset();

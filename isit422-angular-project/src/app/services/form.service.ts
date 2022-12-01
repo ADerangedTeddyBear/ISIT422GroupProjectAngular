@@ -26,10 +26,18 @@ export class FormService {
   //
 
   async GetStudentNamesAndIDs() {
-    // TODO: replace with database call that gets the names and IDs of all users with the "student" user type
+    console.log("Get Students")
     return new Promise((resolve) => {
-      DatabaseService.getAllStudentUsers();
-      resolve([{name: "student 1", id: "student-id-1"}, {name: "student 2", id: "student-id-2"}]);
+      DatabaseService.getAllStudentUsers().then((value: any) => {
+        let valueObj = JSON.parse(value);
+        console.log("Students Promise", valueObj);
+        let studentArray = [];
+        for (let val in valueObj) {
+          let temp = {name: valueObj[val].name, id: valueObj[val].id}
+          studentArray.push(temp)
+        }
+        resolve(studentArray);
+      });
     })
   }
   async GetCourseNamesAndIDs(in_teacherID: string) {
@@ -43,7 +51,8 @@ export class FormService {
   async GetProject(in_projectID: string) {
     return new Promise((resolve) => {
       DatabaseService.three();
-      resolve({projectName: "Name of project", projectDescription: "Description of project"});
+      let testData = JSON.stringify({projectName: "Name of project", projectDescription: "Description of project"})
+      resolve(testData);
     });
   }
   
@@ -77,7 +86,8 @@ export class FormService {
       DatabaseService.newProjectList(in_name, in_course).then(
         (value: any) => {
           console.log(value);
-          resolve(JSON.parse(value));
+
+          resolve(value);
         }
       );
     });
@@ -185,7 +195,8 @@ export class FormService {
 
     //const newList: {listname: string, listID: string, courseID: string} = this.CreateNewProjectList(in_FormData.listname, in_FormData.course);
     this.CreateNewProjectList(in_FormData.listname, in_FormData.course).then(
-      (newList: any) => {
+      (value: any) => {
+        let newList = JSON.parse(value)
         this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: newList.listname, listID: newList.listID, courseID: newList.courseID}});
       }
     );
