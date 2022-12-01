@@ -9,7 +9,11 @@
       <li><a routerLink="/teacher-pages/teacher-landing">Teacher Landing</a></li>
       <!-- <li><a routerLink="/testbench">Styling Test Bench</a></li>-->
       <li><a routerLink="/database">Database</a></li> 
-      <li class = "right"><a routerLink="/login-pages/sign-in">Sign In</a></li>
+      <li class = "right">
+        <a *ngIf="accountCurrent!='teacher' && accountCurrent != 'student'" routerLink="/login-pages/sign-in">Sign In</a>
+
+        <a *ngIf="accountCurrent==='teacher' || accountCurrent === 'student'" routerLink="/login-pages/sign-in">Sign Out</a>
+      </li>
     </ul>
   </header>
   
