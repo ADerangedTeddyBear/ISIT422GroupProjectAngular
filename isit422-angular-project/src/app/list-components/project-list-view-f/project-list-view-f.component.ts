@@ -3,6 +3,7 @@ import { SessionService } from '../../services/session.service';
 import { ListDisplayService } from '../../services/list-display.service';
 import { AccountCheckService } from '../../control-tests/account-check.service';
 import { Project } from '../../control-tests/mock-project';
+import { DatabaseService } from 'src/app/services/database.service';
 
 @Component({
   selector: 'app-project-list-view-f',
@@ -26,7 +27,8 @@ export class ProjectListViewFComponent implements OnInit {
   constructor(
     private sessionService: SessionService,
     private accountCheck: AccountCheckService,
-    private listDisplayService: ListDisplayService
+    private listDisplayService: ListDisplayService,
+    private databaseService: DatabaseService
 
   ) {}
 
@@ -51,7 +53,11 @@ setProjectNameAndDescription(){
   console.log("The Project name is " + this.listDisplayService.selectedProjectName + " " + this.listDisplayService.selectedProjectDescription);
 }
 
-
+deleteItem(id: number) {
+  let mongo_delete_out = `http://localhost:5000/api/delete/${id}/`;
+  DatabaseService.deleteRecord(mongo_delete_out);
+  console.log(id);
+}
 
 
 }
