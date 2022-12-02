@@ -14,7 +14,7 @@ export class StudentPagesComponent implements OnInit {
   currentStudent = SessionService.GetCurrentUser();
 
   ngOnInit(): void {
-    if (typeof this.currentStudent == 'undefined') {
+    if (typeof this.currentStudent == 'undefined' || this.currentStudent.user_type != "student") {
       this.router.navigate(['/login-pages/sign-in']);
       throw new Error("Invalid state: No user was logged in");
     }
