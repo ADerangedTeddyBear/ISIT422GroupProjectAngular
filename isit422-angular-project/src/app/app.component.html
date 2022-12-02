@@ -5,8 +5,8 @@
     <h1>ISIT 422 Project</h1>
   
     <ul>
-      <li><a routerLink="/student-pages/student-landing">Student Landing</a></li>
-      <li><a routerLink="/teacher-pages/teacher-landing">Teacher Landing</a></li>
+      <li><a routerLink="/student-pages/student-landing" *ngIf="accountCurrent === 'student' || (accountCurrent!='teacher' && accountCurrent != 'student')">Student Landing</a></li>
+      <li><a routerLink="/teacher-pages/teacher-landing" *ngIf="accountCurrent === 'teacher' || (accountCurrent!='teacher' && accountCurrent != 'student')">Teacher Landing</a></li>
       <!-- <li><a routerLink="/testbench">Styling Test Bench</a></li>-->
       <li><a routerLink="/database">Database</a></li> 
       <li class = "right">
