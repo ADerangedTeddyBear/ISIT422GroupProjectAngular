@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-login-pages',
@@ -10,6 +11,7 @@ export class LoginPagesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    SessionService.UnsetCurrentUser();
   }
 
   // Apply style changes to <body> while in the student-pages route

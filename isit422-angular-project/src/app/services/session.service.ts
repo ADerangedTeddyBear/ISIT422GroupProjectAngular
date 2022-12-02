@@ -46,6 +46,7 @@ export class SessionService {
   }
 
   static UnsetCurrentUser() {
+    console.log("Unset User");
     sessionStorage.removeItem('current user');
   }
   static UnsetCurrentList() {
