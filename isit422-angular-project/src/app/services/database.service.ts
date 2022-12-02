@@ -27,7 +27,7 @@ export class DatabaseService {
       var d = JSON.stringify({
         id:1,
         name:projectListName,
-        courseid:Number(courseID)
+        course_id:Number(courseID)
       })
       xhr.onload = () => {
         if(xhr.readyState == 4 && xhr.status == 200) {

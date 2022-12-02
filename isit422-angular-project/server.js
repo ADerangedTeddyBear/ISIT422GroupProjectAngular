@@ -148,9 +148,9 @@ app.get('/api/login/:login', (req, res, next) => {
 
 app.get('/api/getStudents', (req, res) => {
     var dbo = client.db("db");
-    dbo.collection("students").find().toArray(function(err, res) {
-        console.log(`JSON.stringify(res): ${JSON.stringify(res)}`);
-        //res.json(res);
+    dbo.collection("students").find().toArray(function(err, findRes) {
+        console.log(`JSON.stringify(res): ${JSON.stringify(findRes)}`);
+        res.json(findRes);
         //name: "student 1", id: "student-id-1"}, {name: "student 2", id: "student-id-2"
     });
 });
@@ -191,7 +191,8 @@ app.post('/api/newprojectlist', (req, res) => {
         
         dbo.collection("project_lists").insertOne(o, function(err, res3) {
             if(err) throw err;
-            console.log('inserted, hopefully');    
+            console.log(o, 'inserted, hopefully'); 
+            res.json(o);   
         })
     })
 });
