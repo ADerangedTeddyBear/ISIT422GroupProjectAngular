@@ -6,6 +6,7 @@ import {DatabaseService} from '../../services/database.service';
 
 import { ProjectList } from '../../control-tests/mock-project-list'
 import { Router } from '@angular/router';
+import { CurrentUser } from '../../control-tests/mock-current-user';
 
 
 @Component({
@@ -18,8 +19,13 @@ export class ProjectListContainerFComponent implements OnInit {
   @Input() projectListName!: ProjectList;
   @Input() currentProjectNameState!: string;
 
-  accountCurrent: string = "";
   currentProjectName: string = "";
+
+  currentUserAccount: CurrentUser = {
+    name: "",
+    id: 0,
+    user_type: ""
+  };
 
 
   //projectListNameStudentListView: ProjectList = {} as ProjectList;
@@ -37,8 +43,10 @@ export class ProjectListContainerFComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // Account testing code
-    this.accountCheck.currentAccountType.subscribe(accountCurrent => this.accountCurrent = accountCurrent);
+    // Get user accunt type
+    this.currentUserAccount = SessionService.GetCurrentUser();
+
+    console.log("THE CURRENT USER IS :" + this.currentUserAccount.user_type)
 
   }
 

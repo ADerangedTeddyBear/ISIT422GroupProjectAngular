@@ -5,7 +5,7 @@
         <h3>{{selectedProjectName}}</h3>
     </header>
     
-    <div *ngIf="accountCurrent === 'teacher'">
+    <div *ngIf="currentUserAccount.user_type === 'teacher'">
 
     
         <div class="w3-show-inline-block">
@@ -22,7 +22,7 @@
         </div>
     </div>
     
-    <div *ngIf="accountCurrent === 'student'">
+    <div *ngIf="currentUserAccount.user_type === 'student'">
     
         <div class="w3-show-inline-block">
 

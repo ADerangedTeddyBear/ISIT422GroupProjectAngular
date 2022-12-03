@@ -4,6 +4,7 @@ import { ListDisplayService } from '../../services/list-display.service';
 import { AccountCheckService } from '../../control-tests/account-check.service';
 import { Project } from '../../control-tests/mock-project';
 import { DatabaseService } from 'src/app/services/database.service';
+import { CurrentUser } from '../../control-tests/mock-current-user';
 
 @Component({
   selector: 'app-project-list-view-f',
@@ -16,7 +17,11 @@ export class ProjectListViewFComponent implements OnInit {
   currentProjectListName = "";
   currentProjectListCourseId = 0;
 
-  accountCurrent: string = "";
+  currentUserAccount: CurrentUser = {
+    name: "",
+    id: 0,
+    user_type: ""
+  };
 
   selectedProjectName = "";
   selectedProjectDescription = ""; 
@@ -34,15 +39,13 @@ export class ProjectListViewFComponent implements OnInit {
 
 ngOnInit(): void {
 
-    // Account testing code
-    this.accountCheck.currentAccountType.subscribe(accountCurrent => this.accountCurrent = accountCurrent);
+    
+    // Get user account type
+    this.currentUserAccount = SessionService.GetCurrentUser();
 
     this.currentProjectListName = this.listDisplayService.projectListName;
     this.currentProjectListCourseId = this.listDisplayService.projectListId
 
-    console.log("Display the following: " + 
-      this.currentProjectListName +
-      " " + this.currentProjectListCourseId);
   }
 
 

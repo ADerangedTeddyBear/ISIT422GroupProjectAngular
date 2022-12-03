@@ -6,7 +6,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const { ColdObservable } = require("rxjs/internal/testing/ColdObservable");
-const Promise=require('promise');
+//const Promise=require('promise');
 let client;
 
 app.use(bodyParser.json({limit: '50mb'}));

@@ -8,7 +8,7 @@
             <p>Random Description</p>
           </div>
 
-          <div *ngIf="accountCurrent === 'teacher'">
+          <div *ngIf="currentUserAccount.user_type === 'teacher'">
             <div class="w3-show-inline-block	">
 
               <a [routerLink]="['/teacher-pages/teacher-list-view']"
@@ -26,7 +26,7 @@
             </div>
           </div>
 
-          <div *ngIf="accountCurrent == 'student'">
+          <div *ngIf="currentUserAccount.user_type == 'student'">
             <div class="w3-show-inline-block	">
               <a>
               <button 
