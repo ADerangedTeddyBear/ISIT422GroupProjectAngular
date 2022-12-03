@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountCheckService } from '../../control-tests/account-check.service';
 import { CurrentUser } from '../../control-tests/mock-current-user';
+import { Project } from '../../control-tests/mock-project';
 import { ListDisplayService } from '../../services/list-display.service';
 import { SessionService } from '../../services/session.service';
 
@@ -24,6 +25,14 @@ export class ProjectItemFComponent implements OnInit {
     user_type: ""
   };
 
+  currentProject: Project = {
+    id: 0,
+    name: "",
+    description: "",
+    project_list_id: 0,
+    student_ids: []
+}
+
   constructor(
     private accountCheck: AccountCheckService,
     private listDisplayService: ListDisplayService) { }
@@ -31,6 +40,9 @@ export class ProjectItemFComponent implements OnInit {
   ngOnInit(): void {
     // Get user account type
     this.currentUserAccount = SessionService.GetCurrentUser();
+
+    // Get current project
+    this.currentProject = SessionService.GetCurrentProject();
 
 
     this.selectedProjectName = this.listDisplayService.selectedProjectName;
