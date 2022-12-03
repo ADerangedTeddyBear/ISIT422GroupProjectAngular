@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountCheckService } from '../../control-tests/account-check.service';
+import { SessionService } from '../../services/session.service';
+
 import { ListDisplayService } from '../../services/list-display.service';
 import { Course } from '../../control-tests/mock-course';
 import { Router } from '@angular/router';
@@ -27,6 +29,12 @@ export class StudentListViewComponent implements OnInit {
   projectsApiUrl = 'http://localhost:5000/api/projects';
   projectListsApiUrl = 'http://localhost:5000/api/projectlistsnames';
 
+  currentProjectList: ProjectList = {
+    id: 0,
+    name: "",
+    course_id: 0,
+    project_ids: []
+  };
 
   constructor(
     private accountCheck: AccountCheckService,
@@ -44,16 +52,14 @@ export class StudentListViewComponent implements OnInit {
     this.setAccountType();
 
     //Get projects in array
+    //Get projects in array   
+    this.currentProjectList = SessionService.GetCurrentProjectList();
+    //this.currentProjectListCourseId = this.currentProjectList.course_id;
     this.getProjects();
-    this.currentProjectListName = this.listDisplayService.projectListName;
-    this.currentProjectListCourseId = this.listDisplayService.projectListId
-
 
     //Get project list names array
-    this.getProjectListName();
+   //this.getProjectListName();
 
-    //console.log(this.currentProjectNameState);
-    console.log("Welcome to student view list for " + " " + this.currentProjectListName + " " + this.currentProjectListCourseId);
 
   }
 

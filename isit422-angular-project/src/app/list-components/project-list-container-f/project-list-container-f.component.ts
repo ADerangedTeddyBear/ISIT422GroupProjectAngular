@@ -46,17 +46,26 @@ export class ProjectListContainerFComponent implements OnInit {
     // Get user accunt type
     this.currentUserAccount = SessionService.GetCurrentUser();
 
-    console.log("THE CURRENT USER IS :" + this.currentUserAccount.user_type)
 
   }
 
+  setCurrentProjectList() {
+
+    SessionService.SetCurrentProjectList(
+      this.projectListName.id,
+      this.projectListName.name,
+      this.projectListName.course_id,
+      this.projectListName.project_ids)
+  }
+
+  /*
 
   setProjNameAndID() {
     this.listDisplayService.setProjectListNameAndProjectListID(this.projectListName.name, this.projectListName.id);
 
     SessionService.SetCurrentList(this.projectListName.name, "Try this 1", "Try this 2");
   }
-
+*/
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;
   }

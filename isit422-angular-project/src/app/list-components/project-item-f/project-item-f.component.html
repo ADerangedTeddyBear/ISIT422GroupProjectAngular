@@ -2,7 +2,7 @@
     <div class="w3-card-4">
 
     <header class="w3-container">
-        <h3>{{selectedProjectName}}</h3>
+        <h3>{{currentProject.name}}</h3>
     </header>
     
     <div *ngIf="currentUserAccount.user_type === 'teacher'">
@@ -10,7 +10,7 @@
     
         <div class="w3-show-inline-block">
 
-            {{selectedProjectDescription}}
+            {{currentProject.description}}
 
             <button class="w3-button w3-small">Edit</button>
             <button class="w3-button w3-small">Remove</button>
@@ -26,7 +26,7 @@
     
         <div class="w3-show-inline-block">
 
-            <p>{{selectedProjectDescription}}</p>
+            <p>{{currentProject.description}}</p>
 
 
             <a [routerLink]="['/student-pages/student-list-view']">

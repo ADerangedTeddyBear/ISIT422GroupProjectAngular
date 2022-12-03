@@ -45,7 +45,7 @@ export class ProjectItemFComponent implements OnInit {
     this.currentProject = SessionService.GetCurrentProject();
 
 
-    this.selectedProjectName = this.listDisplayService.selectedProjectName;
-    this.selectedProjectDescription = this.listDisplayService.selectedProjectDescription;
+    //this.selectedProjectName = this.listDisplayService.selectedProjectName;
+    //this.selectedProjectDescription = this.listDisplayService.selectedProjectDescription;
   }
 }

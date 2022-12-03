@@ -10,7 +10,7 @@
         [routerLink]="['/teacher-pages/teacher-project-view']"
         [state]="{projectName:projName.innerHTML, projectDescription:project.description}"
         >
-        <button (click)="setProjectNameAndDescription()"
+        <button (click)="setCurrentProject()"
             
             class="w3-button w3-small">        
             View Project Details                    
@@ -27,7 +27,7 @@
         [routerLink]="['/student-pages/student-project-view']"
         [state]="{projectName:projName.innerHTML, projectDescription:project.description}"
         >
-        <button (click)="setProjectNameAndDescription()"
+        <button (click)="setCurrentProject()"
             
             class="w3-button w3-small">        
             View Project Details                    

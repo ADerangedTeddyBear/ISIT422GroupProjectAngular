@@ -13,7 +13,7 @@
 
               <a [routerLink]="['/teacher-pages/teacher-list-view']"
                 [state]="{projectListName:projListName.innerHTML, projectListCourseID:projectListName.id}"
-                (click)="setProjNameAndID()">
+                (click)="setCurrentProjectList()">
               <button class="w3-button w3-small" 
               class="w3-button w3-small">
 
@@ -32,7 +32,7 @@
               <button 
                    [routerLink]="['/student-pages/student-list-view']"
                   [state]="{projectListName:projListName.innerHTML, projectListCourseID:projectListName.id}"
-                  (click)="setProjNameAndID()"
+                  (click)="setCurrentProjectList()"
                   class="w3-button w3-small">
                   
                   View Details

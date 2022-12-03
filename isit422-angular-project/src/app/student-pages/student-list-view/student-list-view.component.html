@@ -4,6 +4,31 @@
 
 <div>
 
+    <div class="w3-container listItemStyling">
+    
+        <div class="w3-container listItemStyling">
+            <div class="w3-card-4">     
+                <div>
+                    <header class="w3-container">
+                        <h2>{{currentProjectList.name}}</h2>
+                    </header>       
+        
+                    <div *ngFor="let project of projects">
+                        <app-project-list-view-f
+                            *ngIf="project.project_list_id == currentProjectList.course_id" 
+            
+                            [project]="project">
+                        </app-project-list-view-f>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--div>
+
 <div class="w3-container listItemStyling">
 
 <div class="w3-container listItemStyling">
@@ -25,7 +50,7 @@
         </div>
     
     </div> 
-</div>
+</div-->
 
 
  

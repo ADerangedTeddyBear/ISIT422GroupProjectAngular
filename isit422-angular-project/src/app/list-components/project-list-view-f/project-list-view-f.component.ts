@@ -5,6 +5,7 @@ import { AccountCheckService } from '../../control-tests/account-check.service';
 import { Project } from '../../control-tests/mock-project';
 import { DatabaseService } from 'src/app/services/database.service';
 import { CurrentUser } from '../../control-tests/mock-current-user';
+import { ProjectList } from '../../control-tests/mock-project-list';
 
 @Component({
   selector: 'app-project-list-view-f',
@@ -21,6 +22,13 @@ export class ProjectListViewFComponent implements OnInit {
     name: "",
     id: 0,
     user_type: ""
+  };
+
+  currentProjectList: ProjectList = {
+    id: 0,
+    name: "",
+    course_id: 0,
+    project_ids: []
   };
 
   selectedProjectName = "";
@@ -43,18 +51,29 @@ ngOnInit(): void {
     // Get user account type
     this.currentUserAccount = SessionService.GetCurrentUser();
 
-    this.currentProjectListName = this.listDisplayService.projectListName;
-    this.currentProjectListCourseId = this.listDisplayService.projectListId
+    
+    this.currentProjectList = SessionService.GetCurrentProjectList();
 
   }
 
 
+  setCurrentProject(){
+    console.log("This NAME: " + this.project.name)
+    SessionService.SetCurrentProject(
+      this.project.id,
+      this.project.name,
+      this.project.description,
+      this.project.project_list_id,
+      this.project.student_ids)
+  
+  }
 
+/*
 setProjectNameAndDescription(){
   this.listDisplayService.setProjectNameAndProjectDescription(this.project.name, this.project.description);
 
   console.log("The Project name is " + this.listDisplayService.selectedProjectName + " " + this.listDisplayService.selectedProjectDescription);
-}
+}*/
 
 deleteItem(id: number) {
   let mongo_delete_out = `http://localhost:5000/api/delete/${id}/`;

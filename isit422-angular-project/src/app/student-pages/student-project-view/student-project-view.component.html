@@ -1,11 +1,4 @@
-<p>student-project-view works!</p>
-
-
 <app-project-item-f></app-project-item-f>
-
-
-
-
-<a [routerLink]="['/student-pages/student-list-view']">Back</a>
+<a *ngIf="currentList" [routerLink]="['/student-pages/student-list-view']">Back</a>
 
 
