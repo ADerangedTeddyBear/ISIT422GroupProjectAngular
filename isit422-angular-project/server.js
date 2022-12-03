@@ -6,6 +6,10 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const { ColdObservable } = require("rxjs/internal/testing/ColdObservable");
+
+const dotenv = require("dotenv");
+dotenv.config();
+
 //const Promise=require('promise');
 let client;
 
@@ -384,7 +388,7 @@ app.get('/api/delete/:id/:test', (req, res) => {
 });
 
 function makeConnection() {
-    const uri = "mongodb+srv://eric:thirteen@isit422-groupproject-20.sdxooup.mongodb.net/testDB";
+    const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@isit422-groupproject-20.sdxooup.mongodb.net/${process.env.DEFAULT_DB}`;
     client = new MongoClient(uri);
     client.connect().then((con) => {
         console.log("mongodb connected");        
