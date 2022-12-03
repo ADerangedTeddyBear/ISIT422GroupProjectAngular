@@ -58,7 +58,8 @@ setProjectNameAndDescription(){
 
 deleteItem(id: number) {
   let mongo_delete_out = `http://localhost:5000/api/delete/${id}/`;
-  DatabaseService.deleteRecord(mongo_delete_out);
+  this.listDisplayService.deleteProjectTest()
+  // DatabaseService.deleteRecord(mongo_delete_out);
   console.log(id);
 }
 

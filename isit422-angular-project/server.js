@@ -387,6 +387,12 @@ app.get('/api/delete/:id/:test', (req, res) => {
     });
 });
 
+app.post('/api/deleteProjectItem/1', (req, res) => {
+    console.log("Hi there");
+    var thing = req.params.id;
+    console.log("Hello there: " + thing)
+})
+
 function makeConnection() {
     const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@isit422-groupproject-20.sdxooup.mongodb.net/${process.env.DEFAULT_DB}`;
     client = new MongoClient(uri);

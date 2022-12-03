@@ -10,7 +10,7 @@ import { __values } from 'tslib';
 import * as $ from 'jquery';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-
+import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +69,9 @@ setProjectNameAndProjectDescription(projName: string, projDescription: string){
   this.selectedProjectDescription = projDescription; 
 }
 
-
+  deleteProjectTest() {
+    DatabaseService.deleteProjectItem();
+  }
 
 
   constructor(
