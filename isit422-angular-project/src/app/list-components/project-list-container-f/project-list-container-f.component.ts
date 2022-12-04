@@ -71,8 +71,16 @@ export class ProjectListContainerFComponent implements OnInit {
   }
 
   deleteItem(id: number) {
-    let mongo_delete_out = `http://localhost:5000/api/delete/${id}/`;
-    DatabaseService.deleteRecord(mongo_delete_out);
+    let url = `http://localhost:5000/api/delete/${id}/`;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url)
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = () => {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        console.log(`xhr.response from deleteItem: ${xhr.response}`)
+      }
+      xhr.send();
+    }  
     console.log(id);
   }
 
