@@ -1,5 +1,3 @@
-const dotenv = require("dotenv");                                                                                                                                                                       
-dotenv.config();
 const { MongoClient, Db, MongoDBNamespace, BSONType } = require("mongodb");
 const express = require('express');
 const app = express();
