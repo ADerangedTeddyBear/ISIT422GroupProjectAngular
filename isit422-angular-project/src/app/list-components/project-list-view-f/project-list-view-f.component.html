@@ -15,9 +15,30 @@
             class="w3-button w3-small">        
             View Project Details                    
         </button>
-        <button class="w3-button w3-small">Edit</button>
-        <button (click)="deleteItem(project.id)" class="w3-button w3-small">Remove</button>
+        
     </a>
+
+    <a
+    [routerLink]="['/teacher-pages/edit-project-page']"
+    >
+        <button class="w3-button w3-small"
+        (click)="setCurrentProject()"
+        class="w3-button w3-small">
+        
+            Edit
+        </button>
+
+
+    </a>
+
+    <a>
+        <button (click)="deleteItem(project.id)" class="w3-button w3-small">Remove</button>
+
+    </a>
+
+
+
+
     </div>
 </div>
 

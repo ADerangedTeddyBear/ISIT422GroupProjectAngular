@@ -48,9 +48,11 @@ export class FormService {
       //resolve ([{name: "course 1", id: "course-id-1"}, {name: "course 2", id: "course-id-2"}]);
     });
   }
+
+  
   async GetProject(in_projectID: string) {
     return new Promise((resolve) => {
-      DatabaseService.three();
+      DatabaseService.three()
       let testData = JSON.stringify({projectName: "Name of project", projectDescription: "Description of project"})
       resolve(testData);
     });

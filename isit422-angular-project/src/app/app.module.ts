@@ -20,7 +20,8 @@ import { NewListPageComponent } from './teacher-pages/new-list-page/new-list-pag
 import { TeacherListViewComponent } from './teacher-pages/teacher-list-view/teacher-list-view.component';
 import { TeacherProjectViewComponent } from './teacher-pages/teacher-project-view/teacher-project-view.component';
 import { NewProjectPageComponent } from './teacher-pages/new-project-page/new-project-page.component';
-import { EditProjectPageComponent } from './teacher-pages/edit-project-page/edit-project-page.component';
+//import { EditProjectPageComponent } from './teacher-pages/edit-project-page/edit-project-page.component';
+import { EditProjectPageComponent } from'./teacher-pages/edit-project-page/edit-project-page.component';
 import { StylingTestbenchComponent } from './styling-testbench/styling-testbench.component';
 import { DatabaseComponent } from './database/database.component';
 import { NewCoursePageComponent } from './teacher-pages/new-course-page/new-course-page.component';

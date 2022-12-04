@@ -48,4 +48,5 @@ export class ProjectItemFComponent implements OnInit {
     //this.selectedProjectName = this.listDisplayService.selectedProjectName;
     //this.selectedProjectDescription = this.listDisplayService.selectedProjectDescription;
   }
+
 }

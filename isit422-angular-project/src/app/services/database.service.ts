@@ -80,8 +80,15 @@ export class DatabaseService {
     });
   }
   static three() {
-    console.log("three+_+_+_+")
+
+    console.log("three+_+_+_+");
+
+ 
+
+
   }
+
+
   static six() {
     console.log("six+_+_+_")
   }
