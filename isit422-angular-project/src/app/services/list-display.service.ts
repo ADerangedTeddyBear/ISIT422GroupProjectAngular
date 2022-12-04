@@ -41,7 +41,7 @@ getCourses(coursesApiUrl: string): Observable<Course[]> {
 getProjectListName(projectListsApiUrl: string): Observable<ProjectList[]> {
   return this.http.get<ProjectList[]>(projectListsApiUrl)
     .pipe(
-      tap(_ => console.log('fetched project lists')),
+      tap(_ => console.log(/*'fetched project lists'*/)),
       catchError(this.handleError<ProjectList[]>('getProjectLists', []))
     );
 }
@@ -49,7 +49,7 @@ getProjectListName(projectListsApiUrl: string): Observable<ProjectList[]> {
 getProjectName(projectApiUrl: string): Observable<Project[]> {
   return this.http.get<Project[]>(projectApiUrl)
     .pipe(
-      tap(_ => console.log('fetched project lists')),
+      tap(_ => console.log(/*'fetched project lists'*/)),
       catchError(this.handleError<Project[]>('getProjectLists', []))
     );
 }

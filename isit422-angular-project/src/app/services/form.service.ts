@@ -11,7 +11,10 @@ import { async } from 'rxjs';
 })
 export class FormService {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {     
+    document.addEventListener("readystatechange", (event) => {
+    console.log(`document.readyState: ${document.readyState}`)
+  }) }
 
   logFormData(in_formData: {[index: string]: any}) {
     // For each key(string)/value(any) pair in the input object
@@ -41,11 +44,9 @@ export class FormService {
     })
   }
   async GetCourseNamesAndIDs(in_teacherID: string) {
-    // TODO: replace with database call that gets all of the current teacher's courses
     return new Promise((resolve) => {
       DatabaseService.coursesByTeacher(in_teacherID).then((value:any) => (resolve(JSON.parse(value))))
       console.log(`SessionService.GetCurrentList: ${SessionService.GetCurrentList()}`)
-      //resolve ([{name: "course 1", id: "course-id-1"}, {name: "course 2", id: "course-id-2"}]);
     });
   }
 
@@ -53,9 +54,13 @@ export class FormService {
   //ORIGINAL CODE
   async GetProject(in_projectID: string) {
     return new Promise((resolve) => {
-      DatabaseService.three()
-      let testData = JSON.stringify({projectName: "Name of project", projectDescription: "Description of project"})
-      resolve(testData);
+      DatabaseService.getProject(in_projectID).then(
+        (value:any) => {
+          resolve(value);
+        })
+      SessionService.GetCurrentList();
+      //let testData = JSON.stringify({projectName: "Name of project", projectDescription: "Description of project"})
+      //resolve(testData);
     });
   }
 
@@ -75,38 +80,43 @@ export class FormService {
     return new Promise((resolve) => {
       DatabaseService.createNewUser(in_name, in_username, in_password, in_user_type).then(
         (value: any) => {
-          // replace with JSON.parse(value)
           resolve(value);
         }
       );
     });    
   }
   CreateNewCourse(in_name: string, in_students: string[], in_teacherID: string) {
-    // TODO: Replace with database call that creates a new course using the input data
-    DatabaseService.six();
+    DatabaseService.newCourse(in_name, in_students, in_teacherID);
   }
   async CreateNewProjectList(in_name: string, in_course: string) {
     return new Promise((resolve, reject) => {
-      // TODO: Replace with database call that creates a new list in the database
       DatabaseService.newProjectList(in_name, in_course).then(
         (value: any) => {
-          console.log(value);
-
           resolve(value);
         }
       );
     });
   }
-  CreateNewProject(in_name: string, in_description: string, in_projectListID: string) {
-    // TODO: Replace with a database call that creates a new project in the database\
-    DatabaseService.newProject(in_name, in_description, in_projectListID);
+
+  //Still in progress - need to implement version with in_projectListID
+  CreateNewProject(in_name: string, in_description: string, in_projectListID: string) {    
+    console.log(`
+    in_name: ${in_name}
+    in_description: ${in_description}
+    in_projectListID: ${in_projectListID}
+  `)
+    DatabaseService.newProject(in_name, in_description);
   }
   EditProject(in_name: string, in_description: string, in_id: string) {
     // TODO: Replace with a database call that updates a project record (found with the given id) to have the new input values
-    DatabaseService.eight();
+    console.log(`
+      in_name: ${in_name}
+      in_description: ${in_description}
+      in_id: ${in_id}
+    `)
+    DatabaseService.editProject(in_name, in_description, in_id);
   }
-
-
+  
   //
   // --=|| FORM HANDLERS ||=--
   //
@@ -145,7 +155,6 @@ export class FormService {
         // Navigate to the correct landing page
         if (newUser.user_type == 'teacher') this.router.navigate(['/teacher-pages/teacher-landing']);
         else if (newUser.user_type == 'student') this.router.navigate(['/student-pages/student-landing']);
-
       }
     );
   }
@@ -178,7 +187,6 @@ export class FormService {
     // Navigate back to the project list view
     const currentList = SessionService.GetCurrentList();
     if (typeof currentList !== 'undefined') this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: currentList.listname, listID: currentList.listID, courseID: currentList.courseID}});
-
   }
 
   HandleNewProjectForm(in_FormData: {projectname: string, description: string}, in_FormName: string) {
@@ -188,7 +196,7 @@ export class FormService {
     // Add a new project to the database
     const currentList = SessionService.GetCurrentList();
     if (typeof currentList !== 'undefined') {
-      this.CreateNewProject(in_FormData.projectname, in_FormData.description, currentList.listID)
+      this.CreateNewProject(in_FormData.projectname, in_FormData.description, currentList.listID)      
       
       // Navigate back to the project list view
       this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: currentList.listname, listID: currentList.listID, courseID: currentList.courseID}});
@@ -227,16 +235,16 @@ export class FormService {
         this.HandleLoginForm(in_FormData as {username: string, password: string}, in_FormName);
         break;
       case "create account form":
-        this.HandleCreateAccountForm(in_FormData as {name: string, username: string, password: string, user_type: string}, in_FormName);
+        this.HandleCreateAccountForm(in_FormData as {name: string, username: string, password: string, user_type: string}, in_FormName);        
         break;
       case "course form":
         this.HandleCourseForm(in_FormData as {coursename: string, students: string[]}, in_FormName);
         break;
       case "edit project form":
-        this.HandleEditProjectForm(in_FormData as {projectname: string, description: string, id: string}, in_FormName);
+        this.HandleEditProjectForm(in_FormData as {projectname: string, description: string, id: string}, in_FormName);        
         break;
       case "new project form":
-        this.HandleNewProjectForm(in_FormData as {projectname: string, description: string}, in_FormName);
+        this.HandleNewProjectForm(in_FormData as {projectname: string, description: string}, in_FormName);        
         break;
       case "new list form":
         this.HandleNewListForm(in_FormData as {listname: string, course: string}, in_FormName);
@@ -245,5 +253,5 @@ export class FormService {
         console.log(`ERROR: Form '${in_FormName}' not implemented yet`);
         break;
     }
-  }
+  }  
 }

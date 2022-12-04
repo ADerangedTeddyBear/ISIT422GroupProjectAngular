@@ -1,8 +1,9 @@
 <h2 *ngIf="list">List: {{list.listname}}</h2>
 <p *ngIf="teacher">Owned by {{teacher.name}}</p>
 <a [routerLink]="['/teacher-pages/new-project-page']" >New Project</a><br />
-<a [routerLink]="['/teacher-pages/edit-project-page']" [state]="{projectName: 'Ians Project', projectID: '4'}">Edit Project "Existing Project"</a><br />
+<a [routerLink]="['/teacher-pages/edit-project-page']" [state]="{projectName: 'ENG200_proj1', projectID: '27'}">Edit Project "Existing Project"</a><br />
 <a [routerLink]="['/teacher-pages/teacher-project-view']" [state]="{projectName: 'Existing Project', projectID: 'Unique Project ID'}">Teacher Project View</a><br />
+
 <a [routerLink]="['/teacher-pages/teacher-landing']">Back</a>
 
 <h2>Teacher List</h2>

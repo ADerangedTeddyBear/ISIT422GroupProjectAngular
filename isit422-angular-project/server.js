@@ -1,4 +1,6 @@
-const { MongoClient, Db, MongoDBNamespace, BSONType, ObjectId } = require("mongodb");
+const dotenv = require("dotenv");                                                                                                                                                                       
+dotenv.config();
+const { MongoClient, Db, MongoDBNamespace, BSONType } = require("mongodb");
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -45,25 +47,45 @@ class PreviousId {
 //Current instance for setting new id for a new record
 PreviousId.current = new PreviousId();
 
-app.post('/api/createnewproject/:id', (req, res) => {
+app.post('/api/createnewproject', (req, res) => {    
     var o = req.body;
+    console.log(`o: ${o}`);
     var dbo = client.db("db");
-    var idValue = req.params.id;
-    let searchCollection = colls[idValue].name;
-    dbo.collection(searchCollection).find({}).sort({id:-1}).limit(1).toArray(function(err, res2) {
+    dbo.collection("projects").find({}).sort({id:-1}).limit(1).toArray(function(err, res2) {
         if(err) throw err;
         let obj = res2[0];
+        console.log(`obj: ${obj}`);
         if((Object.getOwnPropertyNames(obj))[1] === 'id') {
             PreviousId.current.value = obj.id;
             PreviousId.current.next = obj.id += 1;
         }
         o.id = PreviousId.current.next;
-        dbo.collection(searchCollection).insertOne(o, function(err, res3) {
+        dbo.collection("projects").insertOne(o, function(err, res3) {
             if(err) throw err;
-            console.log('inserted, hopefully');    
+            console.log('inserted, hopefully');
         })
     })
 })
+
+app.post('/api/createnewcourse', (req, res) => {
+    var o = req.body;
+    var dbo = client.db("db");
+    console.log(o, 'o from new course');
+    dbo.collection("courses").find({}).sort({id:-1}).limit(1).toArray(function(err, res2) {
+        if(err) throw err;
+        let obj = res2[0];
+        console.log(`obj: ${obj}`);
+        if((Object.getOwnPropertyNames(obj))[1] === 'id') {
+            PreviousId.current.value = obj.id;
+            PreviousId.current.next = obj.id += 1;
+        }
+        o.id = PreviousId.current.next;
+        dbo.collection("courses").insertOne(o, function(err, res3) {
+            if(err) throw err;
+            console.log('inserted, hopefully');
+        });
+    });
+});
 
 app.post('/api/createnewuser/:id', (req, res) => {
     /*the stringified object passed from database service -- id, name, username, password and user_type*/
@@ -103,7 +125,7 @@ app.post('/api/createnewuser/:id', (req, res) => {
             console.log('inserted, hopefully');    
         })
     })
-})
+});
 
 app.get('/api/login/:login', (req, res, next) => { 
     let v = req.params.login.split('|');
@@ -152,10 +174,48 @@ app.get('/api/login/:login', (req, res, next) => {
     });
 });
 
+app.post('/api/editproject', (req, res) => {
+    let collection = dbo.collection('projects');
+    var dbo = client.db("db");
+    let o = req.body;
+    let objArr = [];
+    let reInsertProps = [];
+        let NumId = Number(o.id);
+    collection.find({id:NumId}).sort({id:-1}).limit(1).toArray(function(err, res2) {
+        if(err) throw err;
+        let obj = res2[0];
+        for(let p in res2[0]) {
+            console.log(`
+                p:${p} 
+                res2[0][p]: ${res2[0][p]}
+            `);
+            if((p === 'id') || (p === 'name') || (p === 'description')) {
+                objArr.push(res2[0][p]);
+            } else if ((p === 'project_list_id') || (p === 'student_ids')) {
+                reInsertProps.push(res2[0][p]);
+            }
+        };
+        let updateId = `${Number(objArr[0])}`; let updateName = `${o.name}`; let updateDescription = `${o.description}`; let updateProjectListId = `${reInsertProps[0]}`; let updateStudentIds = `${reInsertProps[1]}`;
+        
+        let filter = {id:updateId};        
+        let updateObject = {id:updateId, name:updateName, description:updateDescription, project_list_id:updateProjectListId, student_ids:[ updateStudentIds ] };
+        let updateDocument = {
+            $set: updateObject
+        };
+        let options = { upsert: true };
+        collection.updateMany(filter, updateDocument, options, function(err, res3) {
+            if(err) throw err;
+                ((res3.modifiedCount > 0) && (res3.modifiedCount < 2)) ? console.log('Document has been modified') : console.log('Error updating document');
+                (res3.upsertedCount > 0) ? console.log('Document upserted, not updated') : console.log();
+                (res3.modifiedCount > 1) ? console.log(`${res3.modifiedCount} records updated, was this intended? Duplicates may or may have existed`) : console.log('Error updating the document');
+        });
+    });
+});
+
 app.get('/api/getStudents', (req, res) => {
     var dbo = client.db("db");
     dbo.collection("students").find().toArray(function(err, findRes) {
-        console.log(`JSON.stringify(res): ${JSON.stringify(findRes)}`);
+        //console.log(`JSON.stringify(res): ${JSON.stringify(findRes)}`);
         res.json(findRes);
         //name: "student 1", id: "student-id-1"}, {name: "student 2", id: "student-id-2"
     });
@@ -175,16 +235,33 @@ app.get('/api/getCoursesByTeacher/:id', (req, res) => {
     })
 });
 
+app.get('/api/getProject/:id', (req, res) => {
+    var dbo = client.db("db");
+        let idNum = Number(req.params.id);
+        //console.log(`Number(req.params.id): ${Number(req.params.id)}`)
+        dbo.collection("projects").find({id:Number(req.params.id)}).toArray(function(err, res2) {
+        if (err) throw err;
+        let arrOfObjects = [];        
+        for(let i = 0;i < res2.length; i++){
+            let o = {name:res2[i].name, projectDescription:res2[i].description};
+            arrOfObjects.push(o);
+        }
+        //console.log(arrOfObjects);
+        res.json(arrOfObjects);
+    })
+});
+
 app.post('/api/newprojectlist', (req, res) => {
     var dbo = client.db("db");
     let o = req.body;
+    console.log(o, 'o from newprojectlist');
     //this sorts the collection in descending order and limits it to the last entry i.e. the entry with the greatest id value.
     dbo.collection("project_lists").find({}).sort({id:-1}).limit(1).toArray(function(err, res2) {
         if(err) throw err;
         //reasign the object on which we are inserting
         let obj = res2[0];
         //validate that the database records do contain our custom id field
-        console.log(`Object.getOwnPropertyNames(obj)[1]: ${Object.getOwnPropertyNames(obj)[1]}`)
+        console.log(`Object.getOwnPropertyNames(obj)[1]: ${Object.getOwnPropertyNames(obj)[1]}`);
         if((Object.getOwnPropertyNames(obj))[1] === 'id') {
             //store previous max id within specified collection in PreviousId Object property to retain value
             PreviousId.current.value = obj.id;
@@ -193,8 +270,6 @@ app.post('/api/newprojectlist', (req, res) => {
         }
         //update value of id to increment by 1 from the largest id found in the database
         o.id = PreviousId.current.next;
-
-        
         dbo.collection("project_lists").insertOne(o, function(err, res3) {
             if(err) throw err;
             console.log(o, 'inserted, hopefully'); 
@@ -202,7 +277,6 @@ app.post('/api/newprojectlist', (req, res) => {
         })
     })
 });
-
 
 //------------------------_-------------------------_-------------------------_-------------------------_-------------------------_-
 app.post('/api/updateMany', (req, res) => {
@@ -275,7 +349,6 @@ app.get('/api/display/:id', (req, res) => {
     })
 })
 
-
 app.get('/api/collections', (req, res) => {
     var obj = req.body;
     console.log(obj);
@@ -290,12 +363,9 @@ app.get('api/display1/:id', (req, res) => {
     dbo.collection("testC").findOne({}, function(err, res2) {
         if (err) throw err;
         res.send(res2);
-
     })
 })
 
-//Dummy Fetch Data for Lists
-//Dummy Fetching Tests
 app.get('/api/projectlistsnames', (req, res) => {
     var obj = req.body;
     console.log(obj);
@@ -335,7 +405,6 @@ app.get('/api/findAndModify/:id/:test', (req, res) => {
         keys.push(current[0]);
         vals.push(current[1]);
     }
-
     var d = new Object;
     d.current = {};
     for(var i=2;i<keys.length;i++) {
@@ -369,7 +438,6 @@ app.get('/api/delete/:id/:test', (req, res) => {
         keys.push(current[0]);
         vals.push(current[1]);
     }
-
     var d = new Object;
     d.current = {};
     for(var i=2;i<keys.length;i++) {
@@ -412,6 +480,7 @@ function makeConnection() {
         console.log("mongodb connected");        
     })
 }
+
 var server = app.listen(5000, function() {
     console.log("listening on port ", server.address().port);
     makeConnection();

@@ -17,8 +17,128 @@ export class DatabaseService {
     { id: 4, name: 'project_lists' }
 ];
 
-/************************************ These are to test execution points *************************************************/
-  static async newProjectList(projectListName:string, courseID:string) {
+
+/******From Form Service -New Project- To Backend *************************************************************************/
+static async editProject(in_name: string, in_description: string, in_id: string) {
+  return new Promise(function(resolve, reject) {
+    console.log(`
+      edit project paramaters in database service before xhr:
+      in_name: ${in_name}
+      in_description: ${in_description}
+      in_id: ${in_id}
+    `)
+    let url = 'http://localhost:5000/api/editproject';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    var d = JSON.stringify({
+      id:in_id,
+      name:in_name,
+      description:in_description,
+    });
+    console.log(`url from editProject: ${url}`);
+    xhr.onload = () => {
+      if(xhr.readyState == 4 && xhr.status == 200) {
+        console.log(`xhr.response from editProject: ${xhr.response}`);
+        resolve(xhr.response);
+      } else {
+        reject({
+          status:xhr.status,
+          statusText: xhr.statusText
+        });
+      }
+    };
+    xhr.onerror = () => {
+      reject({
+        status:xhr.status,
+        statusText:xhr.statusText
+      });
+    };
+    xhr.send(d);
+  });
+};
+/**************Response From Backend ** Resolved Back to Form Service ***********************************/
+/*****************E*N*D********************************************/
+
+
+
+
+/******From Form Service -New Project- To Backend *************************************************************************/
+static async getProject(projectId: string) {
+  return new Promise(function(resolve, reject) {
+    let url = 'http://localhost:5000/api/getProject/';
+    let id = projectId;
+    url += id;
+    console.log(url);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.onload = () => {
+      if(xhr.readyState == 4 && xhr.status == 200) {
+        console.log(`xhr.response from getProject: ${xhr.response}`)
+        resolve(xhr.response);
+      } else {
+        reject({
+          status:xhr.status,
+          statusText: xhr.statusText
+        });
+      }
+    };
+    xhr.onerror = () => {
+      reject({
+        status:xhr.status,
+        statusText:xhr.statusText
+      });
+    };
+    xhr.send();
+  });
+};
+/**************Response From Backend ** Resolved Back to Form Service ***********************************/
+/*****************E*N*D********************************************/
+
+/******From Form Service -New Project- To Backend *************************************************************************/
+
+
+//Still in progress - need to implement version including the project_list_id param from Form Service
+
+static async newProject(in_name: string, in_description: string) {
+  return new Promise(function(resolve, reject) {
+    let url = 'http://localhost:5000/api/createnewproject';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    var d = JSON.stringify({
+      id:1,
+      name:in_name,
+      description:in_description,        
+      project_list_ids:0,
+      student_ids:0
+    });
+    console.log(`url from newProject: ${url}`)
+    xhr.onload = () => {
+      if(xhr.readyState == 4 && xhr.status == 200) {
+        console.log(`xhr.response from newProject: ${xhr.response}`);
+        resolve(xhr.response);
+      } else {
+        reject({
+          status:xhr.status,
+          statusText: xhr.statusText
+        });
+      }
+    };
+    xhr.onerror = () => {
+      reject({
+        status:xhr.status,
+        statusText:xhr.statusText
+      });
+    };
+    xhr.send(d);
+  });
+};
+/**************Response From Backend ** Resolved Back to Form Service ***********************************/
+/*****************E*N*D********************************************/
+
+/******From Form Service -New Project List- To Backend**********************************************************************/
+static async newProjectList(projectListName:string, courseID:string) {
     return new Promise(function(resolve, reject) {      
       let url = 'http://localhost:5000/api/newprojectlist/';
       var xhr = new XMLHttpRequest();
@@ -31,10 +151,8 @@ export class DatabaseService {
       })
       xhr.onload = () => {
         if(xhr.readyState == 4 && xhr.status == 200) {
-          console.log(`xhr.response: ${xhr.response}`);
           resolve(xhr.response);
         } else {
-          console.log("reject");
           reject({
             status:xhr.status,
             statusText: xhr.statusText
@@ -42,7 +160,6 @@ export class DatabaseService {
         }
       };
       xhr.onerror = () => {
-        console.log("error");
         reject({
           status:xhr.status,
           statusText:xhr.statusText
@@ -50,9 +167,12 @@ export class DatabaseService {
       };
       xhr.send(d);
     });
-  }
+};
+/**************Response From Backend ** Resolved Back to Form Service ***********************************/
+/*****************E*N*D********************************************/
 
-  static coursesByTeacher(teacherID:string) {
+/******From Form Service -Courses By Teacher- To Backend ********************************************************************/
+static async coursesByTeacher(teacherID:string) {
     return new Promise(function(resolve, reject) {
       let teacherIDAsInt = Number(teacherID);
       let urlString = 'http://localhost:5000/api/getCoursesByTeacher/';
@@ -61,7 +181,6 @@ export class DatabaseService {
       xhr.open('GET', url);
       xhr.onload = () => {
         if(xhr.readyState == 4 && xhr.status == 200) {
-          console.log(`xhr.response: ${xhr.response}`);
           resolve(xhr.response);
         } else {
           reject({
@@ -78,32 +197,58 @@ export class DatabaseService {
       };
       xhr.send();
     });
-  }
+};
+/**************Response From Backend ** Resolved Back to Form Service ***********************************/
+/*****************E*N*D********************************************/
 
-
-  static three() {
-
-    console.log("three+_+_+_+");
-  }
-
-  static six() {
-    console.log("six+_+_+_")
-  }
-  static seven() {
-    console.log("seven+_+_+_+")
-  }
-  static eight() {
-    console.log("eight+_+_+")
-  }
-  /*****************E*N*D********************************************/
-
-  static getAllStudentUsers() {
+/******From Form Service -New Course- To Backend *****************************************************************************/
+static async newCourse(in_name: string, in_students: string[], in_teacherID: string) {
     return new Promise(function(resolve, reject) {
+      let url = 'http://localhost:5000/api/createnewcourse/';
+      console.log(`
+      in_name: ${in_name}
+      in_students: ${in_students}
+      in_teacherID: ${in_teacherID}
+      `);
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'http://localhost:5000/api/getStudents');
+      xhr.open('POST', url);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      var d = JSON.stringify({
+        id:1,
+        name:in_name,
+        students: in_students,
+        teacher_id:in_teacherID
+      });
       xhr.onload = () => {
         if(xhr.readyState == 4 && xhr.status == 200) {
-          console.log(Response);
+          resolve(xhr.response);
+        } else {
+          reject({
+            status:xhr.status,
+            statusText: xhr.statusText
+          });
+        }
+      };
+      xhr.onerror = () => {
+        reject({
+          status:xhr.status,
+          statusText:xhr.statusText
+        });
+      };
+      xhr.send(d);
+  });
+};
+/**************Response From Backend ** Resolved Back to Form Service ***********************************/
+/*****************E*N*D********************************************/
+
+/******From Form Service -Get All Student Users- To Backend ******************************************************************/
+static async getAllStudentUsers() {
+    return new Promise(function(resolve, reject) {
+      let url = 'http://localhost:5000/api/getStudents';
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.onload = () => {
+        if(xhr.readyState == 4 && xhr.status == 200) {
           resolve(xhr.response);
         } else {
           reject({
@@ -120,25 +265,23 @@ export class DatabaseService {
       };
       xhr.send();
     });
-  };
+};
+/**************Response From Backend ** Resolved Back to Form Service ***********************************/
+/*****************E*N*D********************************************/
 
-/****** Form Service Login ********************************************************************************/
-  static dbLogIn(in_username:string, in_password:string) {
-    let loginArr: any[] = [];
+/******From Form Service -Login- To Backend ***********************************************************************************/
+static dbLogIn(in_username:string, in_password:string) {
     let query = 'http://localhost:5000/api/login/';  
     let varLogin = [`username:${in_username}`, `password:${in_password}`];  
     for(var p in varLogin) {    
       query += `|${varLogin[p]}`;  
-    }
-    console.log(`execution point: databaseService -> dbLogin: query: ${query}`);
+    }    
     return query;
-}
-
-  
+};
 static async requestLogin(method:string, url:string) {
   return new Promise(function(resolve, reject) {
-    console.log(`execution point: databaseService -> requestLogin: query/url: ${url}`);
     var xhr = new XMLHttpRequest();
+    console.log(`urlfrom requestLogin: ${url}`)
     xhr.open(method, url);
     xhr.onload = () => {
       if(xhr.status >= 200 && xhr.status < 300) {
@@ -156,13 +299,14 @@ static async requestLogin(method:string, url:string) {
         statusText:xhr.statusText
       });
     };
-    console.log(`execution point: databaseService -> requestLogin: just before xhr.send(): method: ${method}`);
     xhr.send();
   });
 };
+/**************Response From Backend ** Resolved Back to Form Service ***********************************/
 /*****************E*N*D********************************************/
-/****** Form Service Create User ********************************************************************************/
-  static async createNewUser(in_name: string, in_username: string, in_password: string, in_user_type:string) {    
+
+/******From Form Service -Create New User- To Backend *************************************************************************/
+static async createNewUser(in_name: string, in_username: string, in_password: string, in_user_type:string) {
     let collectionId;
     for(let p in this.collections) {
       if(this.collections[p].name === `${in_user_type}s`) {
@@ -183,25 +327,10 @@ static async requestLogin(method:string, url:string) {
     })
     xhr.send(d);    
     return d;
-  }
+};
+/**************Response From Backend ** Resolved Back to Form Service ***********************************/
 /*****************E*N*D********************************************/
-/****** Form Service New Project ********************************************************************************/
-  static newProject(in_name: string, in_description: string, in_projectListID: string) {
-    let query = `http://localhost:5000/api/createnewproject/3`
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", query, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        //id value here is inconsequential, but it must exist as some number
-        var d = JSON.stringify({
-          id:12,
-          name:in_name,
-          description:in_description,
-          projectListID:in_projectListID          
-        })
-        xhr.send(d);    
-        return d;
-  }
-/*****************E*N*D********************************************/
+
 
 
 
