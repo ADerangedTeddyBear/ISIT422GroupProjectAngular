@@ -185,8 +185,8 @@ export class FormService {
     this.EditProject(in_FormData.projectname, in_FormData.description, in_FormData.id);
 
     // Navigate back to the project list view
-    const currentList = SessionService.GetCurrentList();
-    if (typeof currentList !== 'undefined') this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: currentList.listname, listID: currentList.listID, courseID: currentList.courseID}});
+    const currentList = SessionService.GetCurrentProjectList();
+    if (typeof currentList !== 'undefined') this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: currentList.name, listID: currentList.id, courseID: currentList.course_id}});
   }
 
   HandleNewProjectForm(in_FormData: {projectname: string, description: string}, in_FormName: string) {
@@ -194,12 +194,12 @@ export class FormService {
     this.logFormData(in_FormData);
 
     // Add a new project to the database
-    const currentList = SessionService.GetCurrentList();
+    const currentList = SessionService.GetCurrentProjectList();
     if (typeof currentList !== 'undefined') {
-      this.CreateNewProject(in_FormData.projectname, in_FormData.description, currentList.listID)      
+      this.CreateNewProject(in_FormData.projectname, in_FormData.description, currentList.id.toString())      
       
       // Navigate back to the project list view
-      this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: currentList.listname, listID: currentList.listID, courseID: currentList.courseID}});
+      this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: currentList.name, listID: currentList.id, courseID: currentList.course_id}});
     }
   }
 
