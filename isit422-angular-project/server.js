@@ -455,7 +455,10 @@ app.get('/api/delete/:id/:test', (req, res) => {
     });
 });
 
-//app.post('/api/deleteProjectItem/1', 
+app.post('/api/deleteProjectItem/:id', (req, res) => {
+    var thing = req.params.id;
+    console.log("Hello there")
+})
 
 app.get('/api/findAndModify/:id', (req, res) => {
     var obj = req.body;        
