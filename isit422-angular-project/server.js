@@ -460,7 +460,7 @@ app.get('/api/delete/:id/:test', (req, res) => {
 //     console.log("Hello there")
 // })
 
-app.post('/api/deleteProjectList/:id/', (req, res) => {
+app.post('/api/deleteProjectList/:id', (req, res) => {
     var thing = req.params.id;
     console.log("Deleting Project List")
 })

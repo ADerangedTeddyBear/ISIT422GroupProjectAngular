@@ -71,8 +71,8 @@ export class ProjectListContainerFComponent implements OnInit {
   }
 
   deleteItem(id: number) {
-    console.log("Hi there");
-    let url = `http://localhost:5000/api/deleteProjectList/${id}/`;
+    let url = `http://localhost:5000/api/deleteProjectList/${id}`;
+    console.log(url);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url)
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -80,10 +80,10 @@ export class ProjectListContainerFComponent implements OnInit {
       if (xhr.readyState == 4 && xhr.status == 200) {
         console.log(`xhr.response from deleteItem: ${xhr.response}`)
       }
-      xhr.send();
     }  
     console.log("Item deleted from Teacher Landing: " + id);
     // location.reload();
+    xhr.send();
   }
 
 }
