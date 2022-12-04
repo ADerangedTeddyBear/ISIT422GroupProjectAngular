@@ -1,4 +1,4 @@
-const { MongoClient, Db, MongoDBNamespace, BSONType } = require("mongodb");
+const { MongoClient, Db, MongoDBNamespace, BSONType, ObjectId } = require("mongodb");
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -8,6 +8,8 @@ const path = require('path');
 const { ColdObservable } = require("rxjs/internal/testing/ColdObservable");
 
 const dotenv = require("dotenv");
+const { async } = require("q");
+//const { ProjectListContainerFComponent } = require ("./src/app/list-components/project-list-container-f/project-list-container-f.component");  
 dotenv.config();
 
 //const Promise=require('promise');
@@ -387,11 +389,20 @@ app.get('/api/delete/:id/:test', (req, res) => {
     });
 });
 
-app.post('/api/deleteProjectItem/1', (req, res) => {
-    console.log("Hi there");
-    var thing = req.params.id;
-    console.log("Hello there: " + thing)
+//app.post('/api/deleteProjectItem/1', 
+
+app.get('/api/findAndModify/:id', (req, res) => {
+    var obj = req.body;        
+    var dbo = client.db("db");    
+    dbo.collection(colls[3].name).find({}).toArray(function(err, res2) {
+        if (err) throw err;
+        res.send(res2);
+    })
 })
+
+async function getProjectById(){
+    const myProjects = await fetch("")
+}
 
 
 function makeConnection() {

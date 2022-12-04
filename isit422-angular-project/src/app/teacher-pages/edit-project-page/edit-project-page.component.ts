@@ -17,21 +17,38 @@ export class EditProjectPageComponent implements OnInit {
   editProjectForm: any;
 
 
-  /*currentProject: Project = {
+  currentProject: Project = {
     id: 0,
     name: "",
     description: "",
     project_list_id: 0,
     student_ids: []
   }
-*/
+
 
 
   constructor(
-    //private currentProject: Project = (JSON.parse(sessionStorage.getItem('current project')!)),
     private FormService: FormService,
     private formBuilder: FormBuilder) {
-    //this.currentProject = (JSON.parse(sessionStorage.getItem('current project')!));
+    this.currentProject = (JSON.parse(sessionStorage.getItem('current project')!));
+    this.projectID = this.currentProject.id.toString();
+    this.FormService.GetProject(this.projectID).then(
+      (value: any) => {
+        let valueObj = (JSON.parse(sessionStorage.getItem('current project')!));
+        this.projectData = valueObj;
+        if (this.currentProject) this.editProjectForm = this.formBuilder.group({
+          projectname: [this.currentProject.name, Validators.required],
+          description: [this.currentProject.description, Validators.required]
+        });
+      }
+    )
+  }
+
+
+  // ORIGINAL
+  /*constructor(
+    private FormService: FormService,
+    private formBuilder: FormBuilder) {
     this.projectID = history.state.projectID;//this.currentProject.id.toString();
     this.FormService.GetProject(this.projectID).then(
       (value: any) => {
@@ -43,16 +60,13 @@ export class EditProjectPageComponent implements OnInit {
         });
       }
     )
-  }
+  }*/
 
 
   // projectData: {projectName: string, projectDescription: string} = this.FormService.GetProject(this.projectID);
   currentList = SessionService.GetCurrentList();
 
   ngOnInit(): void {
-
-    //this.currentProject = (JSON.parse(sessionStorage.getItem('current project')!));
-
     // TODO: The edit project page should only be accessible from the project list view.
     // Selecting to edit a project from the project list should populate this page with data from the 
     // selected project
@@ -70,5 +84,7 @@ export class EditProjectPageComponent implements OnInit {
     this.FormService.postData(returnObject, in_formName);
     this.editProjectForm.reset();
   }
+
+ 
 
 }

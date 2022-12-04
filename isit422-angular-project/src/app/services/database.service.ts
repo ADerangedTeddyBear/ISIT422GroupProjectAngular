@@ -79,15 +79,12 @@ export class DatabaseService {
       xhr.send();
     });
   }
+
+
   static three() {
 
     console.log("three+_+_+_+");
-
- 
-
-
   }
-
 
   static six() {
     console.log("six+_+_+_")
