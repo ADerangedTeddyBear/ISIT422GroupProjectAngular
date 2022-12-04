@@ -69,11 +69,6 @@ setProjectNameAndProjectDescription(projName: string, projDescription: string){
   this.selectedProjectDescription = projDescription; 
 }
 
-  deleteProjectTest() {
-    DatabaseService.deleteProjectItem();
-  }
-
-
   constructor(
     private http: HttpClient
   ) { }

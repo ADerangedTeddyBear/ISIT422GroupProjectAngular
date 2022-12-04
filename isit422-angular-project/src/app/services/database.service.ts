@@ -505,18 +505,4 @@ static async createNewUser(in_name: string, in_username: string, in_password: st
     xhr.open("GET", mongo_out, true)
     xhr.send(null);
   }  
-
-  static deleteProjectItem() {
-    let url = `http://localhost:5000/api/deleteProjectItem/1`;
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', url);
-    xhr.setRequestHeader('Content-Type', 'appliation/json');
-    xhr.onload = () => {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        console.log `xhr.response from deleteProjectItem: ${xhr.response}`
-      }
-      xhr.send();
-    }
-    console.log("This is the delete project item");
-  }
 }
