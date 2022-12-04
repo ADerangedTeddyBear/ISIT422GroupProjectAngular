@@ -76,7 +76,7 @@ setProjectNameAndDescription(){
 }*/
 
 deleteItem(id: number) {
-  let url = `http://localhost:5000/api/delete/${id}/`;
+  let url = `http://localhost:5000/api/deleteProjectItem/${id}/`;
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url)
   xhr.setRequestHeader('Content-Type', 'application/json');
@@ -86,7 +86,7 @@ deleteItem(id: number) {
     }
     xhr.send();
   }  
-  console.log(id);
+  console.log("Deleting from Teacher List View: " + id);
 }
 
 }
