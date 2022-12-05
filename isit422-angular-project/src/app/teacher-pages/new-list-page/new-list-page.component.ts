@@ -13,6 +13,7 @@ export class NewListPageComponent implements OnInit {
 
   public newListForm: FormGroup | undefined;
   courseArray: { name: string; id: string; }[] | undefined;
+  projectFormType: string = 'new list form';
 
   teacher = SessionService.GetCurrentUser();
 
