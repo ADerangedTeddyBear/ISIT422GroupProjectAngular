@@ -76,9 +76,7 @@ setProjectNameAndDescription(){
 }*/
 
 deleteItem(id: number) {
-<<<<<<< HEAD
   DatabaseService.delete(id, "Thai Test 2");
-=======
   let url = `http://localhost:5000/api/deleteProjectItem/${id}/`;
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url)
@@ -90,7 +88,6 @@ deleteItem(id: number) {
     xhr.send();
   }  
   console.log("Deleting from Teacher List View: " + id);
->>>>>>> b61af9794e48cecb50dfca2e3380a6223a9e0bd3
 }
 
 }

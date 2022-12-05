@@ -1,3 +1,5 @@
+const dotenv = require("dotenv");                                                                                                                                                                       
+dotenv.config();
 const { MongoClient, Db, MongoDBNamespace, BSONType } = require("mongodb");
 const express = require('express');
 const app = express();
@@ -9,7 +11,6 @@ const { ColdObservable } = require("rxjs/internal/testing/ColdObservable");
 
 const { async } = require("q");
 //const { ProjectListContainerFComponent } = require ("./src/app/list-components/project-list-container-f/project-list-container-f.component");  
-dotenv.config();
 
 //const Promise=require('promise');
 let client;

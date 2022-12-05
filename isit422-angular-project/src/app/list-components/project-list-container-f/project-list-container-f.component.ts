@@ -70,10 +70,8 @@ export class ProjectListContainerFComponent implements OnInit {
     return (event.target as HTMLInputElement).value;
   }
   deleteItem(id: number) {
-<<<<<<< HEAD
     DatabaseService.delete(id, "Thai Test 1");
 }
-=======
     let url = `http://localhost:5000/api/deleteProjectList/${id}`;
     console.log(url);
     var xhr = new XMLHttpRequest();
@@ -89,5 +87,4 @@ export class ProjectListContainerFComponent implements OnInit {
     xhr.send();
   }
 
->>>>>>> b61af9794e48cecb50dfca2e3380a6223a9e0bd3
 }

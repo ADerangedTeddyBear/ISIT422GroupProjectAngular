@@ -13,6 +13,9 @@ export class NewProjectPageComponent implements OnInit {
 
   currentList = SessionService.GetCurrentList();
 
+  projectFormType: string = "new project form";
+
+
   constructor(
     private FormService: FormService,
     private formBuilder: FormBuilder) { }

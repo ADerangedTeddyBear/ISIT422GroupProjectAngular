@@ -10,5 +10,6 @@
         <label for="description">Project Description: </label><br>
         <textarea id="description" name="description" rows="4" cols="50" formControlName="description"></textarea>
     </div>
-    <input type="submit" value="Submit" class="button" />
+    <input type="submit" value="Submit" class="button" (click)="submitForm(this.projectFormType)" />
+
 </form>
