@@ -70,23 +70,6 @@ export class ProjectListContainerFComponent implements OnInit {
     return (event.target as HTMLInputElement).value;
   }
   deleteItem(id: number) {
-    DatabaseService.delete(id, "Thai Test 1");
-}
-    let url = `http://localhost:5000/api/deleteProjectList/${id}`;
-    console.log(url);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', url)
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = () => {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        console.log(`xhr.response from deleteItem: ${xhr.response}`)
-      }
-    }  
-    console.log("Item deleted from Teacher Landing: " + id);
-    // location.reload();
-    xhr.send();
-  }
-
     DatabaseService.delete(id);
   }
 }

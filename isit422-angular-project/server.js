@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-const dotenv = require("dotenv");                                                                                                                                                                       
-=======
 const dotenv = require("dotenv");
->>>>>>> 478a6c5a61e369a0d74af856a284536236bdfe30
 dotenv.config();
 const { MongoClient, Db, MongoDBNamespace, BSONType } = require("mongodb");
 const express = require('express');
@@ -15,6 +11,7 @@ const { ColdObservable } = require("rxjs/internal/testing/ColdObservable");
 
 const { async } = require("q");
 //const { ProjectListContainerFComponent } = require ("./src/app/list-components/project-list-container-f/project-list-container-f.component");  
+dotenv.config();
 
 //const Promise=require('promise');
 let client;
@@ -477,14 +474,9 @@ app.get('/api/delete/:id/:test', (req, res) => {
     });
 });
 
-// app.post('/api/deleteProjectItem/:id', (req, res) => {
-//     var thing = req.params.id;
-//     console.log("Hello there")
-// })
-
-app.post('/api/deleteProjectList/:id', (req, res) => {
+app.post('/api/deleteProjectItem/:id', (req, res) => {
     var thing = req.params.id;
-    console.log("Deleting Project List")
+    console.log("Hello there")
 })
 
 app.get('/api/findAndModify/:id', (req, res) => {

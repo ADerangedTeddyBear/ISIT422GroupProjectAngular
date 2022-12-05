@@ -75,25 +75,10 @@ setProjectNameAndDescription(){
   console.log("The Project name is " + this.listDisplayService.selectedProjectName + " " + this.listDisplayService.selectedProjectDescription);
 }*/
 
-deleteItem(id: number) {
-  DatabaseService.delete(id, "Thai Test 2");
-  let url = `http://localhost:5000/api/deleteProjectItem/${id}/`;
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', url)
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.onload = () => {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      console.log(`xhr.response from deleteItem: ${xhr.response}`)
-    }
-    xhr.send();
-  }  
-  console.log("Deleting from Teacher List View: " + id);
-}
 
 deleteItem(id: number) {
   DatabaseService.delete(id);
   }
 }
-
 
 
