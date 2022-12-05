@@ -12,6 +12,9 @@ import { SessionService } from 'src/app/services/session.service';
 export class NewProjectPageComponent implements OnInit {
 
   currentList = SessionService.GetCurrentList();
+  projectFormType: string = 'new project form';
+
+
 
   constructor(
     private FormService: FormService,

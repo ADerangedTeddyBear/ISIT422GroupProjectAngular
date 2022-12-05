@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from './session.service';
 import { NewListPageComponent } from '../teacher-pages/new-list-page/new-list-page.component';
-import { DatabaseService } from './database.service'; //'../../src/app/services/database.service';
+import { DatabaseService } from './database.service';
 import $ from 'jquery';
 import { async } from 'rxjs';
 
@@ -218,8 +218,8 @@ export class FormService {
   }
 
   postData(in_FormData: {[index: string]: any}, in_FormName: string) {
-    console.log(in_FormName);
-    console.log(in_FormData);
+    console.log("THE IN_FORM NAME IS " + in_FormName);
+    console.log("THE IN_FORM DATA IS " + in_FormData);
     
     // Don't do anything if the form isn't recognized
     const validFormNames = ["login form", "create account form", "course form", "edit project form", "new project form", "new list form"];

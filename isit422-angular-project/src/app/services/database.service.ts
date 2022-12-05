@@ -17,6 +17,42 @@ export class DatabaseService {
     { id: 4, name: 'project_lists' }
 ];
 
+static async delete(id:number) {
+return new Promise(function(resolve, reject) {
+  let orig = document.location.href.split('/').length;
+  let origin = document.location.href.split('/')[orig - 1]
+  console.log(`document.location.href>>>> from DatabaeService>>>>: ${document.location.href}`)
+  let url = `http://localhost:5000/api/delete`;
+  console.log(`${url}`);
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', url);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  var d = JSON.stringify({
+    id:id,
+    origin:origin    
+  });
+  xhr.onload = () => {
+    if(xhr.readyState == 4 && xhr.status == 200) {
+      console.log(`xhr.response from deleteProject: ${xhr.response}`);
+      resolve(xhr.response);
+    } else {
+      reject({
+        //status:xhr.status,
+        //statusText: xhr.statusText
+      });
+    }
+  };
+  xhr.onerror = () => {
+    reject({
+      status:xhr.status,
+      statusText:xhr.statusText
+    });
+  };
+  xhr.send(d);
+});
+};
+
+
 
 /******From Form Service -New Project- To Backend *************************************************************************/
 static async editProject(in_name: string, in_description: string, in_id: string) {
@@ -59,7 +95,6 @@ static async editProject(in_name: string, in_description: string, in_id: string)
 };
 /**************Response From Backend ** Resolved Back to Form Service ***********************************/
 /*****************E*N*D********************************************/
-
 
 
 

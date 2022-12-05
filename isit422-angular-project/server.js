@@ -1,3 +1,5 @@
+const dotenv = require("dotenv");                                                                                                                                                                       
+dotenv.config();
 const { MongoClient, Db, MongoDBNamespace, BSONType } = require("mongodb");
 const express = require('express');
 const app = express();
@@ -7,10 +9,9 @@ const fs = require('fs');
 const path = require('path');
 const { ColdObservable } = require("rxjs/internal/testing/ColdObservable");
 
-const dotenv = require("dotenv");
 const { async } = require("q");
 //const { ProjectListContainerFComponent } = require ("./src/app/list-components/project-list-container-f/project-list-container-f.component");  
-dotenv.config();
+//dotenv.config();
 
 //const Promise=require('promise');
 let client;
@@ -173,8 +174,8 @@ app.get('/api/login/:login', (req, res, next) => {
 });
 
 app.post('/api/editproject', (req, res) => {
-    let collection = dbo.collection('projects');
     var dbo = client.db("db");
+    let collection = dbo.collection('projects');
     let o = req.body;
     let objArr = [];
     let reInsertProps = [];
@@ -193,10 +194,10 @@ app.post('/api/editproject', (req, res) => {
                 reInsertProps.push(res2[0][p]);
             }
         };
-        let updateId = `${Number(objArr[0])}`; let updateName = `${o.name}`; let updateDescription = `${o.description}`; let updateProjectListId = `${reInsertProps[0]}`; let updateStudentIds = `${reInsertProps[1]}`;
-        
-        let filter = {id:updateId};        
-        let updateObject = {id:updateId, name:updateName, description:updateDescription, project_list_id:updateProjectListId, student_ids:[ updateStudentIds ] };
+        let updateId = `${Number(objArr[0])}`; 
+        console.log("THE UPDATED ID IS OF TYPE : " + typeof updateId)
+        let updateName = `${o.name}`; let updateDescription = `${o.description}`; let updateProjectListId = `${reInsertProps[0]}`; let updateStudentIds = `${reInsertProps[1]}`; let filter = {id:updateId};        
+        let updateObject = {id:Number(updateId), name:updateName, description:updateDescription, project_list_id:updateProjectListId, student_ids:[ updateStudentIds ] };
         let updateDocument = {
             $set: updateObject
         };
@@ -204,7 +205,8 @@ app.post('/api/editproject', (req, res) => {
         collection.updateMany(filter, updateDocument, options, function(err, res3) {
             if(err) throw err;
                 ((res3.modifiedCount > 0) && (res3.modifiedCount < 2)) ? console.log('Document has been modified') : console.log('Error updating document');
-                (res3.upsertedCount > 0) ? console.log('Document upserted, not updated') : console.log();
+                (res3.upsertedCount > 0) ? console.log('Document upserted, not updated') : console.log()
+
                 (res3.modifiedCount > 1) ? console.log(`${res3.modifiedCount} records updated, was this intended? Duplicates may or may have existed`) : console.log('Error updating the document');
         });
     });
@@ -455,15 +457,7 @@ app.get('/api/delete/:id/:test', (req, res) => {
     });
 });
 
-// app.post('/api/deleteProjectItem/:id', (req, res) => {
-//     var thing = req.params.id;
-//     console.log("Hello there")
-// })
-
-app.post('/api/deleteProjectList/:id', (req, res) => {
-    var thing = req.params.id;
-    console.log("Deleting Project List")
-})
+//app.post('/api/deleteProjectItem/1', 
 
 app.get('/api/findAndModify/:id', (req, res) => {
     var obj = req.body;        
