@@ -69,11 +69,7 @@ export class ProjectListContainerFComponent implements OnInit {
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;
   }
-
   deleteItem(id: number) {
-    let mongo_delete_out = `http://localhost:5000/api/delete/${id}/`;
-    DatabaseService.deleteRecord(mongo_delete_out);
-    console.log(id);
-  }
-
+    DatabaseService.delete(id, "Thai Test 1");
+}
 }

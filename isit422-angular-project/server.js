@@ -1,5 +1,3 @@
-const dotenv = require("dotenv");                                                                                                                                                                       
-dotenv.config();
 const { MongoClient, Db, MongoDBNamespace, BSONType } = require("mongodb");
 const express = require('express');
 const app = express();
@@ -46,7 +44,15 @@ class PreviousId {
 //Current instance for setting new id for a new record
 PreviousId.current = new PreviousId();
 
-app.post('/api/createnewproject', (req, res) => {    
+
+
+app.post('/api/delete/:id', (req, res) => {
+    var o = req.body;
+    console.log(`o: ${o}`);
+})
+
+
+app.post('/api/createnewproject', (req, res) => {
     var o = req.body;
     console.log(`o: ${o}`);
     var dbo = client.db("db");
@@ -455,7 +461,10 @@ app.get('/api/delete/:id/:test', (req, res) => {
     });
 });
 
-//app.post('/api/deleteProjectItem/1', 
+app.post('/api/deleteProjectItem/:id', (req, res) => {
+    var thing = req.params.id;
+    console.log("Hello there")
+})
 
 app.get('/api/findAndModify/:id', (req, res) => {
     var obj = req.body;        
