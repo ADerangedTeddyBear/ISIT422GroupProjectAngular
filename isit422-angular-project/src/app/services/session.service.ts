@@ -34,6 +34,7 @@ export class SessionService {
       listID: in_listID,
       courseID: in_courseID
     }
+    console.log("current list: ", currentList);
     sessionStorage.setItem('current list', JSON.stringify(currentList));
   }
   static SetCurrentUser(in_name: string, in_id: string, in_user_type: string) {
