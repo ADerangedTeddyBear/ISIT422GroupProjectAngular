@@ -16,7 +16,6 @@ export class NewProjectPageComponent implements OnInit {
 
 
 
-  projectFormType: string = "new project form";
 
 
   constructor(
