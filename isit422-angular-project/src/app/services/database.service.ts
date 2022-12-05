@@ -17,10 +17,10 @@ export class DatabaseService {
     { id: 4, name: 'project_lists' }
 ];
 
-static async delete(id:number) {
+static async delete(id:number, collectionName:string) {
 return new Promise(function(resolve, reject) {
   console.log(`document.location.href>>>> from DatabaeService>>>>: ${document.location.href}`)
-  let url = `http://localhost:5000/api/delete/:${id}`;
+  let url = `http://localhost:5000/api/delete/:${collectionName}/:${id}`;
   console.log(`${url}`);
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url);

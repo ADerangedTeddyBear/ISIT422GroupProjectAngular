@@ -70,6 +70,6 @@ export class ProjectListContainerFComponent implements OnInit {
     return (event.target as HTMLInputElement).value;
   }
   deleteItem(id: number) {
-    DatabaseService.delete(id);
+    DatabaseService.delete(id, "Thai Test 1");
 }
 }

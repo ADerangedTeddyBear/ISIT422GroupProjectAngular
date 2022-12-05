@@ -76,7 +76,7 @@ setProjectNameAndDescription(){
 }*/
 
 deleteItem(id: number) {
-  DatabaseService.delete(id);
+  DatabaseService.delete(id, "Thai Test 2");
 }
 
 }
