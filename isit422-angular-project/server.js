@@ -45,7 +45,15 @@ class PreviousId {
 //Current instance for setting new id for a new record
 PreviousId.current = new PreviousId();
 
-app.post('/api/createnewproject', (req, res) => {    
+
+
+app.post('/api/delete/:id', (req, res) => {
+    var o = req.body;
+    console.log(`o: ${o}`);
+})
+
+
+app.post('/api/createnewproject', (req, res) => {
     var o = req.body;
     console.log(`o: ${o}`);
     var dbo = client.db("db");

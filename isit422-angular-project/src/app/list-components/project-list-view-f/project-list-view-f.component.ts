@@ -76,17 +76,7 @@ setProjectNameAndDescription(){
 }*/
 
 deleteItem(id: number) {
-  let url = `http://localhost:5000/api/delete/${id}/`;
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', url)
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.onload = () => {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      console.log(`xhr.response from deleteItem: ${xhr.response}`)
-    }
-    xhr.send();
-  }  
-  console.log(id);
+  DatabaseService.delete(id);
 }
 
 }

@@ -69,19 +69,7 @@ export class ProjectListContainerFComponent implements OnInit {
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;
   }
-
   deleteItem(id: number) {
-    let url = `http://localhost:5000/api/delete/${id}/`;
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', url)
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = () => {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        console.log(`xhr.response from deleteItem: ${xhr.response}`)
-      }
-      xhr.send();
-    }  
-    console.log(id);
-  }
-
+    DatabaseService.delete(id);
+}
 }
