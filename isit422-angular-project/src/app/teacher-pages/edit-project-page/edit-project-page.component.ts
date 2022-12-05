@@ -15,6 +15,7 @@ export class EditProjectPageComponent implements OnInit {
   projectID: string;
   projectData: { projectName: string, projectDescription: string } | undefined;
   editProjectForm: any;
+  projectFormType: string = "edit project form";
 
 
   currentProject: Project = {
@@ -85,6 +86,6 @@ export class EditProjectPageComponent implements OnInit {
     this.editProjectForm.reset();
   }
 
- 
+  
 
 }

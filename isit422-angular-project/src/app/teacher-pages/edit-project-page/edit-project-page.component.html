@@ -9,7 +9,7 @@
         <label for="description">Project Description: </label><br>
         <textarea id="description" name="description" rows="4" cols="50" formControlName="description" value="{{this.currentProject.description}}"></textarea>
     </div>
-    <input type="submit" value="Submit" class="button" [disabled]="!editProjectForm.valid"/>
+    <input type="submit" value="Submit" class="button" (click)="submitForm(this.projectFormType)" [disabled]="!editProjectForm.valid"/>
     
     <a [routerLink]="['/teacher-pages/teacher-list-view']">
         <input type="button" value="Cancel" class="button" style="margin-left:5px;"/>
