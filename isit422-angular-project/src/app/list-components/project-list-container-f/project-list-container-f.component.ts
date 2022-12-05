@@ -87,4 +87,6 @@ export class ProjectListContainerFComponent implements OnInit {
     xhr.send();
   }
 
+    DatabaseService.delete(id);
+  }
 }

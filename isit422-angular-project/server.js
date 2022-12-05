@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const dotenv = require("dotenv");                                                                                                                                                                       
+=======
+const dotenv = require("dotenv");
+>>>>>>> 478a6c5a61e369a0d74af856a284536236bdfe30
 dotenv.config();
 const { MongoClient, Db, MongoDBNamespace, BSONType } = require("mongodb");
 const express = require('express');
@@ -47,9 +51,20 @@ PreviousId.current = new PreviousId();
 
 
 
-app.post('/api/delete/:id', (req, res) => {
+app.post('/api/delete', (req, res) => {
     var o = req.body;
+    var dbo = client.db("db");
     console.log(`o: ${o}`);
+    console.log(`
+    o.id: ${o.id}
+    o.origin: ${o.origin}
+    `)
+    collection = (o.origin === 'teacher-landing' ? 'project_lists' : 'projects');
+    let searchCollection = dbo.collection(collection);
+    let filter = {id:o.id};
+    searchCollection.deleteOne(filter, function(err, res2) {
+        if(err) throw err;
+})
 })
 
 

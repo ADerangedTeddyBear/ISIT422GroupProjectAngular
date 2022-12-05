@@ -90,6 +90,9 @@ deleteItem(id: number) {
   console.log("Deleting from Teacher List View: " + id);
 }
 
+deleteItem(id: number) {
+  DatabaseService.delete(id);
+  }
 }
 
 
