@@ -16,5 +16,5 @@
         </div>
         
     </fieldset>
-    <input type="submit" value="Submit" class="button" [disabled]="!courseForm.valid"/> 
+    <input (click)="submitForm(this.projectFormType)" type="submit" value="Submit" class="button" [disabled]="!courseForm.valid"/> 
 </form>

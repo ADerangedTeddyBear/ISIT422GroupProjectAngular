@@ -1,4 +1,4 @@
-const dotenv = require("dotenv");
+const dotenv = require("dotenv");                                                                                                                                                                       
 dotenv.config();
 const { MongoClient, Db, MongoDBNamespace, BSONType } = require("mongodb");
 const express = require('express');
@@ -11,7 +11,7 @@ const { ColdObservable } = require("rxjs/internal/testing/ColdObservable");
 
 const { async } = require("q");
 //const { ProjectListContainerFComponent } = require ("./src/app/list-components/project-list-container-f/project-list-container-f.component");  
-dotenv.config();
+//dotenv.config();
 
 //const Promise=require('promise');
 let client;
@@ -214,8 +214,9 @@ app.post('/api/editproject', (req, res) => {
             }
         };
         let updateId = `${Number(objArr[0])}`; 
+        console.log("THE UPDATED ID IS OF TYPE : " + typeof updateId)
         let updateName = `${o.name}`; let updateDescription = `${o.description}`; let updateProjectListId = `${reInsertProps[0]}`; let updateStudentIds = `${reInsertProps[1]}`; let filter = {id:updateId};        
-        let updateObject = {id:updateId, name:updateName, description:updateDescription, project_list_id:updateProjectListId, student_ids:[ updateStudentIds ] };
+        let updateObject = {id:Number(updateId), name:updateName, description:updateDescription, project_list_id:updateProjectListId, student_ids:[ updateStudentIds ] };
         let updateDocument = {
             $set: updateObject
         };
@@ -224,6 +225,7 @@ app.post('/api/editproject', (req, res) => {
             if(err) throw err;
                 ((res3.modifiedCount > 0) && (res3.modifiedCount < 2)) ? console.log('Document has been modified') : console.log('Error updating document');
                 (res3.upsertedCount > 0) ? console.log('Document upserted, not updated') : console.log()
+
                 (res3.modifiedCount > 1) ? console.log(`${res3.modifiedCount} records updated, was this intended? Duplicates may or may have existed`) : console.log('Error updating the document');
         });
     });

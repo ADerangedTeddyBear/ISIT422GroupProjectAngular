@@ -13,6 +13,9 @@ export class CoursePageComponent implements OnInit {
   public courseForm: FormGroup | undefined;
 
   studentsArray: {name: string, id: string}[] | undefined;
+  projectFormType: string = "course form";
+
+
 
   constructor(
     private FormService: FormService,
