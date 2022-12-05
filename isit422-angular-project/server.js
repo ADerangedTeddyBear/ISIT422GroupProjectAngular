@@ -1,73 +1,60 @@
+const { MongoClient } = require("mongodb");
+const express = require("express");
+const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
-const { MongoClient, Db, MongoDBNamespace, BSONType } = require("mongodb");
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
-const { ColdObservable } = require("rxjs/internal/testing/ColdObservable");
-
-const { async } = require("q");
-//const { ProjectListContainerFComponent } = require ("./src/app/list-components/project-list-container-f/project-list-container-f.component");  
-dotenv.config();
-
-//const Promise=require('promise');
+const bodyParser = require("body-parser");
+const cors = require("cors");
 let client;
 
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit:9}))
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({
+    extended: true, limit: "50mb", parameterLimit:9
+    })
+);
 app.use(cors({
-    origin: '*'
+    origin: "*"
 }));
 app.use(function(req, res, next){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
     next();
-})
+});
 
 const colls = [
-    { id: 0, name: 'courses' },
-    { id: 1, name: 'students' },
-    { id: 2, name: 'teachers' },
-    { id: 3, name: 'projects' },
-    { id: 4, name: 'project_lists' }
+    { id: 0, name: "courses" },
+    { id: 1, name: "students" },
+    { id: 2, name: "teachers" },
+    { id: 3, name: "projects" },
+    { id: 4, name: "project_lists" }
 ];
 
-/*Constructor used to store id values for inserts. Its necessary because in order to insert a value, we have to go into the 
-collection and find the maximum existing id so that we can set the next id for the new record to be inserted*/
+/*Ensures each new insert is unique and increments 1 from the previous max*/
 class PreviousId {
     constructor(value, next) {
         this.value = value || null;
         this.next = next || null;
     }
-};
+}
 //Current instance for setting new id for a new record
 PreviousId.current = new PreviousId();
 
 
 
-app.post('/api/delete', (req, res) => {
+app.post("/api/delete", (req, res) => {
     var o = req.body;
     var dbo = client.db("db");
-    console.log(`o: ${o}`);
-    console.log(`
-    o.id: ${o.id}
-    o.origin: ${o.origin}
-    `)
     collection = (o.origin === 'teacher-landing' ? 'project_lists' : 'projects');
     let searchCollection = dbo.collection(collection);
     let filter = {id:o.id};
     searchCollection.deleteOne(filter, function(err, res2) {
         if(err) throw err;
-})
-})
+    });
+});
 
 
 app.post('/api/createnewproject', (req, res) => {
     var o = req.body;
-    console.log(`o: ${o}`);
     var dbo = client.db("db");
     dbo.collection("projects").find({}).sort({id:-1}).limit(1).toArray(function(err, res2) {
         if(err) throw err;
@@ -81,18 +68,17 @@ app.post('/api/createnewproject', (req, res) => {
         dbo.collection("projects").insertOne(o, function(err, res3) {
             if(err) throw err;
             console.log('inserted, hopefully');
-        })
-    })
-})
+        });
+    });
+});
+
 
 app.post('/api/createnewcourse', (req, res) => {
     var o = req.body;
     var dbo = client.db("db");
-    console.log(o, 'o from new course');
     dbo.collection("courses").find({}).sort({id:-1}).limit(1).toArray(function(err, res2) {
         if(err) throw err;
         let obj = res2[0];
-        console.log(`obj: ${obj}`);
         if((Object.getOwnPropertyNames(obj))[1] === 'id') {
             PreviousId.current.value = obj.id;
             PreviousId.current.next = obj.id += 1;
@@ -141,8 +127,8 @@ app.post('/api/createnewuser/:id', (req, res) => {
         dbo.collection(searchCollection).insertOne(o, function(err, res3) {
             if(err) throw err;
             console.log('inserted, hopefully');    
-        })
-    })
+        });
+    });
 });
 
 app.get('/api/login/:login', (req, res, next) => { 
@@ -197,14 +183,14 @@ app.post('/api/editproject', (req, res) => {
     let collection = dbo.collection('projects');
     let o = req.body;
     let objArr = [];
-    let reInsertProps = [];
-        let NumId = Number(o.id);
-    collection.find({id:NumId}).sort({id:-1}).limit(1).toArray(function(err, res2) {
+    //This array holds the values that are not available to the user to be edited but need to be reinserted with the edited values
+    let reInsertProps = [];    
+    let NumId = Number(o.id);
+    collection.find({id:NumId}).sort({id:-1}).limit(3).toArray(function(err, res2) {
         if(err) throw err;
-        let obj = res2[0];
         for(let p in res2[0]) {
             console.log(`
-                p:${p} 
+                p:${p}
                 res2[0][p]: ${res2[0][p]}
             `);
             if((p === 'id') || (p === 'name') || (p === 'description')) {
@@ -213,35 +199,64 @@ app.post('/api/editproject', (req, res) => {
                 reInsertProps.push(res2[0][p]);
             }
         };
-        let updateId = `${Number(objArr[0])}`; 
-        let updateName = `${o.name}`; let updateDescription = `${o.description}`; let updateProjectListId = `${reInsertProps[0]}`; let updateStudentIds = `${reInsertProps[1]}`; let filter = {id:updateId};        
-        let updateObject = {id:updateId, name:updateName, description:updateDescription, project_list_id:updateProjectListId, student_ids:[ updateStudentIds ] };
-        let updateDocument = {
-            $set: updateObject
+        let filter = {id:`${Number(objArr[0])}`};
+        //build the update object with the required properties that must match the the fields in the projects collection
+        let updateObject = {
+            id:`${Number(objArr[0])}`,
+            name:`${o.name}`,
+            description:`${o.description}`,
+            project_list_id:`${reInsertProps[0]}`,
+            student_ids:[ `${reInsertProps[1]}` ]
+            //student_ids:`${reInsertProps[1]}` 
         };
-        let options = { upsert: true };
+        //set up the update database call object
+        let updateDocument = { $set: updateObject };
+        //It should only get here assuming the record was found so set upsert to false to ensure we're only editing an existing item
+        let options = { upsert: false };
+        //make the update to the database
+
         collection.updateMany(filter, updateDocument, options, function(err, res3) {
             if(err) throw err;
-                ((res3.modifiedCount > 0) && (res3.modifiedCount < 2)) ? console.log('Document has been modified') : console.log('Error updating document');
-                (res3.upsertedCount > 0) ? console.log('Document upserted, not updated') : console.log()
-                (res3.modifiedCount > 1) ? console.log(`${res3.modifiedCount} records updated, was this intended? Duplicates may or may have existed`) : console.log('Error updating the document');
+            let modCount = res3.modifiedCount;let matched = res3.matchedCount; let acknowledged = res3.acknowledged;
+            let result = modCount
+            console.log(`
+                modCount: ${modCount}
+                matched: ${matched}
+                acknowledged: ${acknowledged}
+            `)
+            //Error handling using the default return mongo object properties            
+            let msg = '';
+            /*switch (result) {
+                case ((modCount > 0) && (res3.modifiedCount < 2)):
+                    msg = `Document has been modified - modified count: 1`;
+                    break;
+                case ((upCount > 0)):
+                    console.log('Document upserted, not updated - upserted count: >0');
+                    break;
+                case (res3.modifiedCount > 1):
+                    console.log('Error updating the document - modified count: >1');
+                    break;
+                default:
+                    console.log(`
+                    came to default:
+                    ${res3.modifiedCount}
+                    `);
+                };*/
+            });
         });
     });
-});
 
 app.get('/api/getStudents', (req, res) => {
     var dbo = client.db("db");
     dbo.collection("students").find().toArray(function(err, findRes) {
-        //console.log(`JSON.stringify(res): ${JSON.stringify(findRes)}`);
         res.json(findRes);
-        //name: "student 1", id: "student-id-1"}, {name: "student 2", id: "student-id-2"
     });
 });
 
 app.get('/api/getCoursesByTeacher/:id', (req, res) => {
-    var dbo = client.db("db");
-        let idNum = Number(req.params.id);
-        dbo.collection("courses").find({teacher_id:idNum}).toArray(function(err, res2) {
+    var dbo = client.db("db");    
+    let idNum = Number(req.params.id);    
+    dbo.collection("courses").find({teacher_id:idNum}).toArray(function(err, res2) {
         if (err) throw err;
         let arrOfObjects = [];
         for(let i = 0;i < res2.length; i++){
@@ -249,36 +264,33 @@ app.get('/api/getCoursesByTeacher/:id', (req, res) => {
             arrOfObjects.push(o);
         }
         res.json(arrOfObjects);
-    })
+    });
 });
 
 app.get('/api/getProject/:id', (req, res) => {
     var dbo = client.db("db");
-        let idNum = Number(req.params.id);
-        //console.log(`Number(req.params.id): ${Number(req.params.id)}`)
-        dbo.collection("projects").find({id:Number(req.params.id)}).toArray(function(err, res2) {
+
+    dbo.collection("projects").find({id:Number(req.params.id)}).toArray(function(err, res2) {
         if (err) throw err;
         let arrOfObjects = [];        
         for(let i = 0;i < res2.length; i++){
             let o = {name:res2[i].name, projectDescription:res2[i].description};
             arrOfObjects.push(o);
         }
-        //console.log(arrOfObjects);
         res.json(arrOfObjects);
-    })
+    });
 });
 
 app.post('/api/newprojectlist', (req, res) => {
     var dbo = client.db("db");
-    let o = req.body;
-    console.log(o, 'o from newprojectlist');
+    let o = req.body;    
     //this sorts the collection in descending order and limits it to the last entry i.e. the entry with the greatest id value.
     dbo.collection("project_lists").find({}).sort({id:-1}).limit(1).toArray(function(err, res2) {
         if(err) throw err;
         //reasign the object on which we are inserting
         let obj = res2[0];
         //validate that the database records do contain our custom id field
-        console.log(`Object.getOwnPropertyNames(obj)[1]: ${Object.getOwnPropertyNames(obj)[1]}`);
+        //console.log(`Object.getOwnPropertyNames(obj)[1]: ${Object.getOwnPropertyNames(obj)[1]}`);
         if((Object.getOwnPropertyNames(obj))[1] === 'id') {
             //store previous max id within specified collection in PreviousId Object property to retain value
             PreviousId.current.value = obj.id;
@@ -289,13 +301,24 @@ app.post('/api/newprojectlist', (req, res) => {
         o.id = PreviousId.current.next;
         dbo.collection("project_lists").insertOne(o, function(err, res3) {
             if(err) throw err;
-            console.log(o, 'inserted, hopefully'); 
+            console.log('Project list successfully inserted'); 
             res.json(o);   
-        })
-    })
+        });
+    });
 });
 
+function makeConnection() {
+    const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@isit422-groupproject-20.sdxooup.mongodb.net/${process.env.DEFAULT_DB}`;
+    client = new MongoClient(uri);
+    client.connect().then((con) => {
+        console.log("mongodb connected");        
+    });
+};
+
 //------------------------_-------------------------_-------------------------_-------------------------_-------------------------_-
+/********************Endpoints below are for the debugging/testing Database Component**********************************************/
+//------------------------_-------------------------_-------------------------_-------------------------_-------------------------_-
+
 app.post('/api/updateMany', (req, res) => {
     var obj = req.body;
     var dbo = client.db("ISIT422-db");
@@ -306,9 +329,10 @@ app.post('/api/updateMany', (req, res) => {
         } else {
             res.send("inserted")
         }
-    })
-})
+    });
+});
 
+//This is for the debugging Database component
 app.post('/api/findAndModify', (req, res) => {
     var obj = req.body;
     var dbo = client.db("ISIT422-db");
@@ -319,10 +343,10 @@ app.post('/api/findAndModify', (req, res) => {
         } else {
             res.send("inserted")
         }
-    })
-})
+    });
+});
 
-
+//This is for the debugging Database component
 app.post('/api/insert', (req, res) => {
     var obj = req.body;
     var dbo = client.db("TestDB");
@@ -333,85 +357,94 @@ app.post('/api/insert', (req, res) => {
         } else {
             res.send("inserted")
         }
-    })
-})
+    });
+});
 
+//This is for the debugging Database component
 app.get('/api/courses', (req, res) => {
     var obj = req.body;
     console.log(obj);
     var dbo = client.db("db");
-    dbo.collection("courses").find({}).toArray(function(err, res2) {
+    dbo.collection("courses").find({}).sort({id:1}).toArray(function(err, res2) {
         if (err) throw err;
         res.send(res2);
-    })
-})
+    });
+});
 
+//This is for the debugging Database component
 app.get('/api/display', (req, res) => {
     var obj = req.body;
     console.log(obj);
     var dbo = client.db("db");
-    dbo.collection("students").find({}).toArray(function(err, res2) {
+    dbo.collection("students").find({}).sort({id:1}).toArray(function(err, res2) {
         if (err) throw err;
         res.send(res2);
-    })
-})
+    });
+});
 
+//This is for the debugging Database component
 app.get('/api/display/:id', (req, res) => {
     var obj = req.body;
     console.log(obj);
     var dbo = client.db("db");
-    dbo.collection(colls[req.params.id].name).find({}).toArray(function(err, res2) {
+    dbo.collection(colls[req.params.id].name).find({}).sort({id:1}).toArray(function(err, res2) {
         if (err) throw err;        
         res.send(res2);
-    })
-})
+    });
+});
 
-app.get('/api/collections', (req, res) => {
-    var obj = req.body;
-    console.log(obj);
-    var dbo = client.db("db");
-    dbo.listCollections().toArray(function(err, res2) {
-        if (err) throw err;
-        res.send(res2);
-    })
-})
-
+//This is for the debugging Database component
 app.get('api/display1/:id', (req, res) => {
     dbo.collection("testC").findOne({}, function(err, res2) {
         if (err) throw err;
         res.send(res2);
-    })
-})
+    });
+});
 
+//This is for the debugging Database component
+app.get('/api/collections', (req, res) => {
+    var obj = req.body;
+    console.log(obj);
+    var dbo = client.db("db");
+    dbo.listCollections().sort({id:1}).toArray(function(err, res2) {
+        if (err) throw err;
+        res.send(res2);
+    });
+});
+
+//This is for the debugging Database component
 app.get('/api/projectlistsnames', (req, res) => {
     var obj = req.body;
     console.log(obj);
     var dbo = client.db("db");
-    dbo.collection("project_lists").find({}).toArray(function(err, res2) {
+    dbo.collection("project_lists").find({}).sort({id:1}).toArray(function(err, res2) {
         if (err) throw err;
         res.send(res2);
-    })
-})
+    });
+});
 
+//This is for the debugging Database component
 app.get('/api/projects', (req, res) => {
     var obj = req.body;
     console.log(obj);
     var dbo = client.db("db");
-    dbo.collection("projects").find({}).toArray(function(err, res2) {
+    dbo.collection("projects").find({}).sort({id:1}).toArray(function(err, res2) {
         if (err) throw err;
         res.send(res2);
-    })
-})
+    });
+});
 
+//This is for the debugging Database component
 app.get('/api/findAndModify/:id', (req, res) => {
     var obj = req.body;        
     var dbo = client.db("db");    
-    dbo.collection(colls[req.params.id].name).find({}).toArray(function(err, res2) {
+    dbo.collection(colls[req.params.id].name).find({}).sort({id:1}).toArray(function(err, res2) {
         if (err) throw err;
         res.send(res2);
-    })
-})
+    });
+});
 
+//This is for the debugging Database component
 app.get('/api/findAndModify/:id/:test', (req, res) => {
     var obj = req.body;
     let v = req.params.test.split('|');
@@ -430,7 +463,7 @@ app.get('/api/findAndModify/:id/:test', (req, res) => {
         }
     }    
     var dbo = client.db("db");    
-    dbo.collection(colls[req.params.id].name).find({id:Number(vals[2])}).toArray(function(err, res2) {        
+    dbo.collection(colls[req.params.id].name).find({id:Number(vals[2])}).sort({id:1}).toArray(function(err, res2) {        
         if (err) throw err;
         let collection = dbo.collection(colls[req.params.id].name);
         let filter = {id:Number(vals[2])};
@@ -445,6 +478,7 @@ app.get('/api/findAndModify/:id/:test', (req, res) => {
     });
 });
 
+//This is for the debugging Database component
 app.get('/api/delete/:id/:test', (req, res) => {
     var obj = req.body;
     let v = req.params.test.split('|');
@@ -463,7 +497,7 @@ app.get('/api/delete/:id/:test', (req, res) => {
         }
     }    
     var dbo = client.db("db");    
-    dbo.collection(colls[req.params.id].name).find({id:Number(vals[2])}).toArray(function(err, res2) {
+    dbo.collection(colls[req.params.id].name).find({id:Number(vals[2])}).sort({id:1}).toArray(function(err, res2) {
         if (err) throw err;
         let collection = dbo.collection(colls[req.params.id].name);
         let filter = {id:Number(vals[1])};
@@ -474,34 +508,21 @@ app.get('/api/delete/:id/:test', (req, res) => {
     });
 });
 
-app.post('/api/deleteProjectItem/:id', (req, res) => {
-    var thing = req.params.id;
-    console.log("Hello there")
-})
-
+//This is for the debugging Database component
 app.get('/api/findAndModify/:id', (req, res) => {
     var obj = req.body;        
     var dbo = client.db("db");    
-    dbo.collection(colls[3].name).find({}).toArray(function(err, res2) {
+    dbo.collection(colls[3].name).find({}).sort({id:1}).toArray(function(err, res2) {
         if (err) throw err;
         res.send(res2);
-    })
-})
+    });
+});
+//------------------------_-------------------------_-------------------------_-------------------------_-------------------------_-
+/**************************************End debugging/testing Database Component****************************************************/
+//------------------------_-------------------------_-------------------------_-------------------------_-------------------------_-
 
-async function getProjectById(){
-    const myProjects = await fetch("")
-}
-
-
-function makeConnection() {
-    const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@isit422-groupproject-20.sdxooup.mongodb.net/${process.env.DEFAULT_DB}`;
-    client = new MongoClient(uri);
-    client.connect().then((con) => {
-        console.log("mongodb connected");        
-    })
-}
 
 var server = app.listen(5000, function() {
     console.log("listening on port ", server.address().port);
     makeConnection();
-})
+});
