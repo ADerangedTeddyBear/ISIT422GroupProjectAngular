@@ -17,23 +17,28 @@ export class DatabaseService {
     { id: 4, name: 'project_lists' }
 ];
 
-static async delete(id:number, collectionName:string) {
+static async delete(id:number) {
 return new Promise(function(resolve, reject) {
+  let orig = document.location.href.split('/').length;
+  let origin = document.location.href.split('/')[orig - 1]
   console.log(`document.location.href>>>> from DatabaeService>>>>: ${document.location.href}`)
-  let url = `http://localhost:5000/api/delete/:${collectionName}/:${id}`;
+  let url = `http://localhost:5000/api/delete`;
   console.log(`${url}`);
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url);
   xhr.setRequestHeader('Content-Type', 'application/json');
-  console.log(`url from from DatabaeService>>>>: ${url}`);
+  var d = JSON.stringify({
+    id:id,
+    origin:origin    
+  });
   xhr.onload = () => {
     if(xhr.readyState == 4 && xhr.status == 200) {
       console.log(`xhr.response from deleteProject: ${xhr.response}`);
       resolve(xhr.response);
     } else {
       reject({
-        status:xhr.status,
-        statusText: xhr.statusText
+        //status:xhr.status,
+        //statusText: xhr.statusText
       });
     }
   };
@@ -43,7 +48,7 @@ return new Promise(function(resolve, reject) {
       statusText:xhr.statusText
     });
   };
-  xhr.send();
+  xhr.send(d);
 });
 };
 

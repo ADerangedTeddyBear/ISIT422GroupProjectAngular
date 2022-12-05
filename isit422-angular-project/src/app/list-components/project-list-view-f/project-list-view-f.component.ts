@@ -75,10 +75,10 @@ setProjectNameAndDescription(){
   console.log("The Project name is " + this.listDisplayService.selectedProjectName + " " + this.listDisplayService.selectedProjectDescription);
 }*/
 
-deleteItem(id: number) {
-  DatabaseService.delete(id, "Thai Test 2");
-}
 
+deleteItem(id: number) {
+  DatabaseService.delete(id);
+  }
 }
 
 
