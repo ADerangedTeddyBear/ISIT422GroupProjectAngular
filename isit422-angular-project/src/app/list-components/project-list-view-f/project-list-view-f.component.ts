@@ -78,6 +78,7 @@ setProjectNameAndDescription(){
 
 deleteItem(id: number) {
   DatabaseService.delete(id);
+  location.reload();
   }
 }
 

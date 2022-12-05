@@ -71,5 +71,6 @@ export class ProjectListContainerFComponent implements OnInit {
   }
   deleteItem(id: number) {
     DatabaseService.delete(id);
+    location.reload();
   }
 }
