@@ -4,6 +4,7 @@ import { AccountCheckService } from '../../control-tests/account-check.service';
 import { ListDisplayService } from '../../services/list-display.service';
 import { Course } from '../../control-tests/mock-course';
 import { ProjectList } from '../../control-tests/mock-project-list';
+import { SessionService } from '../../services/session.service';
 
 
 @Component({
@@ -17,11 +18,13 @@ export class StudentLandingComponent implements OnInit {
   courses:Course[] = [];
   projectListNames: ProjectList[] = []; 
 
-  accountCurrent: string = "";
 
+  accountCurrent: string = "";
+  currentStudent = SessionService.GetCurrentUser();
 
   projectListsApiUrl = 'http://localhost:5000/api/projectlistsnames';
   coursesApiUrl = 'http://localhost:5000/api/courses';
+
 
   constructor(
     private accountCheck: AccountCheckService,
@@ -40,8 +43,11 @@ export class StudentLandingComponent implements OnInit {
      //Get courses in array
      this.getCourses();
 
+
      //Get project list names array
      this.getProjectListName();
+
+     console.log("THE CURRENT STUDENT IS : " + this.currentStudent.id);
 
 
   }

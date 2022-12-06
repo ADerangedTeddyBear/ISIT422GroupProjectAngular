@@ -292,7 +292,7 @@ static async newCourse(in_name: string, in_students: string[], in_teacherID: str
       var d = JSON.stringify({
         id:1,
         name:in_name,
-        students: in_students,
+        student_ids: in_students,
         teacher_id:in_teacherID
       });
       xhr.onload = () => {

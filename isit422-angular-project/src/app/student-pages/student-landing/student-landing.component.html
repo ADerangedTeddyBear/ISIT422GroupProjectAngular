@@ -2,25 +2,60 @@
 <h2>Student Landing Page</h2>
 
 
-<div *ngFor="let course of courses"> 
+<div *ngFor="let course of courses; let i = index" [attr.data-index]="i"> 
     <div>
-    <app-list-container-f    
-    [course]="course">
-</app-list-container-f>
+        <div *ngFor="let course_sid of course.student_ids">
+            <!--h2>So course student id: {{course_sid}} </h2-->
 
-<div *ngFor="let projectListName of projectListNames">
-<app-project-list-container-f
-*ngIf="course.id == projectListName.course_id" 
-
-    [projectListName]="projectListName">
-</app-project-list-container-f>
+            <div *ngIf="course_sid == this.currentStudent.id;">
 
 
+                <app-list-container-f [course]="course">
+                </app-list-container-f>
 
-</div>
+
+                <div *ngFor="let projectListName of projectListNames">
+                    <!--div *ngIf="course.student_ids[j] == currentStudent.id"-->
+                        <app-project-list-container-f
+                            *ngIf="course.id == projectListName.course_id" 
+                            [projectListName]="projectListName">
+        
+                        </app-project-list-container-f>
+                    <!--/div-->
+        
+                </div>
+
+            </div>
+        </div>
+
+       
     </div>
 </div>
 
+<!--div *ngFor="let course of courseArray; index as j;"-->
+
+
+<!--div *ngFor="let course of courses"> 
+    <div>
+      <div *ngIf="course.teacher_id == currentTeacher.id">
+        <app-list-container-f    
+          [course]="course">
+        </app-list-container-f>
+      </div>
+
+      <div *ngFor="let projectListName of projectListNames">
+        <div *ngIf="course.teacher_id == currentTeacher.id">
+
+        <app-project-list-container-f
+        *ngIf="course.id == projectListName.course_id" 
+  
+        [projectListName]="projectListName">
+        </app-project-list-container-f>
+      </div>
+
+      </div>
+    </div>
+  </div-->
 
 
 

@@ -14,10 +14,13 @@
                     </header>       
         
                     <div *ngFor="let project of projects">
+                        <!--h2>Project.project list id is : {{currentProjectList.id}}</h2-->
+
                         <app-project-list-view-f
-                            *ngIf="project.project_list_id == currentProjectList.course_id" 
+                            *ngIf="project.project_list_id == currentProjectList.id" 
             
                             [project]="project">
+                            <!--h2>Project.project list id is : {{project.project_list_id}}</h2-->
                         </app-project-list-view-f>
                     </div> 
                 </div>
