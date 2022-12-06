@@ -36,8 +36,8 @@ export class TeacherListViewComponent implements OnInit {
     project_ids: []
   };
 
-  projectsApiUrl = 'http://localhost:5000/api/projects';
-  projectListsApiUrl = 'http://localhost:5000/api/projectlistsnames';
+  projectsApiUrl = 'https://isit422-node-finale-2022.azurewebsites.net/api/projects';
+  projectListsApiUrl = 'https://isit422-node-finale-2022.azurewebsites.net/api/projectlistsnames';
 
   constructor(
     private accountCheck: AccountCheckService, 

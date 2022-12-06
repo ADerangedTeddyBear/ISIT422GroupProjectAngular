@@ -44,7 +44,7 @@ export class ProjectListItemFComponent implements OnInit {
 
   projectListNames:ProjectList[] = [];
 
-  projectListsApiUrl = 'http://localhost:5000/api/projectlistsnames';
+  projectListsApiUrl = 'https://isit422-node-finale-2022.azurewebsites.net/api/projectlistsnames';
 
   getProjectListName(): void {
     this.listDisplayService.getProjectListName(this.projectListsApiUrl)

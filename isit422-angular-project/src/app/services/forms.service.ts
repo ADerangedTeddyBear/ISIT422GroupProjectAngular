@@ -151,7 +151,7 @@ export class FormsService {
         }
         i += 1;
       })
-      let mongo_modify_out = `http://localhost:5000/api/findAndModify/${idx}/`;
+      let mongo_modify_out = `https://isit422-node-finale-2022.azurewebsites.net/api/findAndModify/${idx}/`;
       for(let i = 0;i < fields.length;i++) {
         mongo_modify_out += `|${fields[i]}:${fieldVals[i]}`;
       }
@@ -169,7 +169,7 @@ export class FormsService {
         }
         i += 1;
       })
-      let mongo_delete_out = `http://localhost:5000/api/delete/${idx}/`;
+      let mongo_delete_out = `https://isit422-node-finale-2022.azurewebsites.net/api/delete/${idx}/`;
       for(let i = 0;i < fields.length;i++) {
         mongo_delete_out += `|${fields[i]}:${fieldVals[i]}`;
       }

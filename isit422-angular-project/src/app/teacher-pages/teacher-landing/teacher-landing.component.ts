@@ -19,8 +19,8 @@ export class TeacherLandingComponent implements OnInit {
   accountCurrent: string = "";
   currentTeacher = SessionService.GetCurrentUser();
 
-  projectListsApiUrl = 'http://localhost:5000/api/projectlistsnames';
-  coursesApiUrl = 'http://localhost:5000/api/courses';
+  projectListsApiUrl = 'https://isit422-node-finale-2022.azurewebsites.net/api/projectlistsnames';
+  coursesApiUrl = 'https://isit422-node-finale-2022.azurewebsites.net/api/courses';
   constructor(
     private accountCheck: AccountCheckService,
     private listDisplayService: ListDisplayService

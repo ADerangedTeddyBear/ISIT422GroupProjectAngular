@@ -26,8 +26,8 @@ export class StudentListViewComponent implements OnInit {
 
   currentProjectNameState: string = "";
 
-  projectsApiUrl = 'http://localhost:5000/api/projects';
-  projectListsApiUrl = 'http://localhost:5000/api/projectlistsnames';
+  projectsApiUrl = 'https://isit422-node-finale-2022.azurewebsites.net/api/projects';
+  projectListsApiUrl = 'https://isit422-node-finale-2022.azurewebsites.net/api/projectlistsnames';
 
   currentProjectList: ProjectList = {
     id: 0,

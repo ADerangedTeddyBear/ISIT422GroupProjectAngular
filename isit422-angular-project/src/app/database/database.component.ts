@@ -19,9 +19,9 @@ export class DatabaseComponent /*implements OnInit*/ {
 
   querys(n:number) {
     let path = [
-      'http://localhost:5000/api/display', 'http://localhost:5000/api/insert',
-     'http://localhost:5000/api/courses', 'http://localhost:5000/api/display', 'http://localhost:5000/api/projects',
-     'http://localhost:5000/api/findAndModify'
+      'https://isit422-node-finale-2022.azurewebsites.net/api/display', 'https://isit422-node-finale-2022.azurewebsites.net/api/insert',
+     'https://isit422-node-finale-2022.azurewebsites.net/api/courses', 'https://isit422-node-finale-2022.azurewebsites.net/api/display', 'https://isit422-node-finale-2022.azurewebsites.net/api/projects',
+     'https://isit422-node-finale-2022.azurewebsites.net/api/findAndModify'
     ];
     return path[n];
   }

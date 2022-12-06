@@ -19,14 +19,14 @@ export class ListContainerFComponent implements OnInit {
   @Input() course!:Course;
   projectListNames: ProjectList[] = []; 
 
-  projectListsApiUrl = 'http://localhost:5000/api/projectlistsnames';
+  projectListsApiUrl = 'https://isit422-node-finale-2022.azurewebsites.net/api/projectlistsnames';
 
 
   
 
   //courses:Course[] = [];
 
-  //coursesApiUrl = 'http://localhost:5000/api/courses';
+  //coursesApiUrl = 'https://isit422-node-finale-2022.azurewebsites.net/api/courses';
 
 
   constructor(
