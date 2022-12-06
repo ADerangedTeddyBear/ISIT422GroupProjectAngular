@@ -9,17 +9,13 @@
 
     
         <div class="w3-show-inline-block">
-
             {{currentProject.description}}
-
-            <!--button class="w3-button w3-small">Edit</button-->
-            <!--button class="w3-button w3-small">Remove</button-->
         </div>
     
     
-        <div class="w3-container">
+        <!-- <div class="w3-container">
             <b>Students Assigned:</b> {{studentsAssigned}}
-        </div>
+        </div> -->
     </div>
     
     <div *ngIf="currentUserAccount.user_type === 'student'">
@@ -36,5 +32,7 @@
         </div>
     </div>
 </div>
-
+<a [routerLink]="['/teacher-pages/teacher-list-view']">
+    back
+</a>
 </div>

@@ -1,12 +1,6 @@
-<!-- <p>teacher-landing works!</p>
-<a href="/teacher-pages/course-page">Course Page</a><br />
-<a href="/teacher-pages/new-list-page">New List Page</a><br />
-<a href="/teacher-pages/teacher-list-view">Teacher List View</a> -->
-
-
 <a [routerLink]="['/teacher-pages/new-list-page']" >Add New List</a><br />
 <a [routerLink]="['/teacher-pages/course-page']" >Add New Course</a><br />
-<!-- <a [routerLink]="['/teacher-pages/teacher-list-view']" [state]="{listname: 'Existing List', listID: 'Existing List ID', courseID: 'Existing Course ID'}">View List "Existing List"</a> -->
+
 <div *ngFor="let course of courses"> 
     <div>
       <app-list-container-f    
