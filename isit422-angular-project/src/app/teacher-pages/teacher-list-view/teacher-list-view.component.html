@@ -1,6 +1,6 @@
 <h2 *ngIf="list">List: {{list.listname}}</h2>
 <p *ngIf="teacher">Owned by {{teacher.name}}</p>
-<a [routerLink]="['/teacher-pages/new-project-page']" >New Project</a><br />
+<a [routerLink]="['/teacher-pages/new-project-page']" >Add New Project</a><br />
 <a [routerLink]="['/teacher-pages/edit-project-page']" [state]="{projectName: 'ENG200_proj1', projectID: '27'}">Edit Project "Existing Project"</a><br />
 <a [routerLink]="['/teacher-pages/teacher-project-view']" [state]="{projectName: 'Existing Project', projectID: 'Unique Project ID'}">Teacher Project View</a><br />
 
@@ -21,7 +21,7 @@
         
                     <div *ngFor="let project of projects">
                         <app-project-list-view-f
-                            *ngIf="project.project_list_id == currentProjectList.course_id" 
+                            *ngIf="project.project_list_id == this.currentProjectList.id" 
             
                             [project]="project">
                         </app-project-list-view-f>

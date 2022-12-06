@@ -135,6 +135,44 @@ static async getProject(projectId: string) {
 
 //Still in progress - need to implement version including the project_list_id param from Form Service
 
+//ADDED 12/5/22 - USED TO FIX PROJECTLIST ID WRITING TO DB
+static async newProject(in_name: string, in_description: string, in_projectListID: number) {
+  return new Promise(function(resolve, reject) {
+    let url = 'http://localhost:5000/api/createnewproject';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    var d = JSON.stringify({
+      id:1,
+      name:in_name,
+      description:in_description,        
+      project_list_id:in_projectListID,
+      student_ids:0
+    });
+    console.log(`url from newProject: ${url}`)
+    xhr.onload = () => {
+      if(xhr.readyState == 4 && xhr.status == 200) {
+        console.log(`xhr.response from newProject: ${xhr.response}`);
+        resolve(xhr.response);
+      } else {
+        reject({
+          status:xhr.status,
+          statusText: xhr.statusText
+        });
+      }
+    };
+    xhr.onerror = () => {
+      reject({
+        status:xhr.status,
+        statusText:xhr.statusText
+      });
+    };
+    xhr.send(d);
+  });
+};
+
+
+/*ORIGINAL
 static async newProject(in_name: string, in_description: string) {
   return new Promise(function(resolve, reject) {
     let url = 'http://localhost:5000/api/createnewproject';
@@ -169,6 +207,9 @@ static async newProject(in_name: string, in_description: string) {
     xhr.send(d);
   });
 };
+*/
+
+
 /**************Response From Backend ** Resolved Back to Form Service ***********************************/
 /*****************E*N*D********************************************/
 

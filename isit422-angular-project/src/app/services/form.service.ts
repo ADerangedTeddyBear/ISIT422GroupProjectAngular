@@ -105,7 +105,12 @@ export class FormService {
     in_description: ${in_description}
     in_projectListID: ${in_projectListID}
   `)
-    DatabaseService.newProject(in_name, in_description);
+  //ORIGINAL
+    //DatabaseService.newProject(in_name, in_description);
+
+  //ADDED 12/5/22 - TO FIX SAVING PROJECT LIST ID
+    DatabaseService.newProject(in_name, in_description, Number(in_projectListID));
+
   }
   EditProject(in_name: string, in_description: string, in_id: string) {
     // TODO: Replace with a database call that updates a project record (found with the given id) to have the new input values
