@@ -72,6 +72,7 @@ export class NewListPageComponent implements OnInit {
           break;
         }
       }
+      console.log(this.newListForm.value.course);
       this.newListForm.value["course"] = selectedCourse;
   
       this.FormService.postData(this.newListForm.value, in_formName);
