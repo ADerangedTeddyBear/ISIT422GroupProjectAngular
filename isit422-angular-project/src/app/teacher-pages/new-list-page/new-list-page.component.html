@@ -11,7 +11,8 @@
         <div *ngIf="courseArray">
             <div *ngFor="let course of courseArray; index as j;">
                 <div class="form-group">
-                    <input type="radio" name="{{j}}" id="{{courseArray[j].id}}" value="{{courseArray[j].id}}" formControlName="{{j}}">
+                    <input type="radio" name="courseOption" id="{{courseArray[j].id}}" value="{{courseArray[j].id}}">
+                    <!-- <input type="radio" name="courseOption" id="{{courseArray[j].id}}" value="{{courseArray[j].id}}" formControlName="courseOption"> -->
                     <label for="{{courseArray[j].id}}">{{courseArray[j].name}}</label>
                 </div>
             </div>
