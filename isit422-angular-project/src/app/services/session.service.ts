@@ -120,6 +120,7 @@ export class SessionService {
     ProjectListCourseId: in_projectListCourseId,
     projectListProjectIds: in_projectListProjectIds 
   }
+  console.log(currentProjectList);
   sessionStorage.setItem('current project list', JSON.stringify(currentProjectList));
   }
 

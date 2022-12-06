@@ -308,7 +308,8 @@ app.post('/api/newprojectlist', (req, res) => {
 });
 
 function makeConnection() {
-    const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@isit422-groupproject-20.sdxooup.mongodb.net/${process.env.DEFAULT_DB}`;
+    //const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@isit422-groupproject-20.sdxooup.mongodb.net/${process.env.DEFAULT_DB}`;
+    const uri = "mongodb+srv://eric:thirteen@isit422-groupproject-20.sdxooup.mongodb.net/testDB";
     client = new MongoClient(uri);
     client.connect().then((con) => {
         console.log("mongodb connected");        

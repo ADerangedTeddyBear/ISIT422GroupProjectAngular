@@ -215,7 +215,9 @@ export class FormService {
     this.CreateNewProjectList(in_FormData.listname, in_FormData.course).then(
       (value: any) => {
         let newList = JSON.parse(value)
-        this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: newList.listname, listID: newList.listID, courseID: newList.courseID}});
+        console.log(newList);
+        SessionService.SetCurrentProjectList(newList.id, newList.name, newList.course_id, []);
+        this.router.navigateByUrl('/teacher-pages/teacher-list-view', {state: {listname: newList.name, listID: newList.id, courseID: newList.course_id}});
       }
     );
 
