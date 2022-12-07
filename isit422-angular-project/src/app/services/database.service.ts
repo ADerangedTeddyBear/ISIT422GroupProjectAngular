@@ -22,7 +22,7 @@ return new Promise(function(resolve, reject) {
   let orig = document.location.href.split('/').length;
   let origin = document.location.href.split('/')[orig - 1]
   console.log(`document.location.href>>>> from DatabaeService>>>>: ${document.location.href}`)
-  let url = `http://localhost:5000/api/delete`;
+  let url = `https://isit422-node-finale-2022.azurewebsites.net//api/delete`;
   console.log(`${url}`);
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url);
@@ -63,7 +63,7 @@ static async editProject(in_name: string, in_description: string, in_id: string)
       in_description: ${in_description}
       in_id: ${in_id}
     `)
-    let url = 'http://localhost:5000/api/editproject';
+    let url = 'https://isit422-node-finale-2022.azurewebsites.net/api/editproject';
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -101,7 +101,7 @@ static async editProject(in_name: string, in_description: string, in_id: string)
 /******From Form Service -New Project- To Backend *************************************************************************/
 static async getProject(projectId: string) {
   return new Promise(function(resolve, reject) {
-    let url = 'http://localhost:5000/api/getProject/';
+    let url = 'https://isit422-node-finale-2022.azurewebsites.net/api/getProject/';
     let id = projectId;
     url += id;
     console.log(url);
@@ -138,7 +138,7 @@ static async getProject(projectId: string) {
 //ADDED 12/5/22 - USED TO FIX PROJECTLIST ID WRITING TO DB
 static async newProject(in_name: string, in_description: string, in_projectListID: number) {
   return new Promise(function(resolve, reject) {
-    let url = 'http://localhost:5000/api/createnewproject';
+    let url = 'https://isit422-node-finale-2022.azurewebsites.net/api/createnewproject';
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -216,7 +216,7 @@ static async newProject(in_name: string, in_description: string) {
 /******From Form Service -New Project List- To Backend**********************************************************************/
 static async newProjectList(projectListName:string, courseID:string) {
     return new Promise(function(resolve, reject) {      
-      let url = 'http://localhost:5000/api/newprojectlist/';
+      let url = 'https://isit422-node-finale-2022.azurewebsites.net/api/newprojectlist/';
       var xhr = new XMLHttpRequest();
       xhr.open('POST', url);
       xhr.setRequestHeader('Content-Type', 'application/json');
@@ -251,7 +251,7 @@ static async newProjectList(projectListName:string, courseID:string) {
 static async coursesByTeacher(teacherID:string) {
     return new Promise(function(resolve, reject) {
       let teacherIDAsInt = Number(teacherID);
-      let urlString = 'http://localhost:5000/api/getCoursesByTeacher/';
+      let urlString = 'https://isit422-node-finale-2022.azurewebsites.net/api/getCoursesByTeacher/';
       let url = urlString += teacherIDAsInt;
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url);
@@ -280,7 +280,7 @@ static async coursesByTeacher(teacherID:string) {
 /******From Form Service -New Course- To Backend *****************************************************************************/
 static async newCourse(in_name: string, in_students: string[], in_teacherID: string) {
     return new Promise(function(resolve, reject) {
-      let url = 'http://localhost:5000/api/createnewcourse/';
+      let url = 'https://isit422-node-finale-2022.azurewebsites.net/api/createnewcourse/';
       console.log(`
       in_name: ${in_name}
       in_students: ${in_students}
@@ -320,7 +320,7 @@ static async newCourse(in_name: string, in_students: string[], in_teacherID: str
 /******From Form Service -Get All Student Users- To Backend ******************************************************************/
 static async getAllStudentUsers() {
     return new Promise(function(resolve, reject) {
-      let url = 'http://localhost:5000/api/getStudents';
+      let url = 'https://isit422-node-finale-2022.azurewebsites.net/api/getStudents';
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url);
       xhr.onload = () => {
@@ -347,7 +347,7 @@ static async getAllStudentUsers() {
 
 /******From Form Service -Login- To Backend ***********************************************************************************/
 static dbLogIn(in_username:string, in_password:string) {
-    let query = 'http://localhost:5000/api/login/';  
+    let query = 'https://isit422-node-finale-2022.azurewebsites.net/api/login/';  
     let varLogin = [`username:${in_username}`, `password:${in_password}`];  
     for(var p in varLogin) {    
       query += `|${varLogin[p]}`;  
@@ -389,7 +389,7 @@ static async createNewUser(in_name: string, in_username: string, in_password: st
         collectionId = this.collections[p].id;
       }
     }    
-    let query = `http://localhost:5000/api/createnewuser/${collectionId}/`;
+    let query = `https://isit422-node-finale-2022.azurewebsites.net/api/createnewuser/${collectionId}/`;
     var xhr = new XMLHttpRequest();
     xhr.open("POST", query, true);
     xhr.setRequestHeader('Content-Type', 'application/json');    
@@ -522,7 +522,7 @@ static async createNewUser(in_name: string, in_username: string, in_password: st
         }
         i += 1;
       })
-      let mongo_modify_out = `http://localhost:5000/api/findAndModify/${idx}/`;
+      let mongo_modify_out = `https://isit422-node-finale-2022.azurewebsites.net/api/findAndModify/${idx}/`;
       for(let i = 0;i < fields.length;i++) {
         mongo_modify_out += `|${fields[i]}:${fieldVals[i]}`;
       }
@@ -539,7 +539,7 @@ static async createNewUser(in_name: string, in_username: string, in_password: st
         }
         i += 1;
       })
-      let mongo_delete_out = `http://localhost:5000/api/delete/${idx}/`;
+      let mongo_delete_out = `https://isit422-node-finale-2022.azurewebsites.net/api/delete/${idx}/`;
       for(let i = 0;i < fields.length;i++) {
         mongo_delete_out += `|${fields[i]}:${fieldVals[i]}`;
       }
